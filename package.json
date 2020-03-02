@@ -1,0 +1,32 @@
+{
+  "name": "fipefacil",
+  "version": "1.0.0",
+  "description": "Backend for Fipe Facil",
+  "main": "handler.js",
+  "repository": "https://github.com/thalesfp/fipefacil",
+  "scripts": {
+    "test": "jest",
+    "deploy": "serverless deploy",
+    "lint": "eslint --fix src/**/*.js test/**/*.js"
+  },
+  "author": "Thales Pereira <thales@appcraft.om.br>",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.624.0",
+    "axios": "^0.19.2",
+    "eslint-config-airbnb-base": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^25.1.0",
+    "prettier": "1.19.1",
+    "serverless-dynamodb-local": "^0.2.10",
+    "serverless-offline": "^6.0.0-alpha.67",
+    "serverless-plugin-typescript": "^1.1.9"
+  }
+}

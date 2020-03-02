@@ -1,0 +1,80 @@
+service: fipefacil
+app: fipefacil
+org: thalesfp
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-1
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dynamodb-local
+  - serverless-offline
+
+resources:
+  Resources:
+    referencesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: references
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+    brandsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: brands
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: Number
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+    modelsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: models
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: Number
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+    modelYearsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: modelYears
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /check
+          method: get
