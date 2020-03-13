@@ -20,6 +20,8 @@ jobs:
     - run: npm install
     - name: Run Unit Tests 
       run: npm run test:unit
+      env:
+        CI: true
     - name: Run Docker Compose
       run: docker-compose up
     - name: Run Integration Tests
