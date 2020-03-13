@@ -24,6 +24,10 @@ jobs:
         CI: true
     - name: Run Docker Compose
       run: docker-compose up -d
+    - name: Sleep for 30 seconds
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '30s'
     - name: Run Integration Tests
       run: npm run test:integration
       env:
