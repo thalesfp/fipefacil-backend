@@ -1,31 +1,15 @@
-const AWS = require("aws-sdk");
+const queueManager = require("./queueManager");
 
-AWS.config.update({ region: "REGION" });
-
-const sqs = new AWS.SQS();
-
-const queueUrl = "a";
+const QUEUE_NAME = process.env.REFERENCES_QUEUE;
 
 const sendMessage = async (referenceId, month, year) => {
-  const params = {
-    MessageAttributes: {
-      ReferenceId: {
-        DataType: "Number",
-        StringValue: `${referenceId}`,
-      },
-      Month: {
-        DataType: "String",
-        StringValue: `${month}`,
-      },
-      Year: {
-        DataType: "Number",
-        StringValue: `${year}`,
-      },
-    },
-    QueueUrl: queueUrl,
-  };
+  const message = JSON.stringify({
+    referenceId,
+    month,
+    year,
+  });
 
-  return sqs.sendMessage(params).promise();
+  return queueManager.sendMessage(QUEUE_NAME, message);
 };
 
 module.exports = {

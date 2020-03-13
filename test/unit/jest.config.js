@@ -1,7 +1,8 @@
 module.exports = {
   collectCoverage: true,
-  coverageDirectory: "coverage",
+  coverageDirectory: "../../coverage",
   coveragePathIgnorePatterns: ["/node_modules/"],
   testEnvironment: "node",
   coverageReporters: ["text", "html"],
+  setupFiles: ["../setup-env.js"],
 };

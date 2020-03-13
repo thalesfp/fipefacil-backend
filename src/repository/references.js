@@ -1,34 +1,45 @@
-const AWS = require("aws-sdk");
+const { databaseManager, marshall, unmarshall } = require("./databaseManager");
 
-AWS.config.update({ region: "us-east-1" });
-
-const ddb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
+const { TABLE_NAME } = process.env;
 
 const createReference = async (id, month, year) => {
   const params = {
-    TableName: "references",
-    Item: {
-      id: { N: String(id) },
-      month: { N: String(month) },
-      year: { N: String(year) },
-    },
+    TableName: TABLE_NAME,
+    Item: marshall({
+      pk: "REF",
+      sk: String(id),
+      month: String(month),
+      year: String(year),
+    }),
   };
 
-  return ddb.putItem(params).promise();
+  return databaseManager.putItem(params).promise();
 };
 
 const getCurrentReferenceId = async () => {
   const params = {
-    TableName: "references",
-    ProjectionExpression: "id",
+    TableName: TABLE_NAME,
+    KeyConditionExpression: "pk = :value",
+    ExpressionAttributeValues: {
+      ":value": {
+        S: "REF",
+      },
+    },
+    ProjectionExpression: "sk",
+    ScanIndexForward: false,
+    Limit: "1",
   };
 
-  const references = await ddb.scan(params).promise();
+  const { Items: response } = await databaseManager.query(params).promise();
 
-  return references.Items.map(reference => parseInt(reference.id.N, 10)).reduce(
-    (a, b) => Math.max(a, b),
-    [],
-  );
+  if (response.length === 0) return null;
+
+  const { sk: referenceId } = unmarshall(response[0]);
+
+  return parseInt(referenceId, 10);
 };
 
-module.exports = { createReference, getCurrentReferenceId };
+module.exports = {
+  createReference,
+  getCurrentReferenceId,
+};
