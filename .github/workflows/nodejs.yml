@@ -38,4 +38,5 @@ jobs:
         AWS_DYNAMODB_ENDPOINT: http://localhost:4569
         AWS_SQS_ENDPOINT: http://localhost:4576
         REFERENCES_QUEUE: http://localhost:4576/queue/references
+        BRANDS_QUEUE: http://localhost:4576/queue/brands
         TABLE_NAME: fipe_test
