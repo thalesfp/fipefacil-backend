@@ -1,7 +1,7 @@
 const api = require("../fipeApi");
 const { getCurrentReferenceId } = require("../repository/references");
-const { extractDateFromRemoteReference } = require("../transformers/reference");
 const { sendMessage } = require("../queue/referencesQueue");
+const { extractDateFromRemoteReference } = require("../transformers/reference");
 
 const getLastRemoteReference = references =>
   references.reduce(

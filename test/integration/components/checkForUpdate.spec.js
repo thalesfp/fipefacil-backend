@@ -28,7 +28,7 @@ describe("checkForUpdate", () => {
 
   beforeEach(async () => {
     await createTable();
-    await createQueue("references");
+    await createQueue(queueUrl);
   });
 
   afterEach(async () => {
