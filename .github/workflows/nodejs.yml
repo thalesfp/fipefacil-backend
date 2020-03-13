@@ -20,9 +20,22 @@ jobs:
     - run: npm install
     - name: Run Unit Tests 
       run: npm run test:unit
+      env:
+        CI: true
     - name: Run Docker Compose
-      run: docker-compose up
+      run: docker-compose up -d
+    - name: Sleep for 10 seconds
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '10s'
     - name: Run Integration Tests
       run: npm run test:integration
       env:
         CI: true
+        AWS_ACCESS_KEY_ID: foobar
+        AWS_SECRET_ACCESS_KEY: foobar
+        AWS_REGION: us-east-1
+        AWS_DYNAMODB_ENDPOINT: http://localhost:4569
+        AWS_SQS_ENDPOINT: http://localhost:4576
+        REFERENCES_QUEUE: http://localhost:4576/queue/references
+        TABLE_NAME: fipe_test
