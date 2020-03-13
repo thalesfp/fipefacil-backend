@@ -28,3 +28,8 @@ jobs:
       run: npm run test:integration
       env:
         CI: true
+        AWS_REGION: us-east-1
+        AWS_DYNAMODB_ENDPOINT: http://localhost:4569
+        AWS_SQS_ENDPOINT: http://localhost:4576
+        REFERENCES_QUEUE: http://localhost:4576/queue/references
+        TABLE_NAME: fipe_test
