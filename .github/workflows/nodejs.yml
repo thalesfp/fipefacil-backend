@@ -24,16 +24,6 @@ jobs:
         CI: true
     - name: Run Docker Compose
       run: docker-compose up -d
-    - name: Wait For Response
-      uses: nev7n/wait_for_response@v1.0.1
-      with:
-        url: http://localhost:4576
-        responseCode: 404
-    - name: Wait For Response
-      uses: nev7n/wait_for_response@v1.0.1
-      with:
-        url: http://localhost:4569
-        responseCode: 502
     - name: Run Integration Tests
       run: npm run test:integration
       env:
