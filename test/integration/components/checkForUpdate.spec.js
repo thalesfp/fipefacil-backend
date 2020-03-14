@@ -1,17 +1,27 @@
-const checkForUpdate = require("../../../src/components/checkForUpdate");
-
+const { checkForUpdate } = require("../../../src/components/checkForUpdate");
 const {
   createTable,
   dropTable,
 } = require("../../../src/repository/databaseManager");
-
-const { createReference } = require("../../../src/repository/references");
-
+const {
+  createReference,
+  getCurrentReferenceId,
+} = require("../../../src/repository/references");
 const {
   createQueue,
   deleteQueue,
   receiveMessage,
 } = require("../../../src/queue/queueManager");
+const referencesQueue = require("../../../src/queue/referencesQueue");
+
+jest.mock("../../../src/queue/referencesQueue", () => {
+  const actualModule = jest.requireActual("../../../src/queue/referencesQueue");
+
+  return {
+    ...actualModule,
+    sendMessage: jest.fn().mockImplementation(actualModule.sendMessage),
+  };
+});
 
 jest.mock("../../../src/fipeApi.js", () => ({
   getReferences: () =>
@@ -29,6 +39,7 @@ describe("checkForUpdate", () => {
   beforeEach(async () => {
     await createTable();
     await createQueue(queueUrl);
+    jest.clearAllMocks();
   });
 
   afterEach(async () => {
@@ -44,11 +55,41 @@ describe("checkForUpdate", () => {
 
       const message = await receiveMessage(queueUrl);
 
-      const expectedResponse = { referenceId: 252, month: 3, year: 2020 };
+      const expectedResponse = JSON.stringify({
+        referenceId: 252,
+        month: 3,
+        year: 2020,
+      });
 
-      expect(message.Messages[0].Body).toEqual(
-        JSON.stringify(expectedResponse),
-      );
+      expect(message.Messages[0].Body).toEqual(expectedResponse);
+    });
+
+    it("should update database with remote reference", async () => {
+      expect.assertions(1);
+
+      await checkForUpdate();
+
+      const currentReferenceId = await getCurrentReferenceId();
+
+      expect(currentReferenceId).toEqual(252);
+    });
+
+    it("should not update database when queue fails", async () => {
+      expect.assertions(3);
+
+      const referencesQueueSpy = jest
+        .spyOn(referencesQueue, "sendMessage")
+        .mockRejectedValueOnce(new Error("Queue Error"));
+
+      await createReference(251, 2, 2020);
+      await createReference(250, 1, 2020);
+      await createReference(249, 12, 2019);
+
+      await expect(checkForUpdate()).rejects.toThrow(Error);
+      expect(referencesQueueSpy).toBeCalledTimes(1);
+
+      const currentReferenceId = await getCurrentReferenceId();
+      expect(currentReferenceId).toEqual(251);
     });
   });
 
@@ -78,11 +119,27 @@ describe("checkForUpdate", () => {
 
       const message = await receiveMessage(queueUrl);
 
-      const expectedResponse = { referenceId: 252, month: 3, year: 2020 };
+      const expectedResponse = JSON.stringify({
+        referenceId: 252,
+        month: 3,
+        year: 2020,
+      });
 
-      expect(message.Messages[0].Body).toEqual(
-        JSON.stringify(expectedResponse),
-      );
+      expect(message.Messages[0].Body).toEqual(expectedResponse);
+    });
+
+    it("should update database with remote reference", async () => {
+      expect.assertions(1);
+
+      await createReference(251, 2, 2020);
+      await createReference(250, 1, 2020);
+      await createReference(249, 12, 2019);
+
+      await checkForUpdate();
+
+      const currentReferenceId = await getCurrentReferenceId();
+
+      expect(currentReferenceId).toEqual(252);
     });
   });
 });

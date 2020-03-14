@@ -1,5 +1,8 @@
 const api = require("../fipeApi");
-const { getCurrentReferenceId } = require("../repository/references");
+const {
+  createReference,
+  getCurrentReferenceId,
+} = require("../repository/references");
 const { sendMessage } = require("../queue/referencesQueue");
 const { extractDateFromRemoteReference } = require("../transformers/reference");
 
@@ -22,8 +25,10 @@ const checkForUpdate = async () => {
 
   if (lastRemoteReference.id > currentReferenceId) {
     const { id, month, year } = lastRemoteReference;
+
     await sendMessage(id, month, year);
+    await createReference(id, month, year);
   }
 };
 
-module.exports = checkForUpdate;
+module.exports = { checkForUpdate };
