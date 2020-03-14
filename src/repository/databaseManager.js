@@ -1,8 +1,8 @@
-const AWS = require("aws-sdk");
+const { DynamoDB } = require("aws-sdk");
 
 const { TABLE_NAME } = process.env;
 
-const databaseManager = new AWS.DynamoDB({
+const databaseManager = new DynamoDB({
   endpoint: process.env.AWS_DYNAMODB_ENDPOINT,
   region: process.env.AWS_REGION,
 });
@@ -47,9 +47,9 @@ const dropTable = async () => {
   return databaseManager.deleteTable(params).promise();
 };
 
-const marshall = object => AWS.DynamoDB.Converter.marshall(object);
+const marshall = object => DynamoDB.Converter.marshall(object);
 
-const unmarshall = response => AWS.DynamoDB.Converter.unmarshall(response);
+const unmarshall = response => DynamoDB.Converter.unmarshall(response);
 
 module.exports = {
   databaseManager,
