@@ -8,3 +8,4 @@ jspm_packages
 coverage
 
 .app.yml
+.DS_Store

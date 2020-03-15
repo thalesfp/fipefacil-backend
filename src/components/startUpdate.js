@@ -3,7 +3,6 @@ const { vehicleType } = require("../constants/vehicleType");
 const { sendMessage } = require("../queue/brandsQueue");
 const { normalizeBrandsFromRemoteApi } = require("../transformers/brands");
 
-// reference = { id, month, year }
 const startUpdate = async reference => {
   return Promise.all(
     [vehicleType.car, vehicleType.motorcycle].map(async type => {
