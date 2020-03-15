@@ -4,7 +4,7 @@ const {
   getCurrentReferenceId,
 } = require("../repository/references");
 const { sendMessage } = require("../queue/referencesQueue");
-const { extractDateFromRemoteReference } = require("../transformers/reference");
+const { normalizeReferences } = require("../transformers/valuesFromRemoteApi");
 
 const getLastRemoteReference = references =>
   references.reduce(
@@ -15,12 +15,9 @@ const getLastRemoteReference = references =>
 const checkForUpdate = async () => {
   const references = await api.getReferences();
 
-  const formatedReferences = references.map(reference => ({
-    id: reference.Codigo,
-    ...extractDateFromRemoteReference(reference.Mes),
-  }));
+  const referencesNormalized = normalizeReferences(references);
 
-  const lastRemoteReference = getLastRemoteReference(formatedReferences);
+  const lastRemoteReference = getLastRemoteReference(referencesNormalized);
   const currentReferenceId = await getCurrentReferenceId();
 
   if (lastRemoteReference.id > currentReferenceId) {

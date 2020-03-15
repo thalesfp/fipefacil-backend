@@ -1,7 +1,7 @@
 const api = require("../fipeApi");
 const { vehicleType } = require("../constants/vehicleType");
 const { sendMessage } = require("../queue/brandsQueue");
-const { normalizeBrandsFromRemoteApi } = require("../transformers/brands");
+const { normalizeBrands } = require("../transformers/valuesFromRemoteApi");
 
 const startUpdate = async reference => {
   return Promise.all(
@@ -11,7 +11,7 @@ const startUpdate = async reference => {
         vehicleType: type,
       });
 
-      const normalizedBrands = normalizeBrandsFromRemoteApi(brands);
+      const normalizedBrands = normalizeBrands(brands);
 
       await Promise.all(
         normalizedBrands.map(async brand =>
