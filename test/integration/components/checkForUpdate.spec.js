@@ -56,7 +56,7 @@ describe("checkForUpdate", () => {
       const message = await receiveMessage(queueUrl);
 
       const expectedResponse = JSON.stringify({
-        referenceId: 252,
+        id: 252,
         month: 3,
         year: 2020,
       });
@@ -120,7 +120,7 @@ describe("checkForUpdate", () => {
       const message = await receiveMessage(queueUrl);
 
       const expectedResponse = JSON.stringify({
-        referenceId: 252,
+        id: 252,
         month: 3,
         year: 2020,
       });

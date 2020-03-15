@@ -2,9 +2,9 @@ const queueManager = require("./queueManager");
 
 const QUEUE_NAME = process.env.REFERENCES_QUEUE;
 
-const sendMessage = async (referenceId, month, year) => {
+const sendMessage = async (id, month, year) => {
   const message = JSON.stringify({
-    referenceId,
+    id,
     month,
     year,
   });
