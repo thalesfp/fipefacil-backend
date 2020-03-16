@@ -5,6 +5,8 @@ const {
 describe("valuesFromRemoteApi", () => {
   describe("normalizeReferences", () => {
     it("should return id, month number and year from remote FIPE format", () => {
+      expect.assertions(1);
+
       const fipeFormatSamples = [
         {
           Codigo: 252,

@@ -1,7 +1,7 @@
 const { checkForUpdate } = require("../../../src/components/checkForUpdate");
 const {
-  createTable,
-  dropTable,
+  createReferencesTable,
+  dropReferencesTable,
 } = require("../../../src/repository/databaseManager");
 const {
   createReference,
@@ -37,13 +37,13 @@ describe("checkForUpdate", () => {
   const queueUrl = process.env.REFERENCES_QUEUE;
 
   beforeEach(async () => {
-    await createTable();
+    await createReferencesTable();
     await createQueue(queueUrl);
     jest.clearAllMocks();
   });
 
   afterEach(async () => {
-    await dropTable();
+    await dropReferencesTable();
     await deleteQueue(queueUrl);
   });
 

@@ -10,7 +10,7 @@ provider:
   memorySize: 512
   # cfnRole: arn:aws:iam:678634121400:role/role
   environment:
-    TABLE_NAME: fipe
+    PRICES_TABLE: fipe
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
   iamRoleStatements:
@@ -53,15 +53,32 @@ functions:
 
 resources:
   Resources:
-    FipeTable:
+    PricesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: fipe
+        TableName: prices
         AttributeDefinitions:
           - AttributeName: pk
             AttributeType: S
           - AttributeName: sk
             AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    ReferencesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: references
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: "N"
         KeySchema:
           - AttributeName: pk
             KeyType: HASH

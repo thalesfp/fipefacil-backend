@@ -15,6 +15,7 @@
   "dependencies": {
     "aws-sdk": "^2.624.0",
     "axios": "^0.19.2",
+    "bluebird": "^3.7.2",
     "env-yml": "^1.0.0",
     "eslint-config-airbnb-base": "^14.0.0"
   },
@@ -23,9 +24,11 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jest": "^23.8.0",
+    "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-security": "^1.4.0",
     "jest": "^25.1.0",
+    "mockdate": "^2.0.5",
     "prettier": "1.19.1",
     "typescript": "^3.8.3"
   }

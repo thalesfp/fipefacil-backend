@@ -7,6 +7,7 @@ module.exports = {
   },
   rules: {
     "no-console": "off",
+    "jest/prefer-expect-assertions": "error",
   },
   globals: {},
 };

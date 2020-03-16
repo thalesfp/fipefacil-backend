@@ -1,6 +1,6 @@
 const {
-  createTable,
-  dropTable,
+  createReferencesTable,
+  dropReferencesTable,
 } = require("../../../src/repository/databaseManager");
 
 const {
@@ -9,9 +9,9 @@ const {
 } = require("../../../src/repository/references");
 
 describe("repository", () => {
-  beforeEach(async () => createTable());
+  beforeEach(async () => createReferencesTable());
 
-  afterEach(async () => dropTable());
+  afterEach(async () => dropReferencesTable());
 
   describe("references", () => {
     it("should return null when there is no reference", async () => {

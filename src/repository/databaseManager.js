@@ -1,15 +1,15 @@
 const { DynamoDB } = require("aws-sdk");
 
-const { TABLE_NAME } = process.env;
+const { PRICES_TABLE, REFERENCES_TABLE } = process.env;
 
 const databaseManager = new DynamoDB({
   endpoint: process.env.AWS_DYNAMODB_ENDPOINT,
   region: process.env.AWS_REGION,
 });
 
-const createTable = async () => {
+const createPricesTable = async () => {
   const params = {
-    TableName: TABLE_NAME,
+    TableName: PRICES_TABLE,
     AttributeDefinitions: [
       {
         AttributeName: "pk",
@@ -39,9 +39,49 @@ const createTable = async () => {
   return databaseManager.createTable(params).promise();
 };
 
-const dropTable = async () => {
+const dropPricesTable = async () => {
   const params = {
-    TableName: TABLE_NAME,
+    TableName: PRICES_TABLE,
+  };
+
+  return databaseManager.deleteTable(params).promise();
+};
+
+const createReferencesTable = async () => {
+  const params = {
+    TableName: REFERENCES_TABLE,
+    AttributeDefinitions: [
+      {
+        AttributeName: "pk",
+        AttributeType: "S",
+      },
+      {
+        AttributeName: "sk",
+        AttributeType: "N",
+      },
+    ],
+    KeySchema: [
+      {
+        AttributeName: "pk",
+        KeyType: "HASH",
+      },
+      {
+        AttributeName: "sk",
+        KeyType: "RANGE",
+      },
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 1,
+      WriteCapacityUnits: 1,
+    },
+  };
+
+  return databaseManager.createTable(params).promise();
+};
+
+const dropReferencesTable = async () => {
+  const params = {
+    TableName: REFERENCES_TABLE,
   };
 
   return databaseManager.deleteTable(params).promise();
@@ -53,8 +93,10 @@ const unmarshall = response => DynamoDB.Converter.unmarshall(response);
 
 module.exports = {
   databaseManager,
-  createTable,
-  dropTable,
+  createPricesTable,
+  dropPricesTable,
+  createReferencesTable,
+  dropReferencesTable,
   marshall,
   unmarshall,
 };

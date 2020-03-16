@@ -16,7 +16,7 @@ const months = {
 const extractDateFromRemoteReference = date => {
   const [month, year] = date.trim().split("/");
 
-  return { month: months[month], year: parseInt(year, 10) };
+  return { month: months[String(month)], year: parseInt(year, 10) };
 };
 
 const normalizeReferences = references =>
@@ -31,8 +31,18 @@ const normalizeBrands = brands =>
 const normalizeModels = models =>
   models.map(model => ({ id: model.Value, name: model.Label }));
 
+const normalizeYearModels = yearModels =>
+  yearModels.map(yearModel => {
+    const [year, fuelType] = yearModel.Value.split("-");
+    return { id: yearModel.Value, year, fuelType };
+  });
+
+const normalizeYearModel = yearModel => ({ value: yearModel.Valor });
+
 module.exports = {
   normalizeReferences,
   normalizeBrands,
   normalizeModels,
+  normalizeYearModels,
+  normalizeYearModel,
 };

@@ -1,15 +1,16 @@
 const { databaseManager, marshall, unmarshall } = require("./databaseManager");
 
-const { TABLE_NAME } = process.env;
+const { REFERENCES_TABLE } = process.env;
 
 const createReference = async (id, month, year) => {
   const params = {
-    TableName: TABLE_NAME,
+    TableName: REFERENCES_TABLE,
     Item: marshall({
       pk: "REF",
-      sk: String(id),
-      month: String(month),
-      year: String(year),
+      sk: parseInt(id, 10),
+      month: parseInt(month, 10),
+      year: parseInt(year, 10),
+      createdAt: new Date().toISOString(),
     }),
   };
 
@@ -18,10 +19,10 @@ const createReference = async (id, month, year) => {
 
 const getCurrentReferenceId = async () => {
   const params = {
-    TableName: TABLE_NAME,
-    KeyConditionExpression: "pk = :value",
+    TableName: REFERENCES_TABLE,
+    KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
-      ":value": {
+      ":pk": {
         S: "REF",
       },
     },
