@@ -1,18 +1,20 @@
 const queueManager = require("./queueManager");
 
-const QUEUE_NAME = process.env.BRANDS_QUEUE;
+const QUEUE_NAME = process.env.MODELS_QUEUE;
 
 const sendMessage = async ({
   referenceId,
   vehicleType,
   brandId,
-  brandName,
+  modelId,
+  modelName,
 }) => {
   const message = JSON.stringify({
     referenceId,
     vehicleType,
     brandId,
-    brandName,
+    modelId,
+    modelName,
   });
 
   return queueManager.sendMessage(QUEUE_NAME, message);

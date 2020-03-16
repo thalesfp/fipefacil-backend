@@ -3,7 +3,7 @@ const { vehicleType } = require("../constants/vehicleType");
 const { sendMessage } = require("../queue/brandsQueue");
 const { normalizeBrands } = require("../transformers/valuesFromRemoteApi");
 
-const startUpdate = async reference => {
+const startUpdateReference = async reference => {
   return Promise.all(
     [vehicleType.car, vehicleType.motorcycle].map(async type => {
       const brands = await api.getBrands({
@@ -15,11 +15,16 @@ const startUpdate = async reference => {
 
       await Promise.all(
         normalizedBrands.map(async brand =>
-          sendMessage(reference.id, type, brand.id, brand.name),
+          sendMessage({
+            referenceId: reference.id,
+            vehicleType: type,
+            brandId: brand.id,
+            brandName: brand.name,
+          }),
         ),
       );
     }),
   );
 };
 
-module.exports = { startUpdate };
+module.exports = { startUpdateReference };

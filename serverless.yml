@@ -7,19 +7,33 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-east-1
-  memorySize: 512
+  memorySize: 256
   # cfnRole: arn:aws:iam:678634121400:role/role
   environment:
-    PRICES_TABLE: fipe
-    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
+    PRICES_TABLE: prices
+    REFERENCES_TABLE: references
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
+    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
+    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/models
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:Query
         - dynamodb:PutItem
       Resource:
-        - arn:aws:dynamodb:${self:provider.region}:678634121400:table/fipe
+        - arn:aws:dynamodb:${self:provider.region}:678634121400:table/prices
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:PutItem
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:678634121400:table/references
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:ReceiveMessage
+      Resource:
+        - arn:aws:sqs:${self:provider.region}:678634121400:references
     - Effect: Allow
       Action:
         - sqs:SendMessage
@@ -31,7 +45,7 @@ provider:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:678634121400:references
+        - arn:aws:sqs:${self:provider.region}:678634121400:models
 
 functions:
   checkForUpdate:
@@ -40,15 +54,37 @@ functions:
       - http:
           path: /checkForUpdate
           method: get
-  startUpdate:
-    handler: src/lambda/handler.startUpdateHandler
+  startUpdateReference:
+    handler: src/lambda/handler.startUpdateReferenceHandler
     reservedConcurrency: 10
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:678634121400:references
           batchSize: 1
       - http:
-          path: /startUpdate
+          path: /startUpdateReference
+          method: get
+  startUpdateBrand:
+    handler: src/lambda/handler.startUpdateBrandHandler
+    reservedConcurrency: 10
+    timeout: 30
+    events:
+      - sqs:
+          arn: arn:aws:sqs:${self:provider.region}:678634121400:brands
+          batchSize: 1
+      - http:
+          path: /startUpdateBrand
+          method: get
+  startUpdateModel:
+    handler: src/lambda/handler.startUpdateModelHandler
+    reservedConcurrency: 10
+    timeout: 60
+    events:
+      - sqs:
+          arn: arn:aws:sqs:${self:provider.region}:678634121400:models
+          batchSize: 1
+      - http:
+          path: /startUpdateModel
           method: get
 
 resources:
@@ -68,8 +104,8 @@ resources:
           - AttributeName: sk
             KeyType: RANGE
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 25
+          WriteCapacityUnits: 25
     ReferencesTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -85,8 +121,8 @@ resources:
           - AttributeName: sk
             KeyType: RANGE
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 25
+          WriteCapacityUnits: 25
     ReferencesQueue:
       Type: "AWS::SQS::Queue"
       Properties:
@@ -95,3 +131,14 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "brands"
+    ModelsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "models"
+
+package:
+  exclude:
+    - coverage/**
+    - test/**
+    - docker-compose.yml
+    - README.md

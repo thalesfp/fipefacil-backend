@@ -23,7 +23,7 @@ const checkForUpdate = async () => {
   if (lastRemoteReference.id > currentReferenceId) {
     const { id, month, year } = lastRemoteReference;
 
-    await sendMessage(id, month, year);
+    await sendMessage({ id, month, year });
     await createReference(id, month, year);
   }
 };

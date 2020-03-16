@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { SQS } = require("aws-sdk");
 
 const sqs = new SQS({

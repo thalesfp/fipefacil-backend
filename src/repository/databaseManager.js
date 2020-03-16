@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { DynamoDB } = require("aws-sdk");
 
 const { PRICES_TABLE, REFERENCES_TABLE } = process.env;

@@ -1,4 +1,6 @@
-const { startUpdate } = require("../../../src/components/startUpdate");
+const {
+  startUpdateReference,
+} = require("../../../src/components/startUpdateReference");
 const {
   createQueue,
   deleteQueue,
@@ -30,7 +32,7 @@ jest.mock("../../../src/fipeApi", () => ({
         ]),
 }));
 
-describe("startUpdate", () => {
+describe("startUpdateReference", () => {
   const queueUrl = process.env.BRANDS_QUEUE;
 
   beforeEach(async () => {
@@ -42,9 +44,11 @@ describe("startUpdate", () => {
   });
 
   it("should send brands to queue", async () => {
+    expect.assertions(2);
+
     const reference = { id: 252, month: 3, year: 2020 };
 
-    await startUpdate(reference);
+    await startUpdateReference(reference);
 
     const { Messages: messages } = await receiveMessage(queueUrl, 4);
 
