@@ -11,7 +11,6 @@ provider:
   # cfnRole: arn:aws:iam:678634121400:role/role
   environment:
     PRICES_TABLE: prices
-    REFERENCES_TABLE: references
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
     MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/models
@@ -22,12 +21,6 @@ provider:
         - dynamodb:PutItem
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:678634121400:table/prices
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:PutItem
-      Resource:
-        - arn:aws:dynamodb:${self:provider.region}:678634121400:table/references
     - Effect: Allow
       Action:
         - sqs:SendMessage
@@ -98,23 +91,6 @@ resources:
             AttributeType: S
           - AttributeName: sk
             AttributeType: S
-        KeySchema:
-          - AttributeName: pk
-            KeyType: HASH
-          - AttributeName: sk
-            KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 25
-          WriteCapacityUnits: 25
-    ReferencesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: references
-        AttributeDefinitions:
-          - AttributeName: pk
-            AttributeType: S
-          - AttributeName: sk
-            AttributeType: "N"
         KeySchema:
           - AttributeName: pk
             KeyType: HASH

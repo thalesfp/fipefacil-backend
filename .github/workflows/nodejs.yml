@@ -39,4 +39,3 @@ jobs:
           REFERENCES_QUEUE: http://localhost:4576/queue/references
           BRANDS_QUEUE: http://localhost:4576/queue/brands
           PRICES_TABLE: prices_test
-          REFERENCES_TABLE: references_test
