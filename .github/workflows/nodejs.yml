@@ -38,4 +38,5 @@ jobs:
           AWS_SQS_ENDPOINT: http://localhost:4576
           REFERENCES_QUEUE: http://localhost:4576/queue/references
           BRANDS_QUEUE: http://localhost:4576/queue/brands
+          MODELS_QUEUE: http://localhost:4576/queue/models
           PRICES_TABLE: prices_test
