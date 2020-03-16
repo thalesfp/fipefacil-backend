@@ -24,9 +24,6 @@ const checkForUpdateHandler = async () => {
 
 const startUpdateReferenceHandler = async event => {
   try {
-    // console.info("START: startUpdateReferenceHandler");
-    // console.info(event);
-
     const { Records: messages } = event;
 
     await Promise.all(
@@ -34,9 +31,6 @@ const startUpdateReferenceHandler = async event => {
         startUpdateReference(JSON.parse(message.body)),
       ),
     );
-
-    // console.info("FINISH: startUpdateReferenceHandler");
-    // console.info(messages);
 
     return {
       statusCode: 200,
@@ -58,17 +52,11 @@ const startUpdateReferenceHandler = async event => {
 
 const startUpdateBrandHandler = async event => {
   try {
-    // console.info("START: startUpdateBrandHandler");
-    // console.info(event);
-
     const { Records: messages } = event;
 
     await Promise.all(
       messages.map(async message => startUpdateBrand(JSON.parse(message.body))),
     );
-
-    // console.info("FINISH: startUpdateBrandHandler");
-    // console.info(messages);
 
     return {
       statusCode: 200,
@@ -90,17 +78,11 @@ const startUpdateBrandHandler = async event => {
 
 const startUpdateModelHandler = async event => {
   try {
-    // console.info("START: startUpdateModelHandler");
-    // console.info(event);
-
     const { Records: messages } = event;
 
     await Promise.all(
       messages.map(async message => startUpdateModel(JSON.parse(message.body))),
     );
-
-    // console.info("FINISH: startUpdateModelHandler");
-    // console.info(messages);
 
     return {
       statusCode: 200,

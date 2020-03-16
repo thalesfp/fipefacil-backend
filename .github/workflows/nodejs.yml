@@ -40,3 +40,4 @@ jobs:
           BRANDS_QUEUE: http://localhost:4576/queue/brands
           MODELS_QUEUE: http://localhost:4576/queue/models
           PRICES_TABLE: prices_test
+          LIMIT_CONCURRENT_YEAR_MODELS: 10

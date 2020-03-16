@@ -10,6 +10,7 @@ provider:
   memorySize: 256
   # cfnRole: arn:aws:iam:678634121400:role/role
   environment:
+    LIMIT_CONCURRENT_YEAR_MODELS: 10
     PRICES_TABLE: prices
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands

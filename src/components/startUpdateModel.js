@@ -9,7 +9,7 @@ const {
   normalizeYearModel,
 } = require("../transformers/valuesFromRemoteApi");
 
-const LIMIT_CONCURRENT_YEAR_MODELS = 10;
+const LIMIT_CONCURRENT_YEAR_MODELS = process.env;
 
 const startUpdateModel = async ({
   referenceId,
