@@ -1,0 +1,8 @@
+@startuml C1 Price Update System
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+
+System(priceUpdateSystem, "Price Update System", "Update vehicles prices based on FIPE table")
+System_Ext(fipeAPI, "FIPE API")
+
+Rel(priceUpdateSystem, fipeAPI, "Gets vehicles brands, models and prices", "HTTPS")
+@enduml

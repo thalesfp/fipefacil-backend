@@ -1,0 +1,34 @@
+@startuml C2 Price Update System
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+System_Boundary(c1, "Price Update System") {
+    Container(checkForUpdate, "checkForUpdate", "Lambda (nodejs 12)", "Allows users to compare multiple Twitter timelines")
+    Container(startUpdateBrand, "startUpdateBrand", "Lambda (nodejs 12)", "Allows users to compare multiple Twitter timelines")
+    Container(startUpdateModel, "startUpdateModel", "Lambda (nodejs 12)", "Allows users to compare multiple Twitter timelines")
+    Container(startUpdateReference, "startUpdateReference", "Lambda (nodejs 12)", "Allows users to compare multiple Twitter timelines")
+    
+    ContainerDb(pricesDB, "PricesDB", "DynamoDB")
+    
+    ContainerDb(brandsQueue, "Brands Queue", "AWS SQS")
+    ContainerDb(modelsQueue, "Models Queue", "AWS SQS")
+    ContainerDb(referencesQueue, "References Queue", "AWS SQS")
+}
+
+System_Ext(fipeAPI, "FIPE API")
+
+Rel(checkForUpdate, fipeAPI, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(checkForUpdate, referencesQueue, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(checkForUpdate, pricesDB, "Gets vehicles brands, models and prices", "HTTPS")
+
+Rel(referencesQueue, startUpdateBrand, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(startUpdateBrand, fipeAPI, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(startUpdateBrand, brandsQueue, "Gets vehicles brands, models and prices", "HTTPS")
+
+Rel(brandsQueue, startUpdateModel, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(startUpdateModel, fipeAPI, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(startUpdateModel, modelsQueue, "Gets vehicles brands, models and prices", "HTTPS")
+
+Rel(modelsQueue, startUpdateReference, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(startUpdateReference, fipeAPI, "Gets vehicles brands, models and prices", "HTTPS")
+Rel(startUpdateReference, pricesDB, "Gets vehicles brands, models and prices", "HTTPS")
+@enduml
