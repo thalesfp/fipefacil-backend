@@ -10,7 +10,6 @@ provider:
   memorySize: 256
   # cfnRole: arn:aws:iam:678634121400:role/role
   environment:
-    LIMIT_CONCURRENT_YEAR_MODELS: 10
     PRICES_TABLE: prices
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
@@ -41,6 +40,12 @@ provider:
         - sqs:ReceiveMessage
       Resource:
         - arn:aws:sqs:${self:provider.region}:678634121400:models
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:ReceiveMessage
+      Resource:
+        - arn:aws:sqs:${self:provider.region}:678634121400:yearmodels
 
 functions:
   checkForUpdate:
@@ -123,11 +128,13 @@ resources:
         QueueName: "yearmodels"
 
 package:
+  individually: true
   exclude:
     - coverage/**
     - test/**
     - docker-compose.yml
     - README.md
+    - diagrams
 
 custom:
   enterprise:

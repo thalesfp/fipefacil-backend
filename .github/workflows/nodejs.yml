@@ -39,6 +39,5 @@ jobs:
           REFERENCES_QUEUE: http://localhost:4576/queue/references
           BRANDS_QUEUE: http://localhost:4576/queue/brands
           MODELS_QUEUE: http://localhost:4576/queue/models
-          YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels  
+          YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels
           PRICES_TABLE: prices_test
-          LIMIT_CONCURRENT_YEAR_MODELS: 10
