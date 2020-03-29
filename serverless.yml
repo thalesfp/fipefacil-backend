@@ -15,6 +15,7 @@ provider:
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
     MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/models
+    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/yearmodels
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -59,8 +60,6 @@ functions:
           method: get
   startUpdateBrand:
     handler: src/lambda/handler.startUpdateBrandHandler
-    reservedConcurrency: 6
-    timeout: 30
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:678634121400:brands
@@ -70,14 +69,21 @@ functions:
           method: get
   startUpdateModel:
     handler: src/lambda/handler.startUpdateModelHandler
-    reservedConcurrency: 6
-    timeout: 60
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:678634121400:models
           batchSize: 1
       - http:
           path: /startUpdateModel
+          method: get
+  startUpdateYearModel:
+    handler: src/lambda/handler.startUpdateYearModelHandler
+    events:
+      - sqs:
+          arn: arn:aws:sqs:${self:provider.region}:678634121400:yearmodels
+          batchSize: 1
+      - http:
+          path: /startUpdateYearModel
           method: get
 
 resources:
@@ -111,6 +117,10 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "models"
+    YearModelsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "yearmodels"
 
 package:
   exclude:

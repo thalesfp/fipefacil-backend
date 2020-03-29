@@ -3,6 +3,7 @@ const { checkForUpdate } = require("../components/checkForUpdate");
 const { startUpdateReference } = require("../components/startUpdateReference");
 const { startUpdateBrand } = require("../components/startUpdateBrand");
 const { startUpdateModel } = require("../components/startUpdateModel");
+const { startUpdateYearModel } = require("../components/startUpdateYearModel");
 
 const checkForUpdateHandler = async () => {
   try {
@@ -106,9 +107,38 @@ const startUpdateModelHandler = async (event) => {
   }
 };
 
+const startUpdateYearModelHandler = async (event) => {
+  try {
+    const { Records: messages } = event;
+
+    await Promise.all(
+      messages.map(async (message) =>
+        startUpdateYearModel(JSON.parse(message.body)),
+      ),
+    );
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "SQS event processed.",
+        input: messages,
+      }),
+    };
+  } catch (error) {
+    console.error("ERROR: startUpdateYearModelHandler");
+    console.error(error);
+
+    return {
+      statusCode: 400,
+      body: JSON.stringify(error),
+    };
+  }
+};
+
 module.exports = {
   checkForUpdateHandler,
   startUpdateReferenceHandler,
   startUpdateBrandHandler,
   startUpdateModelHandler,
+  startUpdateYearModelHandler,
 };
