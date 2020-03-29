@@ -15,7 +15,7 @@ const startUpdateBrand = async ({
   const normalizedModels = normalizeModels(models);
 
   return Promise.all(
-    normalizedModels.map(async model =>
+    normalizedModels.map(async (model) =>
       sendMessage({
         referenceId,
         vehicleType,

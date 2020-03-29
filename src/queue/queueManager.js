@@ -6,7 +6,7 @@ const sqs = new SQS({
   region: process.env.AWS_REGION,
 });
 
-const createQueue = async queueUrl => {
+const createQueue = async (queueUrl) => {
   const queueName = queueUrl.split("/")[queueUrl.split("/").length - 1];
 
   const params = {
@@ -16,7 +16,7 @@ const createQueue = async queueUrl => {
   return sqs.createQueue(params).promise();
 };
 
-const deleteQueue = async queueUrl => {
+const deleteQueue = async (queueUrl) => {
   const params = {
     QueueUrl: queueUrl,
   };
@@ -42,7 +42,7 @@ const receiveMessage = async (queueUrl, maxNumberOfMessages = 1) => {
   return sqs.receiveMessage(params).promise();
 };
 
-const queueNumberOfMessages = async queueUrl => {
+const queueNumberOfMessages = async (queueUrl) => {
   const params = {
     QueueUrl: queueUrl,
     AttributeNames: ["ApproximateNumberOfMessages"],

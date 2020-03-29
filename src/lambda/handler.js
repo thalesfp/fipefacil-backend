@@ -22,12 +22,12 @@ const checkForUpdateHandler = async () => {
   }
 };
 
-const startUpdateReferenceHandler = async event => {
+const startUpdateReferenceHandler = async (event) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
-      messages.map(async message =>
+      messages.map(async (message) =>
         startUpdateReference(JSON.parse(message.body)),
       ),
     );
@@ -50,12 +50,14 @@ const startUpdateReferenceHandler = async event => {
   }
 };
 
-const startUpdateBrandHandler = async event => {
+const startUpdateBrandHandler = async (event) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
-      messages.map(async message => startUpdateBrand(JSON.parse(message.body))),
+      messages.map(async (message) =>
+        startUpdateBrand(JSON.parse(message.body)),
+      ),
     );
 
     return {
@@ -76,12 +78,14 @@ const startUpdateBrandHandler = async event => {
   }
 };
 
-const startUpdateModelHandler = async event => {
+const startUpdateModelHandler = async (event) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
-      messages.map(async message => startUpdateModel(JSON.parse(message.body))),
+      messages.map(async (message) =>
+        startUpdateModel(JSON.parse(message.body)),
+      ),
     );
 
     return {

@@ -34,7 +34,7 @@ const getPrices = async (modelId, yearModelId) => {
 
   if (response.length === 0) return null;
 
-  return response.map(model => unmarshall(model));
+  return response.map((model) => unmarshall(model));
 };
 
 module.exports = {

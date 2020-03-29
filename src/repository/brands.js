@@ -34,7 +34,7 @@ const getBrand = async (vehycleType, id) => {
 
   if (response.length === 0) return null;
 
-  return response.map(brand => unmarshall(brand));
+  return response.map((brand) => unmarshall(brand));
 };
 
 module.exports = {

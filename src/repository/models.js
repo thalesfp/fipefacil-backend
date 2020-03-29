@@ -16,7 +16,7 @@ const createModel = async (id, name, brandId) => {
   return databaseManager.putItem(params).promise();
 };
 
-const getModels = async brandId => {
+const getModels = async (brandId) => {
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
@@ -34,7 +34,7 @@ const getModels = async brandId => {
 
   if (response.length === 0) return null;
 
-  return response.map(model => unmarshall(model));
+  return response.map((model) => unmarshall(model));
 };
 
 module.exports = {

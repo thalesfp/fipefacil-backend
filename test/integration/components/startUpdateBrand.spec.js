@@ -72,7 +72,7 @@ describe("startUpdateBrand", () => {
 
       const { Messages: messages } = await receiveMessage(queueUrl, 4);
 
-      const messagesJson = messages.map(message => JSON.parse(message.Body));
+      const messagesJson = messages.map((message) => JSON.parse(message.Body));
 
       expect(messagesJson.length).toEqual(2);
 

@@ -6,7 +6,7 @@ const {
 const { sendMessage } = require("../queue/referencesQueue");
 const { normalizeReferences } = require("../transformers/valuesFromRemoteApi");
 
-const getLastRemoteReference = references =>
+const getLastRemoteReference = (references) =>
   references.reduce(
     (prev, current) => (prev.id > current.id ? prev : current),
     [],

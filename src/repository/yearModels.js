@@ -17,7 +17,7 @@ const createYearModel = async (id, year, fuelType, modelId) => {
   return databaseManager.putItem(params).promise();
 };
 
-const getYearModels = async modelId => {
+const getYearModels = async (modelId) => {
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
@@ -35,7 +35,7 @@ const getYearModels = async modelId => {
 
   if (response.length === 0) return null;
 
-  return response.map(model => unmarshall(model));
+  return response.map((model) => unmarshall(model));
 };
 
 module.exports = {

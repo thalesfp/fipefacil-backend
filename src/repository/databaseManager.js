@@ -48,9 +48,9 @@ const dropPricesTable = async () => {
   return databaseManager.deleteTable(params).promise();
 };
 
-const marshall = object => DynamoDB.Converter.marshall(object);
+const marshall = (object) => DynamoDB.Converter.marshall(object);
 
-const unmarshall = response => DynamoDB.Converter.unmarshall(response);
+const unmarshall = (response) => DynamoDB.Converter.unmarshall(response);
 
 module.exports = {
   databaseManager,
