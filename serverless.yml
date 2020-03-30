@@ -133,13 +133,14 @@ resources:
 
 package:
   individually: true
-  exclude:
-    - coverage/**
-    - test/**
-    - docker-compose.yml
-    - README.md
-    - diagrams
+
+plugins:
+  - serverless-webpack
 
 custom:
   enterprise:
     collectLambdaLogs: false
+  webpack:
+    includeModules:
+      forceExclude:
+        - aws-sdk
