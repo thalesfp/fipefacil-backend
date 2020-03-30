@@ -65,6 +65,8 @@ functions:
           method: get
   startUpdateBrand:
     handler: src/lambda/handler.startUpdateBrandHandler
+    reservedConcurrency: 5
+    timeout: 15
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:678634121400:brands
@@ -74,6 +76,7 @@ functions:
           method: get
   startUpdateModel:
     handler: src/lambda/handler.startUpdateModelHandler
+    reservedConcurrency: 5
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:678634121400:models
@@ -83,6 +86,7 @@ functions:
           method: get
   startUpdateYearModel:
     handler: src/lambda/handler.startUpdateYearModelHandler
+    reservedConcurrency: 5
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:678634121400:yearmodels
