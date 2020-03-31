@@ -23,7 +23,7 @@ jest.mock("../../../src/queue/referencesQueue", () => {
   };
 });
 
-jest.mock("../../../src/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi.js", () => ({
   getReferences: () =>
     Promise.resolve([
       { Codigo: 252, Mes: "março/2020 " },

@@ -1,4 +1,4 @@
-const api = require("../fipeApi");
+const { getModels } = require("../api/fipeApi");
 const { sendMessage } = require("../queue/modelsQueue");
 const { createBrand } = require("../repository/brands");
 const { normalizeModels } = require("../transformers/valuesFromRemoteApi");
@@ -11,7 +11,7 @@ const startUpdateBrand = async ({
 }) => {
   await createBrand(brandId, brandName, vehicleType);
 
-  const models = await api.getModels({ referenceId, vehicleType, brandId });
+  const models = await getModels({ referenceId, vehicleType, brandId });
   const normalizedModels = normalizeModels(models);
 
   return Promise.all(

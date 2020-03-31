@@ -1,4 +1,4 @@
-const api = require("../fipeApi");
+const { getYearModel } = require("../api/fipeApi");
 const { createYearModel } = require("../repository/yearModels");
 const { createPrice } = require("../repository/prices");
 const { normalizeYearModel } = require("../transformers/valuesFromRemoteApi");
@@ -14,12 +14,13 @@ const startUpdateYearModel = async ({
 }) => {
   await createYearModel(yearModelId, yearModelYear, yearModelFuelType, modelId);
 
-  const yearModelDetails = await api.getYearModel({
+  const yearModelDetails = await getYearModel({
     referenceId,
     vehicleType,
     brandId,
     modelId,
-    yearModelId,
+    yearModelYear,
+    yearModelFuelType,
   });
 
   const yearModelNormalized = normalizeYearModel(yearModelDetails);

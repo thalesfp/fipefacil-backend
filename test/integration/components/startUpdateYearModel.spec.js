@@ -9,8 +9,9 @@ const {
 } = require("../../../src/repository/databaseManager");
 const { getYearModels } = require("../../../src/repository/yearModels");
 const { getPrices } = require("../../../src/repository/prices");
+const { vehicleType } = require("../../../src/constants/vehicleType");
 
-jest.mock("../../../src/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi.js", () => ({
   getYearModel: () =>
     Promise.resolve({
       Valor: "R$ 16.728,00",
@@ -31,7 +32,7 @@ describe("startUpdateYearModel", () => {
   describe("when updating a year model", () => {
     const yearModel = {
       referenceId: 252,
-      vehicleType: "motos",
+      vehicleType: vehicleType.motorcycle,
       brandId: "61",
       modelId: 43,
       yearModelId: "1995-1",

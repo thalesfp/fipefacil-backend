@@ -1,4 +1,4 @@
-const api = require("../fipeApi");
+const { getReferences } = require("../api/fipeApi");
 const {
   createReference,
   getCurrentReferenceId,
@@ -13,7 +13,7 @@ const getLastRemoteReference = (references) =>
   );
 
 const checkForUpdate = async () => {
-  const references = await api.getReferences();
+  const references = await getReferences();
 
   const referencesNormalized = normalizeReferences(references);
 

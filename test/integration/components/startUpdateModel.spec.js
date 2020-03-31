@@ -14,8 +14,9 @@ const {
   deleteQueue,
   receiveMessage,
 } = require("../../../src/queue/queueManager");
+const { vehicleType } = require("../../../src/constants/vehicleType");
 
-jest.mock("../../../src/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi.js", () => ({
   getYearModels: () =>
     Promise.resolve([
       {
@@ -35,7 +36,7 @@ describe("startUpdateModel", () => {
 
     const model = {
       referenceId: 252,
-      vehicleType: "motos",
+      vehicleType: vehicleType.motorcycle,
       brandId: "61",
       modelId: 43,
       modelName: "100 2.8 V6",
@@ -84,7 +85,7 @@ describe("startUpdateModel", () => {
         expect.arrayContaining([
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: "motos",
+            vehicleType: vehicleType.motorcycle,
             brandId: "61",
             modelId: 43,
             yearModelId: "1995-1",
@@ -93,7 +94,7 @@ describe("startUpdateModel", () => {
           }),
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: "motos",
+            vehicleType: vehicleType.motorcycle,
             brandId: "61",
             modelId: 43,
             yearModelId: "1994-1",

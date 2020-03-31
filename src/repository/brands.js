@@ -1,12 +1,13 @@
 const { databaseManager, marshall, unmarshall } = require("./databaseManager");
+const { vehicleTypeToString } = require("../constants/vehicleType");
 
 const { PRICES_TABLE } = process.env;
 
-const createBrand = async (id, name, vehicleType) => {
+const createBrand = async (id, name, vehicleTypeParam) => {
   const params = {
     TableName: PRICES_TABLE,
     Item: marshall({
-      pk: vehicleType,
+      pk: vehicleTypeToString(vehicleTypeParam),
       sk: `BRAND#${id}`,
       name,
       createdAt: new Date().toISOString(),
@@ -16,13 +17,13 @@ const createBrand = async (id, name, vehicleType) => {
   return databaseManager.putItem(params).promise();
 };
 
-const getBrand = async (vehycleType, id) => {
+const getBrand = async (vehicleTypeParam, id) => {
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND sk = :sk",
     ExpressionAttributeValues: {
       ":pk": {
-        S: vehycleType,
+        S: vehicleTypeToString(vehicleTypeParam),
       },
       ":sk": {
         S: `BRAND#${id}`,

@@ -6,10 +6,11 @@ const {
   deleteQueue,
   receiveMessage,
 } = require("../../../src/queue/queueManager");
+const { vehicleType } = require("../../../src/constants/vehicleType");
 
-jest.mock("../../../src/fipeApi", () => ({
-  getBrands: ({ vehicleType }) =>
-    vehicleType === "carros"
+jest.mock("../../../src/api/fipeApi", () => ({
+  getBrands: ({ vehicleType: vehicleTypeParam }) =>
+    vehicleTypeParam === 1
       ? Promise.resolve([
           {
             Label: "Acura",
@@ -52,7 +53,7 @@ describe("startUpdateReference", () => {
 
     const { Messages: messages } = await receiveMessage(queueUrl, 4);
 
-    const messagesJson = messages.map(message => JSON.parse(message.Body));
+    const messagesJson = messages.map((message) => JSON.parse(message.Body));
 
     expect(messagesJson.length).toEqual(4);
 
@@ -62,25 +63,25 @@ describe("startUpdateReference", () => {
           brandId: "1",
           brandName: "Acura",
           referenceId: 252,
-          vehicleType: "carros",
+          vehicleType: vehicleType.car,
         }),
         expect.objectContaining({
           brandId: "2",
           brandName: "Agrale",
           referenceId: 252,
-          vehicleType: "carros",
+          vehicleType: vehicleType.car,
         }),
         expect.objectContaining({
           brandId: "60",
           brandName: "ADLY",
           referenceId: 252,
-          vehicleType: "motos",
+          vehicleType: vehicleType.motorcycle,
         }),
         expect.objectContaining({
           brandId: "61",
           brandName: "AGRALE",
           referenceId: 252,
-          vehicleType: "motos",
+          vehicleType: vehicleType.motorcycle,
         }),
       ]),
     );

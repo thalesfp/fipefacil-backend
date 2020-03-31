@@ -13,8 +13,9 @@ const {
   receiveMessage,
 } = require("../../../src/queue/queueManager");
 const { getBrand } = require("../../../src/repository/brands");
+const { vehicleType } = require("../../../src/constants/vehicleType");
 
-jest.mock("../../../src/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi.js", () => ({
   getModels: () =>
     Promise.resolve([
       {
@@ -34,7 +35,7 @@ describe("startUpdateBrand", () => {
 
     const brand = {
       referenceId: 252,
-      vehicleType: "motos",
+      vehicleType: vehicleType.motorcycle,
       brandId: "61",
       brandName: "AGRALE",
     };
@@ -59,7 +60,7 @@ describe("startUpdateBrand", () => {
 
       expect(persistedBrand).toEqual([
         {
-          pk: "motos",
+          pk: "motorcycles",
           sk: "BRAND#61",
           name: "AGRALE",
           createdAt: "2020-01-01T00:00:00.000Z",
@@ -80,14 +81,14 @@ describe("startUpdateBrand", () => {
         expect.arrayContaining([
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: "motos",
+            vehicleType: vehicleType.motorcycle,
             brandId: "61",
             modelId: 43,
             modelName: "100 2.8 V6",
           }),
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: "motos",
+            vehicleType: vehicleType.motorcycle,
             brandId: "61",
             modelId: 44,
             modelName: "100 2.8 V6 Avant",
