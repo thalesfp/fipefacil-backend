@@ -23,10 +23,20 @@ jobs:
           CI: true
       - name: Run Docker Compose
         run: docker-compose up -d
-      - name: Sleep for 10 seconds
-        uses: jakejarvis/wait-action@master
+      - name: Wait for DynamoDB
+        uses: nev7n/wait_for_response@v1
         with:
-          time: "10s"
+          url: 'http://localhost:4569'
+          responseCode: 502
+          timeout: 10000
+          interval: 1000
+      - name: Wait for SQS
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: 'http://localhost:4576'
+          responseCode: 400
+          timeout: 10000
+          interval: 1000
       - name: Run Integration Tests
         run: npm run test:integration
         env:
