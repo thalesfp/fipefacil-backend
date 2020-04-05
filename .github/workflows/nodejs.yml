@@ -12,8 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install npm dependencies
-        run: npm install -g serverless wait-port
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -33,9 +31,9 @@ jobs:
 #           timeout: 20000
 #           interval: 1000
       - name: Wait for DynamoDB
-        run: wait-port -t 20000 http://localhost:4569
+        run: npx wait-port -t 20000 http://localhost:4569
       - name: Wait for SQS
-        run: wait-port -t 20000 http://localhost:4576
+        run: npx wait-port -t 20000 http://localhost:4576
 #       - name: Wait for SQS
 #         uses: nev7n/wait_for_response@v1
 #         with:
