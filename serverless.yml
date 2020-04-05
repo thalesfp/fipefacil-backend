@@ -3,9 +3,8 @@ service: fipefacil
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'us-east-1'}
-  stackName: fipefacil-backend
+  stage: dev
+  region: us-east-1
   memorySize: 256
   environment:
     PRICES_TABLE: prices
