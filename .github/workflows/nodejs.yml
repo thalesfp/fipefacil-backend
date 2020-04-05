@@ -51,7 +51,7 @@ jobs:
           MODELS_QUEUE: http://localhost:4576/queue/models
           YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels
           PRICES_TABLE: prices_test
-      - name: Deploy
+      - name: serverless deploy
         uses: serverless/github-action@master
         with:
           args: deploy
