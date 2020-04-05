@@ -29,14 +29,14 @@ jobs:
       - name: Wait for DynamoDB
         uses: nev7n/wait_for_response@v1
         with:
-          url: 'http://localhost:4569'
+          url: "http://localhost:4569"
           responseCode: 502
           timeout: 20000
           interval: 1000
       - name: Wait for SQS
         uses: nev7n/wait_for_response@v1
         with:
-          url: 'http://localhost:4576'
+          url: "http://localhost:4576"
           responseCode: 400
           timeout: 20000
           interval: 1000
@@ -57,7 +57,7 @@ jobs:
       - name: serverless deploy
         uses: serverless/github-action@master
         with:
-          args: deploy
+          args: deploy --stage production
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
