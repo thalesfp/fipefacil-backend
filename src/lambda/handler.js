@@ -11,7 +11,7 @@ const apiTimeout = (lambdaRemainingTimeInMills) =>
 const checkForUpdateHandler = async (event, context) => {
   try {
     await checkForUpdate({
-      apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+      apiTimeout: apiTimeout(context.getRemainingTimeInMillis()),
     });
 
     return {
@@ -36,7 +36,7 @@ const startUpdateReferenceHandler = async (event, context) => {
       messages.map(async (message) =>
         startUpdateReference({
           reference: JSON.parse(message.body),
-          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMillis()),
         }),
       ),
     );
@@ -67,7 +67,7 @@ const startUpdateBrandHandler = async (event, context) => {
       messages.map(async (message) =>
         startUpdateBrand({
           brand: JSON.parse(message.body),
-          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMillis()),
         }),
       ),
     );
@@ -98,7 +98,7 @@ const startUpdateModelHandler = async (event, context) => {
       messages.map(async (message) =>
         startUpdateModel({
           model: JSON.parse(message.body),
-          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMillis()),
         }),
       ),
     );
@@ -129,7 +129,7 @@ const startUpdateYearModelHandler = async (event, context) => {
       messages.map(async (message) =>
         startUpdateYearModel({
           yearModel: JSON.parse(message.body),
-          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMillis()),
         }),
       ),
     );
