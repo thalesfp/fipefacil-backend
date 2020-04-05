@@ -1,14 +1,12 @@
 service: fipefacil
-app: fipefacil
-org: thalesfp
 
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: dev
-  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  stackName: fipefacil-backend
   memorySize: 256
-  # cfnRole: arn:aws:iam:678634121400:role/role
   environment:
     PRICES_TABLE: prices
     REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
