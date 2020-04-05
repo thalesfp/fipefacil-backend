@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -51,3 +51,10 @@ jobs:
           MODELS_QUEUE: http://localhost:4576/queue/models
           YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels
           PRICES_TABLE: prices_test
+      - name: Deploy
+        uses: serverless/github-action@master
+        with:
+          args: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
