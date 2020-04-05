@@ -23,24 +23,22 @@ jobs:
           CI: true
       - name: Run Docker Compose
         run: docker-compose up -d
-#       - name: Wait for DynamoDB
-#         uses: nev7n/wait_for_response@v1
-#         with:
-#           url: 'http://localhost:4569'
-#           responseCode: 502
-#           timeout: 20000
-#           interval: 1000
-      - name: Waiting for all LocalStack services to be ready
-        run: npx wait-port -t 20000 http://localhost:8080/health
-#       - name: Wait for SQS
-#         run: npx wait-port -t 20000 http://localhost:4576
-#       - name: Wait for SQS
-#         uses: nev7n/wait_for_response@v1
-#         with:
-#           url: 'http://localhost:4576'
-#           responseCode: 400
-#           timeout: 20000
-#           interval: 1000
+      - name: Wait for DynamoDB
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: 'http://localhost:4569'
+          responseCode: 502
+          timeout: 20000
+          interval: 1000
+      - name: Wait for SQS
+        run: npx wait-port -t 20000 http://localhost:4576
+      - name: Wait for SQS
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: 'http://localhost:4576'
+          responseCode: 400
+          timeout: 20000
+          interval: 1000
       - name: Run Integration Tests
         run: npm run test:integration
         env:
@@ -57,9 +55,6 @@ jobs:
           PRICES_TABLE: prices_test
       - name: Deploy
         run: npx sls deploy
-#         uses: serverless/github-action@master
-#         with:
-#           args: deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
