@@ -30,10 +30,10 @@ jobs:
 #           responseCode: 502
 #           timeout: 20000
 #           interval: 1000
-      - name: Wait for DynamoDB
-        run: npx wait-port -t 20000 http://localhost:4569
-      - name: Wait for SQS
-        run: npx wait-port -t 20000 http://localhost:4576
+      - name: Waiting for all LocalStack services to be ready
+        run: npx wait-port -t 20000 http://localhost:8080/health
+#       - name: Wait for SQS
+#         run: npx wait-port -t 20000 http://localhost:4576
 #       - name: Wait for SQS
 #         uses: nev7n/wait_for_response@v1
 #         with:
