@@ -5,9 +5,14 @@ const { startUpdateBrand } = require("../components/startUpdateBrand");
 const { startUpdateModel } = require("../components/startUpdateModel");
 const { startUpdateYearModel } = require("../components/startUpdateYearModel");
 
-const checkForUpdateHandler = async () => {
+const apiTimeout = (lambdaRemainingTimeInMills) =>
+  lambdaRemainingTimeInMills - 500;
+
+const checkForUpdateHandler = async (event, context) => {
   try {
-    await checkForUpdate();
+    await checkForUpdate({
+      apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+    });
 
     return {
       statusCode: 200,
@@ -17,19 +22,22 @@ const checkForUpdateHandler = async () => {
     console.error(error);
 
     return {
-      statusCode: 400,
+      statusCode: 500,
       body: JSON.stringify(error),
     };
   }
 };
 
-const startUpdateReferenceHandler = async (event) => {
+const startUpdateReferenceHandler = async (event, context) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateReference(JSON.parse(message.body)),
+        startUpdateReference({
+          reference: JSON.parse(message.body),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+        }),
       ),
     );
 
@@ -45,19 +53,22 @@ const startUpdateReferenceHandler = async (event) => {
     console.error(error);
 
     return {
-      statusCode: 400,
+      statusCode: 500,
       body: JSON.stringify(error),
     };
   }
 };
 
-const startUpdateBrandHandler = async (event) => {
+const startUpdateBrandHandler = async (event, context) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateBrand(JSON.parse(message.body)),
+        startUpdateBrand({
+          brand: JSON.parse(message.body),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+        }),
       ),
     );
 
@@ -73,19 +84,22 @@ const startUpdateBrandHandler = async (event) => {
     console.error(error);
 
     return {
-      statusCode: 400,
+      statusCode: 500,
       body: JSON.stringify(error),
     };
   }
 };
 
-const startUpdateModelHandler = async (event) => {
+const startUpdateModelHandler = async (event, context) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateModel(JSON.parse(message.body)),
+        startUpdateModel({
+          model: JSON.parse(message.body),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+        }),
       ),
     );
 
@@ -101,19 +115,22 @@ const startUpdateModelHandler = async (event) => {
     console.error(error);
 
     return {
-      statusCode: 400,
+      statusCode: 500,
       body: JSON.stringify(error),
     };
   }
 };
 
-const startUpdateYearModelHandler = async (event) => {
+const startUpdateYearModelHandler = async (event, context) => {
   try {
     const { Records: messages } = event;
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateYearModel(JSON.parse(message.body)),
+        startUpdateYearModel({
+          yearModel: JSON.parse(message.body),
+          apiTimeout: apiTimeout(context.getRemainingTimeInMills()),
+        }),
       ),
     );
 
@@ -129,7 +146,7 @@ const startUpdateYearModelHandler = async (event) => {
     console.error(error);
 
     return {
-      statusCode: 400,
+      statusCode: 500,
       body: JSON.stringify(error),
     };
   }

@@ -4,23 +4,29 @@ const { createPrice } = require("../repository/prices");
 const { normalizeYearModel } = require("../transformers/valuesFromRemoteApi");
 
 const startUpdateYearModel = async ({
-  referenceId,
-  vehicleType,
-  brandId,
-  modelId,
-  yearModelId,
-  yearModelYear,
-  yearModelFuelType,
-}) => {
-  await createYearModel(yearModelId, yearModelYear, yearModelFuelType, modelId);
-
-  const yearModelDetails = await getYearModel({
+  yearModel: {
     referenceId,
     vehicleType,
     brandId,
     modelId,
+    yearModelId,
     yearModelYear,
     yearModelFuelType,
+  },
+  apiTimeout,
+}) => {
+  await createYearModel(yearModelId, yearModelYear, yearModelFuelType, modelId);
+
+  const yearModelDetails = await getYearModel({
+    params: {
+      referenceId,
+      vehicleType,
+      brandId,
+      modelId,
+      yearModelYear,
+      yearModelFuelType,
+    },
+    timeout: apiTimeout,
   });
 
   const yearModelNormalized = normalizeYearModel(yearModelDetails);

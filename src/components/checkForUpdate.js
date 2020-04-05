@@ -12,8 +12,8 @@ const getLastRemoteReference = (references) =>
     [],
   );
 
-const checkForUpdate = async () => {
-  const references = await getReferences();
+const checkForUpdate = async ({ apiTimeout }) => {
+  const references = await getReferences({ timeout: apiTimeout });
 
   const referencesNormalized = normalizeReferences(references);
 

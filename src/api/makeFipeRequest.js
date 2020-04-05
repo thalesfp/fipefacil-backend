@@ -2,8 +2,13 @@ const https = require("https");
 const querystring = require("querystring");
 
 const BASE_URL = "veiculos.fipe.org.br";
+const DEFAULT_TIMEOUT_IN_MS = 10000;
 
-const makeRequest = async (path, body) =>
+const makeFipeRequest = async ({
+  path,
+  body = {},
+  timeout = DEFAULT_TIMEOUT_IN_MS,
+}) =>
   new Promise((resolve, reject) => {
     const postData = querystring.stringify(body);
 
@@ -17,6 +22,7 @@ const makeRequest = async (path, body) =>
         "Content-Type": "application/x-www-form-urlencoded",
         "Content-Length": Buffer.byteLength(postData),
       },
+      timeout,
     };
 
     const req = https.request(options, (res) => {
@@ -34,6 +40,10 @@ const makeRequest = async (path, body) =>
       });
     });
 
+    req.on("timeout", () => {
+      req.abort();
+    });
+
     req.on("error", (e) => {
       reject(e.message);
     });
@@ -43,4 +53,4 @@ const makeRequest = async (path, body) =>
     req.end();
   });
 
-module.exports = { makeRequest };
+module.exports = { makeFipeRequest };

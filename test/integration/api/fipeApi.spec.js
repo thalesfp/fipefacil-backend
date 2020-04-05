@@ -5,7 +5,7 @@ describe("fipeApi", () => {
   it("should request references", async () => {
     expect.assertions(1);
 
-    expect(await fipeApi.getReferences()).toContainEqual({
+    expect(await fipeApi.getReferences({})).toContainEqual({
       Codigo: 252,
       Mes: "março/2020 ",
     });
@@ -16,8 +16,7 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getBrands({
-        referenceId: 252,
-        vehicleType: vehicleType.car,
+        params: { referenceId: 252, vehicleType: vehicleType.car },
       }),
     ).toContainEqual({ Label: "Suzuki", Value: "55" });
   });
@@ -27,8 +26,10 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getBrands({
-        referenceId: 252,
-        vehicleType: vehicleType.motorcycle,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.motorcycle,
+        },
       }),
     ).toContainEqual({ Label: "SUZUKI", Value: "99" });
   });
@@ -38,9 +39,11 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getModels({
-        referenceId: 252,
-        vehicleType: vehicleType.car,
-        brandId: 55,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.car,
+          brandId: 55,
+        },
       }),
     ).toContainEqual({ Label: "Vitara JLX 2.0 V6 4x4", Value: 2200 });
   });
@@ -50,9 +53,11 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getModels({
-        referenceId: 252,
-        vehicleType: vehicleType.motorcycle,
-        brandId: 99,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.motorcycle,
+          brandId: 99,
+        },
       }),
     ).toContainEqual({ Label: "BURGMAN 650 EXECUTIVE/ 650", Value: 4581 });
   });
@@ -62,10 +67,12 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getYearModels({
-        referenceId: 252,
-        vehicleType: vehicleType.car,
-        brandId: 55,
-        modelId: 2200,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.car,
+          brandId: 55,
+          modelId: 2200,
+        },
       }),
     ).toContainEqual({ Label: "1998 Gasolina", Value: "1998-1" });
   });
@@ -75,10 +82,12 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getYearModels({
-        referenceId: 252,
-        vehicleType: vehicleType.motorcycle,
-        brandId: 99,
-        modelId: 4581,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.motorcycle,
+          brandId: 99,
+          modelId: 4581,
+        },
       }),
     ).toContainEqual({ Label: "2019", Value: "2019-1" });
   });
@@ -88,12 +97,14 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getYearModel({
-        referenceId: 252,
-        vehicleType: vehicleType.car,
-        brandId: 55,
-        modelId: 2200,
-        yearModelYear: 1998,
-        yearModelFuelType: 1,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.car,
+          brandId: 55,
+          modelId: 2200,
+          yearModelYear: 1998,
+          yearModelFuelType: 1,
+        },
       }),
     ).toMatchObject({
       AnoModelo: 1998,
@@ -114,12 +125,14 @@ describe("fipeApi", () => {
 
     expect(
       await fipeApi.getYearModel({
-        referenceId: 252,
-        vehicleType: vehicleType.motorcycle,
-        brandId: 99,
-        modelId: 4581,
-        yearModelYear: 2019,
-        yearModelFuelType: 1,
+        params: {
+          referenceId: 252,
+          vehicleType: vehicleType.motorcycle,
+          brandId: 99,
+          modelId: 4581,
+          yearModelYear: 2019,
+          yearModelFuelType: 1,
+        },
       }),
     ).toMatchObject({
       AnoModelo: 2019,
@@ -133,5 +146,13 @@ describe("fipeApi", () => {
       TipoVeiculo: 2,
       Valor: "R$ 44.009,00",
     });
+  });
+
+  it("should have timeout error", async () => {
+    expect.assertions(1);
+
+    await expect(fipeApi.getReferences({ timeout: 1 })).rejects.toEqual(
+      "socket hang up",
+    );
   });
 });

@@ -43,7 +43,7 @@ describe("startUpdateYearModel", () => {
     beforeAll(async () => {
       MockDate.set("2020-01-01");
       await createPricesTable();
-      await startUpdateYearModel(yearModel);
+      await startUpdateYearModel({ yearModel });
     });
 
     afterAll(async () => {

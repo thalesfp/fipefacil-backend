@@ -9,7 +9,7 @@ const {
 const { vehicleType } = require("../../../src/constants/vehicleType");
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getBrands: ({ vehicleType: vehicleTypeParam }) =>
+  getBrands: ({ params: { vehicleType: vehicleTypeParam } }) =>
     vehicleTypeParam === 1
       ? Promise.resolve([
           {
@@ -49,7 +49,7 @@ describe("startUpdateReference", () => {
 
     const reference = { id: 252, month: 3, year: 2020 };
 
-    await startUpdateReference(reference);
+    await startUpdateReference({ reference });
 
     const { Messages: messages } = await receiveMessage(queueUrl, 4);
 

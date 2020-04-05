@@ -4,14 +4,15 @@ const { createBrand } = require("../repository/brands");
 const { normalizeModels } = require("../transformers/valuesFromRemoteApi");
 
 const startUpdateBrand = async ({
-  referenceId,
-  vehicleType,
-  brandId,
-  brandName,
+  brand: { referenceId, vehicleType, brandId, brandName },
+  apiTimeout,
 }) => {
   await createBrand(brandId, brandName, vehicleType);
 
-  const models = await getModels({ referenceId, vehicleType, brandId });
+  const models = await getModels({
+    params: { referenceId, vehicleType, brandId },
+    timeout: apiTimeout,
+  });
   const normalizedModels = normalizeModels(models);
 
   return Promise.all(

@@ -4,19 +4,19 @@ const { sendMessage } = require("../queue/yearModelsQueue");
 const { normalizeYearModels } = require("../transformers/valuesFromRemoteApi");
 
 const startUpdateModel = async ({
-  referenceId,
-  vehicleType,
-  brandId,
-  modelId,
-  modelName,
+  model: { referenceId, vehicleType, brandId, modelId, modelName },
+  apiTimeout,
 }) => {
   await createModel(modelId, modelName, brandId);
 
   const yearModels = await getYearModels({
-    referenceId,
-    vehicleType,
-    brandId,
-    modelId,
+    params: {
+      referenceId,
+      vehicleType,
+      brandId,
+      modelId,
+    },
+    timeout: apiTimeout,
   });
   const normalizedYearModels = normalizeYearModels(yearModels);
 

@@ -51,7 +51,7 @@ describe("checkForUpdate", () => {
     it("should send last remote reference to queue", async () => {
       expect.assertions(1);
 
-      await checkForUpdate();
+      await checkForUpdate({});
 
       const message = await receiveMessage(queueUrl);
 
@@ -67,7 +67,7 @@ describe("checkForUpdate", () => {
     it("should update database with remote reference", async () => {
       expect.assertions(1);
 
-      await checkForUpdate();
+      await checkForUpdate({});
 
       const currentReferenceId = await getCurrentReferenceId();
 
@@ -85,7 +85,7 @@ describe("checkForUpdate", () => {
       await createReference(250, 1, 2020);
       await createReference(249, 12, 2019);
 
-      await expect(checkForUpdate()).rejects.toThrow(Error);
+      await expect(checkForUpdate({})).rejects.toThrow(Error);
       expect(referencesQueueSpy).toBeCalledTimes(1);
 
       const currentReferenceId = await getCurrentReferenceId();
@@ -99,7 +99,7 @@ describe("checkForUpdate", () => {
 
       await createReference(252, 3, 2020);
 
-      await checkForUpdate();
+      await checkForUpdate({});
 
       const message = await receiveMessage(queueUrl);
 
@@ -115,7 +115,7 @@ describe("checkForUpdate", () => {
       await createReference(250, 1, 2020);
       await createReference(249, 12, 2019);
 
-      await checkForUpdate();
+      await checkForUpdate({});
 
       const message = await receiveMessage(queueUrl);
 
@@ -135,7 +135,7 @@ describe("checkForUpdate", () => {
       await createReference(250, 1, 2020);
       await createReference(249, 12, 2019);
 
-      await checkForUpdate();
+      await checkForUpdate({});
 
       const currentReferenceId = await getCurrentReferenceId();
 

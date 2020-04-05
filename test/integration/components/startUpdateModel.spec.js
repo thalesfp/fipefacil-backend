@@ -46,7 +46,7 @@ describe("startUpdateModel", () => {
       MockDate.set("2020-01-01");
       await createPricesTable();
       await createQueue(queueUrl);
-      await startUpdateModel(model);
+      await startUpdateModel({ model });
     });
 
     afterAll(async () => {

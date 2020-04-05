@@ -1,43 +1,72 @@
-const { makeRequest } = require("./makeRequest");
+const { makeFipeRequest } = require("./makeFipeRequest");
 
 module.exports = {
-  getReferences: async () => makeRequest("/ConsultarTabelaDeReferencia"),
-  getBrands: async ({ referenceId, vehicleType }) =>
-    makeRequest("/ConsultarMarcas", {
-      codigoTabelaReferencia: referenceId,
-      codigoTipoVeiculo: vehicleType,
+  getReferences: async ({ timeout }) =>
+    makeFipeRequest({
+      path: "/ConsultarTabelaDeReferencia",
+      timeout,
     }),
-  getModels: async ({ referenceId, vehicleType, brandId }) => {
-    const response = await makeRequest("/ConsultarModelos", {
-      codigoTabelaReferencia: referenceId,
-      codigoTipoVeiculo: vehicleType,
-      codigoMarca: brandId,
+  getBrands: async ({ params: { referenceId, vehicleType }, timeout }) =>
+    makeFipeRequest({
+      path: "/ConsultarMarcas",
+      body: {
+        codigoTabelaReferencia: referenceId,
+        codigoTipoVeiculo: vehicleType,
+      },
+      timeout,
+    }),
+  getModels: async ({
+    params: { referenceId, vehicleType, brandId },
+    timeout,
+  }) => {
+    const response = await makeFipeRequest({
+      path: "/ConsultarModelos",
+      body: {
+        codigoTabelaReferencia: referenceId,
+        codigoTipoVeiculo: vehicleType,
+        codigoMarca: brandId,
+      },
+      timeout,
     });
 
     return response.Modelos;
   },
-  getYearModels: async ({ referenceId, vehicleType, brandId, modelId }) =>
-    makeRequest("/ConsultarAnoModelo", {
-      codigoTabelaReferencia: referenceId,
-      codigoTipoVeiculo: vehicleType,
-      codigoMarca: brandId,
-      codigoModelo: modelId,
+  getYearModels: async ({
+    params: { referenceId, vehicleType, brandId, modelId },
+    timeout,
+  }) =>
+    makeFipeRequest({
+      path: "/ConsultarAnoModelo",
+      body: {
+        codigoTabelaReferencia: referenceId,
+        codigoTipoVeiculo: vehicleType,
+        codigoMarca: brandId,
+        codigoModelo: modelId,
+      },
+      timeout,
     }),
   getYearModel: async ({
-    referenceId,
-    vehicleType,
-    brandId,
-    modelId,
-    yearModelYear,
-    yearModelFuelType,
+    params: {
+      referenceId,
+      vehicleType,
+      brandId,
+      modelId,
+      yearModelYear,
+      yearModelFuelType,
+    },
+    timeout,
   }) =>
-    makeRequest("/ConsultarValorComTodosParametros", {
-      codigoTabelaReferencia: referenceId,
-      codigoTipoVeiculo: vehicleType,
-      codigoMarca: brandId,
-      codigoModelo: modelId,
-      anoModelo: yearModelYear,
-      codigoTipoCombustivel: yearModelFuelType,
-      tipoConsulta: "tradicional",
+    makeFipeRequest({
+      path: "/ConsultarValorComTodosParametros",
+      body: {
+        codigoTabelaReferencia: referenceId,
+        codigoTipoVeiculo: vehicleType,
+        codigoMarca: brandId,
+        codigoModelo: modelId,
+        anoModelo: yearModelYear,
+        codigoTipoCombustivel: yearModelFuelType,
+        tipoConsulta: "tradicional",
+      },
+      timeout,
     }),
 };
