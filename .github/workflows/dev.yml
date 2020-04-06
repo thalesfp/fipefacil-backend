@@ -1,0 +1,58 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - name: Run Unit Tests
+        run: npm run test:unit
+        env:
+          CI: true
+      - name: Run API Tests
+        run: npm run test:api
+      - name: Run Docker Compose
+        run: docker-compose up -d
+      - name: Wait for DynamoDB
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: "http://localhost:4569"
+          responseCode: 502
+          timeout: 20000
+          interval: 1000
+      - name: Wait for SQS
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: "http://localhost:4576"
+          responseCode: 400
+          timeout: 20000
+          interval: 1000
+      - name: Run Integration Tests
+        run: npm run test:integration
+        env:
+          CI: true
+          AWS_ACCESS_KEY_ID: foobar
+          AWS_SECRET_ACCESS_KEY: foobar
+          AWS_REGION: us-east-1
+          AWS_DYNAMODB_ENDPOINT: http://localhost:4569
+          AWS_SQS_ENDPOINT: http://localhost:4576
+          REFERENCES_QUEUE: http://localhost:4576/queue/references
+          BRANDS_QUEUE: http://localhost:4576/queue/brands
+          MODELS_QUEUE: http://localhost:4576/queue/models
+          YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels
+          PRICES_TABLE: prices_test
