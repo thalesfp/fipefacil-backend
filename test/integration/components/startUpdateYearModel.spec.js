@@ -2,7 +2,7 @@ const MockDate = require("mockdate");
 
 const {
   startUpdateYearModel,
-} = require("../../../src/components/startUpdateYearModel");
+} = require("../../../src/components/updater/startUpdateYearModel");
 const {
   createPricesTable,
   dropPricesTable,
@@ -58,11 +58,9 @@ describe("startUpdateYearModel", () => {
 
       const expectedResponse = [
         {
-          pk: "MODEL#43",
           sk: "YEAR_MODEL#1995-1",
           fuelType: "1",
           year: "1995",
-          createdAt: "2020-01-01T00:00:00.000Z",
         },
       ];
 

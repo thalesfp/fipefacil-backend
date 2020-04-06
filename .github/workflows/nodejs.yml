@@ -24,6 +24,8 @@ jobs:
         run: npm run test:unit
         env:
           CI: true
+      - name: Run API Tests
+        run: npm run test:api
       - name: Run Docker Compose
         run: docker-compose up -d
       - name: Wait for DynamoDB

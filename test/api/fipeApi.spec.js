@@ -1,5 +1,5 @@
-const fipeApi = require("../../../src/api/fipeApi");
-const { vehicleType } = require("../../../src/constants/vehicleType");
+const fipeApi = require("../../src/api/fipeApi");
+const { vehicleType } = require("../../src/constants/vehicleType");
 
 describe("fipeApi", () => {
   it("should request references", async () => {

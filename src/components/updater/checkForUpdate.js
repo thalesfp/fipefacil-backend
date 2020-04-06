@@ -1,10 +1,12 @@
-const { getReferences } = require("../api/fipeApi");
+const { getReferences } = require("../../api/fipeApi");
 const {
   createReference,
   getCurrentReferenceId,
-} = require("../repository/references");
-const { sendMessage } = require("../queue/referencesQueue");
-const { normalizeReferences } = require("../transformers/valuesFromRemoteApi");
+} = require("../../repository/references");
+const { sendMessage } = require("../../queue/referencesQueue");
+const {
+  normalizeReferences,
+} = require("../../transformers/valuesFromRemoteApi");
 
 const getLastRemoteReference = (references) =>
   references.reduce(

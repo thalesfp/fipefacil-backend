@@ -1,7 +1,9 @@
-const { getYearModel } = require("../api/fipeApi");
-const { createYearModel } = require("../repository/yearModels");
-const { createPrice } = require("../repository/prices");
-const { normalizeYearModel } = require("../transformers/valuesFromRemoteApi");
+const { getYearModel } = require("../../api/fipeApi");
+const { createYearModel } = require("../../repository/yearModels");
+const { createPrice } = require("../../repository/prices");
+const {
+  normalizeYearModel,
+} = require("../../transformers/valuesFromRemoteApi");
 
 const startUpdateYearModel = async ({
   yearModel: {

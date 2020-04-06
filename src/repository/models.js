@@ -28,11 +28,13 @@ const getModels = async (brandId) => {
         S: "MODEL#",
       },
     },
+    ProjectionExpression: "sk, #nameAttr",
+    ExpressionAttributeNames: {
+      "#nameAttr": "name",
+    },
   };
 
   const { Items: response } = await databaseManager.query(params).promise();
-
-  if (response.length === 0) return null;
 
   return response.map((model) => unmarshall(model));
 };

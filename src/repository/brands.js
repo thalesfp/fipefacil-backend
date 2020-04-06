@@ -38,7 +38,31 @@ const getBrand = async (vehicleTypeParam, id) => {
   return response.map((brand) => unmarshall(brand));
 };
 
+const getBrands = async (vehicleTypeParam) => {
+  const params = {
+    TableName: PRICES_TABLE,
+    KeyConditionExpression: "pk = :pk AND begins_with(sk, :sk)",
+    ExpressionAttributeValues: {
+      ":pk": {
+        S: vehicleTypeToString(vehicleTypeParam),
+      },
+      ":sk": {
+        S: `BRAND#`,
+      },
+    },
+    ProjectionExpression: "sk, #nameAttr",
+    ExpressionAttributeNames: {
+      "#nameAttr": "name",
+    },
+  };
+
+  const { Items: response } = await databaseManager.query(params).promise();
+
+  return response.map((brand) => unmarshall(brand));
+};
+
 module.exports = {
   createBrand,
   getBrand,
+  getBrands,
 };

@@ -1,7 +1,9 @@
-const { getYearModels } = require("../api/fipeApi");
-const { createModel } = require("../repository/models");
-const { sendMessage } = require("../queue/yearModelsQueue");
-const { normalizeYearModels } = require("../transformers/valuesFromRemoteApi");
+const { getYearModels } = require("../../api/fipeApi");
+const { createModel } = require("../../repository/models");
+const { sendMessage } = require("../../queue/yearModelsQueue");
+const {
+  normalizeYearModels,
+} = require("../../transformers/valuesFromRemoteApi");
 
 const startUpdateModel = async ({
   model: { referenceId, vehicleType, brandId, modelId, modelName },

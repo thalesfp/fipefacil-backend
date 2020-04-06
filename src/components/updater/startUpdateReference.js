@@ -1,7 +1,7 @@
-const { getBrands } = require("../api/fipeApi");
-const { vehicleType } = require("../constants/vehicleType");
-const { sendMessage } = require("../queue/brandsQueue");
-const { normalizeBrands } = require("../transformers/valuesFromRemoteApi");
+const { getBrands } = require("../../api/fipeApi");
+const { vehicleType } = require("../../constants/vehicleType");
+const { sendMessage } = require("../../queue/brandsQueue");
+const { normalizeBrands } = require("../../transformers/valuesFromRemoteApi");
 
 const startUpdateReference = async ({ reference, apiTimeout }) => {
   return Promise.all(

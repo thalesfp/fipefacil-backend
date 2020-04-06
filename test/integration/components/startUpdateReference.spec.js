@@ -1,6 +1,6 @@
 const {
   startUpdateReference,
-} = require("../../../src/components/startUpdateReference");
+} = require("../../../src/components/updater/startUpdateReference");
 const {
   createQueue,
   deleteQueue,

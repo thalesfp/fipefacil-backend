@@ -2,7 +2,7 @@ const MockDate = require("mockdate");
 
 const {
   startUpdateBrand,
-} = require("../../../src/components/startUpdateBrand");
+} = require("../../../src/components/updater/startUpdateBrand");
 const {
   createPricesTable,
   dropPricesTable,

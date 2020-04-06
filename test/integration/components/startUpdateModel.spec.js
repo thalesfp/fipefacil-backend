@@ -1,8 +1,6 @@
-const MockDate = require("mockdate");
-
 const {
   startUpdateModel,
-} = require("../../../src/components/startUpdateModel");
+} = require("../../../src/components/updater/startUpdateModel");
 const {
   createPricesTable,
   dropPricesTable,
@@ -43,7 +41,6 @@ describe("startUpdateModel", () => {
     };
 
     beforeAll(async () => {
-      MockDate.set("2020-01-01");
       await createPricesTable();
       await createQueue(queueUrl);
       await startUpdateModel({ model });
@@ -52,7 +49,6 @@ describe("startUpdateModel", () => {
     afterAll(async () => {
       await dropPricesTable();
       await deleteQueue(queueUrl);
-      MockDate.reset();
     });
 
     it("should save the model", async () => {
@@ -62,10 +58,8 @@ describe("startUpdateModel", () => {
 
       const expectedResponse = [
         {
-          pk: "BRAND#61",
           sk: "MODEL#43",
           name: "100 2.8 V6",
-          createdAt: "2020-01-01T00:00:00.000Z",
         },
       ];
 
