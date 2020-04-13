@@ -2,7 +2,7 @@ service: fipefacil
 
 custom:
   functions:
-    reservedConcurrency: 10
+    reservedConcurrency: 5
     batchSize: 1
     timeout: 15
   enterprise:
