@@ -3,11 +3,11 @@ const { vehicleTypeToString } = require("../constants/vehicleType");
 
 const { PRICES_TABLE } = process.env;
 
-const createBrand = async (id, name, vehicleTypeParam) => {
+const createBrand = async ({ id, name, vehicleType }) => {
   const params = {
     TableName: PRICES_TABLE,
     Item: marshall({
-      pk: vehicleTypeToString(vehicleTypeParam),
+      pk: vehicleTypeToString(vehicleType),
       sk: `BRAND#${id}`,
       name,
       createdAt: new Date().toISOString(),

@@ -1,9 +1,13 @@
 /* eslint-disable no-console */
-const { checkForUpdate } = require("../components/checkForUpdate");
-const { startUpdateReference } = require("../components/startUpdateReference");
-const { startUpdateBrand } = require("../components/startUpdateBrand");
-const { startUpdateModel } = require("../components/startUpdateModel");
-const { startUpdateYearModel } = require("../components/startUpdateYearModel");
+const { checkForUpdate } = require("../components/updater/checkForUpdate");
+const {
+  startUpdateReference,
+} = require("../components/updater/startUpdateReference");
+const { startUpdateBrand } = require("../components/updater/startUpdateBrand");
+const { startUpdateModel } = require("../components/updater/startUpdateModel");
+const {
+  startUpdateYearModel,
+} = require("../components/updater/startUpdateYearModel");
 
 const apiTimeout = (lambdaRemainingTimeInMills) =>
   lambdaRemainingTimeInMills - 500;

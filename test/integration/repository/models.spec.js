@@ -29,14 +29,38 @@ describe("repository", () => {
 
         const [model1, model2, model3, model4] = generateFixture("model", 4);
 
-        await createBrand(brand1.id, brand1.name, vehicleType.car);
-        await createBrand(brand2.id, brand2.name, vehicleType.car);
+        await createBrand({
+          id: brand1.id,
+          name: brand1.name,
+          vehicleType: vehicleType.car,
+        });
+        await createBrand({
+          id: brand2.id,
+          name: brand2.name,
+          vehicleType: vehicleType.car,
+        });
 
-        await createModel(model1.id, model1.name, brand1.id);
-        await createModel(model2.id, model2.name, brand1.id);
-        await createModel(model3.id, model3.name, brand1.id);
+        await createModel({
+          id: model1.id,
+          name: model1.name,
+          brandId: brand1.id,
+        });
+        await createModel({
+          id: model2.id,
+          name: model2.name,
+          brandId: brand1.id,
+        });
+        await createModel({
+          id: model3.id,
+          name: model3.name,
+          brandId: brand1.id,
+        });
 
-        await createModel(model4.id, model4.name, brand2.id);
+        await createModel({
+          id: model4.id,
+          name: model4.name,
+          brandId: brand2.id,
+        });
 
         const response = await getModels(brand1.id);
 

@@ -7,7 +7,7 @@ const startUpdateBrand = async ({
   brand: { referenceId, vehicleType, brandId, brandName },
   apiTimeout,
 }) => {
-  await createBrand(brandId, brandName, vehicleType);
+  await createBrand({ id: brandId, name: brandName, vehicleType });
 
   const models = await getModels({
     params: { referenceId, vehicleType, brandId },

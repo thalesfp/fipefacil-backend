@@ -37,7 +37,22 @@ const normalizeYearModels = (yearModels) =>
     return { id: yearModel.Value, year, fuelType };
   });
 
-const normalizeYearModel = (yearModel) => ({ value: yearModel.Valor });
+const normalizePrice = (price) => {
+  const normalizedPrice = price.replace(/[^0-9,]/g, "").replace(/,/, ".");
+
+  return parseFloat(normalizedPrice);
+};
+
+const normalizeDateReferenceFromPrice = (mesReferencia) => {
+  const [month, year] = mesReferencia.trim().split(" de ");
+
+  return { month: months[String(month)], year: parseInt(year, 10) };
+};
+
+const normalizeYearModel = (yearModel) => ({
+  value: normalizePrice(yearModel.Valor),
+  reference: normalizeDateReferenceFromPrice(yearModel.MesReferencia),
+});
 
 module.exports = {
   normalizeReferences,
@@ -45,4 +60,6 @@ module.exports = {
   normalizeModels,
   normalizeYearModels,
   normalizeYearModel,
+  normalizePrice,
+  normalizeDateReferenceFromPrice,
 };

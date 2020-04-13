@@ -1,6 +1,8 @@
 const { getYearModel } = require("../../api/fipeApi");
-const { createYearModel } = require("../../repository/yearModels");
-const { createPrice } = require("../../repository/prices");
+const {
+  createYearModel,
+  updateYearModelCurrentPrice,
+} = require("../../repository/yearModels");
 const {
   normalizeYearModel,
 } = require("../../transformers/valuesFromRemoteApi");
@@ -17,7 +19,12 @@ const startUpdateYearModel = async ({
   },
   apiTimeout,
 }) => {
-  await createYearModel(yearModelId, yearModelYear, yearModelFuelType, modelId);
+  await createYearModel({
+    id: yearModelId,
+    year: yearModelYear,
+    fuelType: yearModelFuelType,
+    modelId,
+  });
 
   const yearModelDetails = await getYearModel({
     params: {
@@ -33,12 +40,13 @@ const startUpdateYearModel = async ({
 
   const yearModelNormalized = normalizeYearModel(yearModelDetails);
 
-  await createPrice(
+  await updateYearModelCurrentPrice({
     modelId,
     yearModelId,
-    referenceId,
-    yearModelNormalized.value,
-  );
+    currentPrice: yearModelNormalized.value,
+    year: yearModelNormalized.reference.year,
+    month: yearModelNormalized.reference.month,
+  });
 };
 
 module.exports = { startUpdateYearModel };

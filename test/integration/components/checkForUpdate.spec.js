@@ -5,25 +5,12 @@ const {
   createPricesTable,
   dropPricesTable,
 } = require("../../../src/repository/databaseManager");
-const {
-  createReference,
-  getCurrentReferenceId,
-} = require("../../../src/repository/references");
+const { createReference } = require("../../../src/repository/references");
 const {
   createQueue,
   deleteQueue,
   receiveMessage,
 } = require("../../../src/queue/queueManager");
-const referencesQueue = require("../../../src/queue/referencesQueue");
-
-jest.mock("../../../src/queue/referencesQueue", () => {
-  const actualModule = jest.requireActual("../../../src/queue/referencesQueue");
-
-  return {
-    ...actualModule,
-    sendMessage: jest.fn().mockImplementation(actualModule.sendMessage),
-  };
-});
 
 jest.mock("../../../src/api/fipeApi.js", () => ({
   getReferences: () =>
@@ -41,7 +28,6 @@ describe("checkForUpdate", () => {
   beforeEach(async () => {
     await createPricesTable();
     await createQueue(queueUrl);
-    jest.clearAllMocks();
   });
 
   afterEach(async () => {
@@ -65,41 +51,13 @@ describe("checkForUpdate", () => {
 
       expect(message.Messages[0].Body).toEqual(expectedResponse);
     });
-
-    it("should update database with remote reference", async () => {
-      expect.assertions(1);
-
-      await checkForUpdate({});
-
-      const currentReferenceId = await getCurrentReferenceId();
-
-      expect(currentReferenceId).toEqual(252);
-    });
-
-    it("should not update database when queue fails", async () => {
-      expect.assertions(3);
-
-      const referencesQueueSpy = jest
-        .spyOn(referencesQueue, "sendMessage")
-        .mockRejectedValueOnce(new Error("Queue Error"));
-
-      await createReference(251, 2, 2020);
-      await createReference(250, 1, 2020);
-      await createReference(249, 12, 2019);
-
-      await expect(checkForUpdate({})).rejects.toThrow(Error);
-      expect(referencesQueueSpy).toBeCalledTimes(1);
-
-      const currentReferenceId = await getCurrentReferenceId();
-      expect(currentReferenceId).toEqual(251);
-    });
   });
 
   describe("when database is updated", () => {
     it("should not send last remote reference", async () => {
       expect.assertions(1);
 
-      await createReference(252, 3, 2020);
+      await createReference({ id: 252, month: 3, year: 2020 });
 
       await checkForUpdate({});
 
@@ -113,9 +71,9 @@ describe("checkForUpdate", () => {
     it("should send last remote reference to queue", async () => {
       expect.assertions(1);
 
-      await createReference(251, 2, 2020);
-      await createReference(250, 1, 2020);
-      await createReference(249, 12, 2019);
+      await createReference({ id: 251, month: 2, year: 2020 });
+      await createReference({ id: 250, month: 1, year: 2020 });
+      await createReference({ id: 249, month: 12, year: 2019 });
 
       await checkForUpdate({});
 
@@ -128,20 +86,6 @@ describe("checkForUpdate", () => {
       });
 
       expect(message.Messages[0].Body).toEqual(expectedResponse);
-    });
-
-    it("should update database with remote reference", async () => {
-      expect.assertions(1);
-
-      await createReference(251, 2, 2020);
-      await createReference(250, 1, 2020);
-      await createReference(249, 12, 2019);
-
-      await checkForUpdate({});
-
-      const currentReferenceId = await getCurrentReferenceId();
-
-      expect(currentReferenceId).toEqual(252);
     });
   });
 });

@@ -2,7 +2,7 @@ const { databaseManager, marshall, unmarshall } = require("./databaseManager");
 
 const { PRICES_TABLE } = process.env;
 
-const createModel = async (id, name, brandId) => {
+const createModel = async ({ id, name, brandId }) => {
   const params = {
     TableName: PRICES_TABLE,
     Item: marshall({

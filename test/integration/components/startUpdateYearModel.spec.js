@@ -8,7 +8,6 @@ const {
   dropPricesTable,
 } = require("../../../src/repository/databaseManager");
 const { getYearModels } = require("../../../src/repository/yearModels");
-const { getPrices } = require("../../../src/repository/prices");
 const { vehicleType } = require("../../../src/constants/vehicleType");
 
 jest.mock("../../../src/api/fipeApi.js", () => ({
@@ -58,30 +57,16 @@ describe("startUpdateYearModel", () => {
 
       const expectedResponse = [
         {
-          sk: "YEAR_MODEL#1995-1",
           fuelType: "1",
           year: "1995",
+          currentPrice: 16728,
+          priceHistory: {
+            "2017-8": 16728,
+          },
         },
       ];
 
       expect(models).toEqual(expectedResponse);
-    });
-
-    it("should save the year model price", async () => {
-      expect.assertions(1);
-
-      const price = await getPrices(43, "1995-1");
-
-      const expectedResponse = [
-        {
-          pk: "MODEL#43_YEAR_MODEL#1995-1",
-          sk: "REF#252",
-          value: "R$ 16.728,00",
-          createdAt: "2020-01-01T00:00:00.000Z",
-        },
-      ];
-
-      expect(price).toEqual(expectedResponse);
     });
   });
 });

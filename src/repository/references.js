@@ -2,7 +2,7 @@ const { databaseManager, marshall, unmarshall } = require("./databaseManager");
 
 const { PRICES_TABLE } = process.env;
 
-const createReference = async (id, month, year) => {
+const createReference = async ({ id, month, year }) => {
   const params = {
     TableName: PRICES_TABLE,
     Item: marshall({

@@ -1,5 +1,7 @@
 const {
   normalizeReferences,
+  normalizePrice,
+  normalizeDateReferenceFromPrice,
 } = require("../../../src/transformers/valuesFromRemoteApi");
 
 describe("valuesFromRemoteApi", () => {
@@ -46,6 +48,30 @@ describe("valuesFromRemoteApi", () => {
       const results = normalizeReferences(fipeFormatSamples);
 
       expect(results).toEqual(expectedResult);
+    });
+  });
+
+  describe("normalizeDateReferenceFromPrice", () => {
+    it("should return month number and year", () => {
+      expect.assertions(1);
+
+      const results = normalizeDateReferenceFromPrice("abril de 2020 ");
+
+      expect(results).toEqual({ month: 4, year: 2020 });
+    });
+  });
+
+  describe("normalizePrice", () => {
+    it("should convert string price to number", () => {
+      expect.assertions(1);
+
+      expect(normalizePrice("R$ 16.728,00")).toEqual(16728);
+    });
+
+    it("should convert string price with cents to number", () => {
+      expect.assertions(1);
+
+      expect(normalizePrice("R$ 10.394.831,10")).toEqual(10394831.1);
     });
   });
 });

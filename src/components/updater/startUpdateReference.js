@@ -1,9 +1,12 @@
 const { getBrands } = require("../../api/fipeApi");
 const { vehicleType } = require("../../constants/vehicleType");
 const { sendMessage } = require("../../queue/brandsQueue");
+const { createReference } = require("../../repository/references");
 const { normalizeBrands } = require("../../transformers/valuesFromRemoteApi");
 
 const startUpdateReference = async ({ reference, apiTimeout }) => {
+  await createReference(reference);
+
   return Promise.all(
     [vehicleType.car, vehicleType.motorcycle].map(async (type) => {
       const brands = await getBrands({

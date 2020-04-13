@@ -9,7 +9,7 @@ const startUpdateModel = async ({
   model: { referenceId, vehicleType, brandId, modelId, modelName },
   apiTimeout,
 }) => {
-  await createModel(modelId, modelName, brandId);
+  await createModel({ id: modelId, name: modelName, brandId });
 
   const yearModels = await getYearModels({
     params: {

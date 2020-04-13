@@ -2,6 +2,11 @@ const {
   startUpdateReference,
 } = require("../../../src/components/updater/startUpdateReference");
 const {
+  createPricesTable,
+  dropPricesTable,
+} = require("../../../src/repository/databaseManager");
+const { getCurrentReferenceId } = require("../../../src/repository/references");
+const {
   createQueue,
   deleteQueue,
   receiveMessage,
@@ -37,10 +42,12 @@ describe("startUpdateReference", () => {
   const queueUrl = process.env.BRANDS_QUEUE;
 
   beforeEach(async () => {
+    await createPricesTable();
     await createQueue(queueUrl);
   });
 
   afterEach(async () => {
+    await dropPricesTable();
     await deleteQueue(queueUrl);
   });
 
@@ -85,5 +92,17 @@ describe("startUpdateReference", () => {
         }),
       ]),
     );
+  });
+
+  it("should update database with remote reference", async () => {
+    expect.assertions(1);
+
+    const reference = { id: 252, month: 3, year: 2020 };
+
+    await startUpdateReference({ reference });
+
+    const currentReferenceId = await getCurrentReferenceId();
+
+    expect(currentReferenceId).toEqual(252);
   });
 });

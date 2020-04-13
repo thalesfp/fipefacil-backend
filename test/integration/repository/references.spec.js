@@ -23,9 +23,9 @@ describe("repository", () => {
     it("should return greatest reference id", async () => {
       expect.assertions(1);
 
-      await createReference(1, 10, 2020);
-      await createReference(3, 30, 2020);
-      await createReference(2, 12, 2020);
+      await createReference({ id: 1, month: 10, year: 2020 });
+      await createReference({ id: 3, month: 30, year: 2020 });
+      await createReference({ id: 2, month: 12, year: 2020 });
 
       expect(await getCurrentReferenceId()).toEqual(3);
     });
