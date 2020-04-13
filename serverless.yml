@@ -29,6 +29,7 @@ provider:
       Action:
         - dynamodb:Query
         - dynamodb:PutItem
+        - dynamodb:UpdateItem
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:678634121400:table/prices
     - Effect: Allow
