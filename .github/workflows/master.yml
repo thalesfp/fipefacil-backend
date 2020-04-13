@@ -56,10 +56,10 @@ jobs:
           MODELS_QUEUE: http://localhost:4576/queue/models
           YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels
           PRICES_TABLE: prices_test
-      - name: serverless deploy
-        uses: serverless/github-action@master
-        with:
-          args: deploy --stage production
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: serverless deploy
+      #   uses: serverless/github-action@master
+      #   with:
+      #     args: deploy --stage production
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
