@@ -2,7 +2,7 @@ service: fipefacil
 
 custom:
   functions:
-    reservedConcurrency: 5
+    reservedConcurrency: 2
     batchSize: 1
     timeout: 15
   enterprise:
@@ -16,14 +16,15 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, "dev"}
-  region: us-east-1
+  region: sa-east-1
+  accountId: 678634121400
   memorySize: 256
   environment:
     PRICES_TABLE: prices
-    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/references
-    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/brands
-    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/models
-    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/678634121400/yearmodels
+    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/references
+    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/brands
+    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/models
+    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/yearmodels
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -31,31 +32,31 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
       Resource:
-        - arn:aws:dynamodb:${self:provider.region}:678634121400:table/prices
+        - arn:aws:dynamodb:${self:provider.region}:${self:provider.accountId}:table/prices
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:678634121400:references
+        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:references
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:678634121400:brands
+        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:brands
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:678634121400:models
+        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:models
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:678634121400:yearmodels
+        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:yearmodels
 
 functions:
   checkForUpdate:
@@ -68,7 +69,7 @@ functions:
     handler: src/lambda/handler.startUpdateReferenceHandler
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:678634121400:references
+          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:references
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateReference
@@ -79,7 +80,7 @@ functions:
     timeout: ${self:custom.functions.timeout}
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:678634121400:brands
+          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:brands
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateBrand
@@ -89,7 +90,7 @@ functions:
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:678634121400:models
+          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:models
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateModel
@@ -99,7 +100,7 @@ functions:
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:678634121400:yearmodels
+          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:yearmodels
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateYearModel
