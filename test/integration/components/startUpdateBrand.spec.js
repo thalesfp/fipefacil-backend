@@ -35,9 +35,9 @@ describe("startUpdateBrand", () => {
 
     const brand = {
       referenceId: 252,
-      vehicleType: vehicleType.motorcycle,
+      vehicleType: vehicleType.car,
       brandId: "61",
-      brandName: "AGRALE",
+      brandName: "AM Gen",
     };
 
     beforeAll(async () => {
@@ -60,9 +60,10 @@ describe("startUpdateBrand", () => {
 
       expect(persistedBrand).toEqual([
         {
-          pk: "motorcycles",
+          pk: "cars",
           sk: "BRAND#61",
-          name: "AGRALE",
+          name: "AM General",
+          popular: false,
           createdAt: "2020-01-01T00:00:00.000Z",
         },
       ]);
@@ -81,14 +82,14 @@ describe("startUpdateBrand", () => {
         expect.arrayContaining([
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: vehicleType.motorcycle,
+            vehicleType: vehicleType.car,
             brandId: "61",
             modelId: 43,
             modelName: "100 2.8 V6",
           }),
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: vehicleType.motorcycle,
+            vehicleType: vehicleType.car,
             brandId: "61",
             modelId: 44,
             modelName: "100 2.8 V6 Avant",

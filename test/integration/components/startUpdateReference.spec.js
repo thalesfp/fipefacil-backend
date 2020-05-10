@@ -14,9 +14,10 @@ const {
 const { vehicleType } = require("../../../src/constants/vehicleType");
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getBrands: ({ params: { vehicleType: vehicleTypeParam } }) =>
-    vehicleTypeParam === 1
-      ? Promise.resolve([
+  getBrands: ({ params: { vehicleType: vehicleTypeParam } }) => {
+    switch (vehicleTypeParam) {
+      case 1:
+        return Promise.resolve([
           {
             Label: "Acura",
             Value: "1",
@@ -25,8 +26,9 @@ jest.mock("../../../src/api/fipeApi", () => ({
             Label: "Agrale",
             Value: "2",
           },
-        ])
-      : Promise.resolve([
+        ]);
+      case 2:
+        return Promise.resolve([
           {
             Label: "ADLY",
             Value: "60",
@@ -35,7 +37,22 @@ jest.mock("../../../src/api/fipeApi", () => ({
             Label: "AGRALE",
             Value: "61",
           },
-        ]),
+        ]);
+      case 3:
+        return Promise.resolve([
+          {
+            Label: "BEPOBUS",
+            Value: "206",
+          },
+          {
+            Label: "CICCOBUS",
+            Value: "121",
+          },
+        ]);
+      default:
+        throw new Error(`Invalid vehicleTypeParam: ${vehicleTypeParam}`);
+    }
+  },
 }));
 
 describe("startUpdateReference", () => {
@@ -58,11 +75,11 @@ describe("startUpdateReference", () => {
 
     await startUpdateReference({ reference });
 
-    const { Messages: messages } = await receiveMessage(queueUrl, 4);
+    const { Messages: messages } = await receiveMessage(queueUrl, 6);
 
     const messagesJson = messages.map((message) => JSON.parse(message.Body));
 
-    expect(messagesJson.length).toEqual(4);
+    expect(messagesJson.length).toEqual(6);
 
     expect(messagesJson).toEqual(
       expect.arrayContaining([
@@ -89,6 +106,18 @@ describe("startUpdateReference", () => {
           brandName: "AGRALE",
           referenceId: 252,
           vehicleType: vehicleType.motorcycle,
+        }),
+        expect.objectContaining({
+          brandId: "206",
+          brandName: "BEPOBUS",
+          referenceId: 252,
+          vehicleType: vehicleType.trucks,
+        }),
+        expect.objectContaining({
+          brandId: "121",
+          brandName: "CICCOBUS",
+          referenceId: 252,
+          vehicleType: vehicleType.trucks,
         }),
       ]),
     );

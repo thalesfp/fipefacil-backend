@@ -8,28 +8,30 @@ const startUpdateReference = async ({ reference, apiTimeout }) => {
   await createReference(reference);
 
   return Promise.all(
-    [vehicleType.car, vehicleType.motorcycle].map(async (type) => {
-      const brands = await getBrands({
-        params: {
-          referenceId: reference.id,
-          vehicleType: type,
-        },
-        timeout: apiTimeout,
-      });
-
-      const normalizedBrands = normalizeBrands(brands);
-
-      await Promise.all(
-        normalizedBrands.map(async (brand) =>
-          sendMessage({
+    [vehicleType.car, vehicleType.motorcycle, vehicleType.trucks].map(
+      async (type) => {
+        const brands = await getBrands({
+          params: {
             referenceId: reference.id,
             vehicleType: type,
-            brandId: brand.id,
-            brandName: brand.name,
-          }),
-        ),
-      );
-    }),
+          },
+          timeout: apiTimeout,
+        });
+
+        const normalizedBrands = normalizeBrands(brands);
+
+        await Promise.all(
+          normalizedBrands.map(async (brand) =>
+            sendMessage({
+              referenceId: reference.id,
+              vehicleType: type,
+              brandId: brand.id,
+              brandName: brand.name,
+            }),
+          ),
+        );
+      },
+    ),
   );
 };
 

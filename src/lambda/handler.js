@@ -158,6 +158,7 @@ const startUpdateYearModelHandler = async (event, context) => {
 
 module.exports = {
   checkForUpdateHandler,
+  normalizeBrands,
   startUpdateReferenceHandler,
   startUpdateBrandHandler,
   startUpdateModelHandler,
