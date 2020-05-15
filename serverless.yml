@@ -16,7 +16,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, "dev"}
-  region: sa-east-1
+  region: us-east-1
   accountId: 678634121400
   memorySize: 256
   environment:
