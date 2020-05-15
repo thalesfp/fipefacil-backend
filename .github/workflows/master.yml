@@ -31,14 +31,14 @@ jobs:
       - name: Wait for DynamoDB
         uses: nev7n/wait_for_response@v1
         with:
-          url: "http://localhost:4569"
+          url: "http://localhost:8000"
           responseCode: 502
           timeout: 20000
           interval: 1000
       - name: Wait for SQS
         uses: nev7n/wait_for_response@v1
         with:
-          url: "http://localhost:4576"
+          url: "http://localhost:9324"
           responseCode: 400
           timeout: 20000
           interval: 1000
@@ -49,12 +49,12 @@ jobs:
           AWS_ACCESS_KEY_ID: foobar
           AWS_SECRET_ACCESS_KEY: foobar
           AWS_REGION: us-east-1
-          AWS_DYNAMODB_ENDPOINT: http://localhost:4569
-          AWS_SQS_ENDPOINT: http://localhost:4576
-          REFERENCES_QUEUE: http://localhost:4576/queue/references
-          BRANDS_QUEUE: http://localhost:4576/queue/brands
-          MODELS_QUEUE: http://localhost:4576/queue/models
-          YEAR_MODELS_QUEUE: http://localhost:4576/queue/yearmodels
+          AWS_DYNAMODB_ENDPOINT: http://localhost:8000
+          AWS_SQS_ENDPOINT: http://localhost:9324
+          REFERENCES_QUEUE: http://localhost:9324/queue/references
+          BRANDS_QUEUE: http://localhost:9324/queue/brands
+          MODELS_QUEUE: http://localhost:9324/queue/models
+          YEAR_MODELS_QUEUE: http://localhost:9324/queue/yearmodels
           PRICES_TABLE: prices_test
       # - name: serverless deploy
       #   uses: serverless/github-action@master
