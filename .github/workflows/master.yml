@@ -32,7 +32,7 @@ jobs:
         uses: nev7n/wait_for_response@v1
         with:
           url: "http://localhost:8000"
-          responseCode: 502
+          responseCode: 400
           timeout: 20000
           interval: 1000
       - name: Wait for SQS
