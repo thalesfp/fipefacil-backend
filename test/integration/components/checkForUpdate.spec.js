@@ -1,6 +1,4 @@
-const {
-  checkForUpdate,
-} = require("../../../src/components/updater/checkForUpdate");
+const { checkForUpdate } = require("../../../src/components/checkForUpdate");
 const {
   createPricesTable,
   dropPricesTable,

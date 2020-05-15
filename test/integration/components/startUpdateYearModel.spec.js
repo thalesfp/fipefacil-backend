@@ -2,7 +2,7 @@ const MockDate = require("mockdate");
 
 const {
   startUpdateYearModel,
-} = require("../../../src/components/updater/startUpdateYearModel");
+} = require("../../../src/components/startUpdateYearModel");
 const {
   createPricesTable,
   dropPricesTable,

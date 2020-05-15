@@ -1,11 +1,11 @@
-const { getModels } = require("../../api/fipeApi");
-const { sendMessage } = require("../../queue/modelsQueue");
-const { createBrand } = require("../../repository/brands");
-const { normalizeModels } = require("../../transformers/valuesFromRemoteApi");
+const { getModels } = require("../api/fipeApi");
+const { sendMessage } = require("../queue/modelsQueue");
+const { createBrand } = require("../repository/brands");
+const { normalizeModels } = require("../transformers/valuesFromRemoteApi");
 const {
   normalizeBrandName,
   isPopularBrand,
-} = require("../../transformers/brandsFromRemoteApi");
+} = require("../transformers/brandsFromRemoteApi");
 
 const startUpdateBrand = async ({
   brand: { referenceId, vehicleType, brandId, brandName },

@@ -51,7 +51,7 @@ const getBrands = async (vehicleTypeParam) => {
         S: `BRAND#`,
       },
     },
-    ProjectionExpression: "sk, #nameAttr",
+    ProjectionExpression: "sk, #nameAttr, popular",
     ExpressionAttributeNames: {
       "#nameAttr": "name",
     },

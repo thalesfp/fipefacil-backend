@@ -1,6 +1,6 @@
 const {
   startUpdateReference,
-} = require("../../../src/components/updater/startUpdateReference");
+} = require("../../../src/components/startUpdateReference");
 const {
   createPricesTable,
   dropPricesTable,

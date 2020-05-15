@@ -1,6 +1,6 @@
 const {
   startUpdateModel,
-} = require("../../../src/components/updater/startUpdateModel");
+} = require("../../../src/components/startUpdateModel");
 const {
   createPricesTable,
   dropPricesTable,
