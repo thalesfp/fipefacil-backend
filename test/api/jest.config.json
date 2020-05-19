@@ -1,0 +1,5 @@
+{
+  "collectCoverage": false,
+  "testEnvironment": "node",
+  "preset": "ts-jest"
+}

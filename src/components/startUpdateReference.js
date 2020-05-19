@@ -1,5 +1,5 @@
 const { getBrands } = require("../api/fipeApi");
-const { vehicleType } = require("../constants/vehicleType");
+const { vehicleType } = require("../transformers/vehicleTypeToString");
 const { sendMessage } = require("../queue/brandsQueue");
 const { createReference } = require("../repository/references");
 const { normalizeBrands } = require("../transformers/valuesFromRemoteApi");
