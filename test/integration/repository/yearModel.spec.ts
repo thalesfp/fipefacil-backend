@@ -9,12 +9,12 @@ import {
   getYearModels,
   updateYearModelCurrentPrice,
 } from "../../../src/repository/yearModels";
-import VehicleType from "../../../src/types/VehicleType";
 import {
   generateBrandFixture,
   generateModelFixture,
   generateYearModelFixture,
 } from "../fixtures/generateFixture";
+import { VehicleType } from "../../../src/types/VehicleType";
 
 describe("repository", () => {
   beforeEach(async () => createPricesTable());

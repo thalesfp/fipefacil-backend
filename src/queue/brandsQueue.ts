@@ -1,27 +1,17 @@
-import queueManager from "./queueManager";
-import VehicleType from "../types/VehicleType";
+import * as queueManager from "./queueManager";
+import { VehicleType } from "../types/VehicleType";
 
 const QUEUE_NAME = process.env.BRANDS_QUEUE;
 
-const sendMessage = async ({
-  referenceId,
-  vehicleType,
-  brandId,
-  brandName,
-}: {
+type BrandQueueMessage = {
   referenceId: number;
   vehicleType: VehicleType;
   brandId: number;
   brandName: string;
-}): Promise<void> => {
-  const message = JSON.stringify({
-    referenceId,
-    vehicleType,
-    brandId,
-    brandName,
-  });
+};
 
-  await queueManager.sendMessage(QUEUE_NAME, message);
+const sendMessage = async (message: BrandQueueMessage): Promise<void> => {
+  await queueManager.sendMessage(QUEUE_NAME!, JSON.stringify(message));
 };
 
 export default sendMessage;

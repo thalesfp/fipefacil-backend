@@ -1,6 +1,5 @@
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
-import vehicleTypeToString from "../transformers/vehicleTypeToString";
-import VehicleType from "../types/VehicleType";
+import { VehicleType } from "../types/VehicleType";
 
 const { PRICES_TABLE } = process.env;
 
@@ -16,11 +15,12 @@ export const createBrand = async ({
   popular: boolean;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     Item: marshall({
-      pk: vehicleTypeToString(vehicleType),
+      pk: vehicleType.toString(),
       sk: `BRAND#${id}`,
       name,
+      vehicleType,
       popular,
       createdAt: new Date().toISOString(),
     }),
@@ -32,13 +32,13 @@ export const createBrand = async ({
 export const getBrand = async (
   vehicleTypeParam: VehicleType,
   id: number,
-): Promise<Brand | null> => {
+): Promise<BrandDatabaseType | null> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     KeyConditionExpression: "pk = :pk AND sk = :sk",
     ExpressionAttributeValues: {
       ":pk": {
-        S: vehicleTypeToString(vehicleTypeParam),
+        S: vehicleTypeParam.toString(),
       },
       ":sk": {
         S: `BRAND#${id}`,
@@ -48,26 +48,26 @@ export const getBrand = async (
 
   const { Items: response } = await databaseManager.query(params).promise();
 
-  if (response.length === 0) return null;
+  if (!response || response.length === 0) return null;
 
-  return unmarshall(response[0]) as Brand;
+  return unmarshall(response[0]) as BrandDatabaseType;
 };
 
 export const getBrands = async (
   vehicleTypeParam: VehicleType,
-): Promise<Brand[]> => {
+): Promise<BrandDatabaseType[]> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     KeyConditionExpression: "pk = :pk AND begins_with(sk, :sk)",
     ExpressionAttributeValues: {
       ":pk": {
-        S: vehicleTypeToString(vehicleTypeParam),
+        S: vehicleTypeParam.toString(),
       },
       ":sk": {
         S: `BRAND#`,
       },
     },
-    ProjectionExpression: "sk, #nameAttr, popular",
+    ProjectionExpression: "sk, #nameAttr, vehicleType, popular",
     ExpressionAttributeNames: {
       "#nameAttr": "name",
     },
@@ -75,5 +75,7 @@ export const getBrands = async (
 
   const { Items: response } = await databaseManager.query(params).promise();
 
-  return response.map((brand) => unmarshall(brand) as Brand);
+  if (!response) return [];
+
+  return response.map((brand) => unmarshall(brand) as BrandDatabaseType);
 };

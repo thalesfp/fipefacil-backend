@@ -7,10 +7,7 @@ import {
   normalizeModels,
   normalizeYearModels,
 } from "../../../src/transformers/valuesFromRemoteApi";
-
-// type FixtureResponseType =
-//   | { id: number; name: string }[]
-//   | { id: string; year: string; fuelType: string }[];
+import { FuelType } from "../../../src/types/FuelType";
 
 const generate = <T extends { id: string | number }>(
   arrayOfFixtures: T[],
@@ -50,9 +47,9 @@ export const generateModelFixture = (
 
 export const generateYearModelFixture = (
   count: number = 1,
-): { id: string; year: string; fuelType: string }[] =>
+): { id: string; year: number; fuelType: FuelType }[] =>
   generate(normalizeYearModels(yearModelFixtures), count) as {
     id: string;
-    year: string;
-    fuelType: string;
+    year: number;
+    fuelType: FuelType;
   }[];

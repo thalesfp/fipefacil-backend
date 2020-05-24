@@ -1,16 +1,15 @@
-const MockDate = require("mockdate");
+import * as MockDate from "mockdate";
 
-const {
-  startUpdateYearModel,
-} = require("../../../src/components/startUpdateYearModel");
-const {
+import startUpdateYearModel from "../../../src/components/startUpdateYearModel";
+import {
   createPricesTable,
   dropPricesTable,
-} = require("../../../src/repository/databaseManager");
-const { getYearModels } = require("../../../src/repository/yearModels");
-const { vehicleType } = require("../../../src/constants/vehicleType");
+} from "../../../src/repository/databaseManager";
+import { getYearModels } from "../../../src/repository/yearModels";
+import { VehicleType } from "../../../src/types/VehicleType";
+import { FuelType } from "../../../src/types/FuelType";
 
-jest.mock("../../../src/api/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi", () => ({
   getYearModel: () =>
     Promise.resolve({
       Valor: "R$ 16.728,00",
@@ -31,18 +30,18 @@ describe("startUpdateYearModel", () => {
   describe("when updating a year model", () => {
     const yearModel = {
       referenceId: 252,
-      vehicleType: vehicleType.motorcycle,
-      brandId: "61",
+      vehicleType: VehicleType.motorcycle,
+      brandId: 61,
       modelId: 43,
       yearModelId: "1995-1",
-      yearModelYear: "1995",
-      yearModelFuelType: "1",
+      yearModelYear: 1995,
+      yearModelFuelType: FuelType.gasolina,
     };
 
     beforeAll(async () => {
       MockDate.set("2020-01-01");
       await createPricesTable();
-      await startUpdateYearModel({ yearModel });
+      await startUpdateYearModel(yearModel);
     });
 
     afterAll(async () => {
@@ -57,8 +56,8 @@ describe("startUpdateYearModel", () => {
 
       const expectedResponse = [
         {
-          fuelType: "1",
-          year: "1995",
+          fuelType: FuelType.gasolina,
+          year: 1995,
           currentPrice: 16728,
           priceHistory: {
             "2017-8": 16728,

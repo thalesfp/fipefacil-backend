@@ -1,0 +1,9 @@
+{
+  "collectCoverage": true,
+  "coverageDirectory": "../../coverage",
+  "coveragePathIgnorePatterns": ["/node_modules/"],
+  "testEnvironment": "node",
+  "preset": "ts-jest",
+  "coverageReporters": ["text", "html"],
+  "setupFiles": ["../setup-env.ts"]
+}

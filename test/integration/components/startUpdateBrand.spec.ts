@@ -1,21 +1,19 @@
-const MockDate = require("mockdate");
+import * as MockDate from "mockdate";
 
-const {
-  startUpdateBrand,
-} = require("../../../src/components/startUpdateBrand");
-const {
+import {
   createPricesTable,
   dropPricesTable,
-} = require("../../../src/repository/databaseManager");
-const {
+} from "../../../src/repository/databaseManager";
+import {
   createQueue,
   deleteQueue,
   receiveMessage,
-} = require("../../../src/queue/queueManager");
-const { getBrand } = require("../../../src/repository/brands");
-const { vehicleType } = require("../../../src/constants/vehicleType");
+} from "../../../src/queue/queueManager";
+import { getBrand } from "../../../src/repository/brands";
+import startUpdateBrand from "../../../src/components/startUpdateBrand";
+import { VehicleType } from "../../../src/types/VehicleType";
 
-jest.mock("../../../src/api/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi", () => ({
   getModels: () =>
     Promise.resolve([
       {
@@ -35,21 +33,21 @@ describe("startUpdateBrand", () => {
 
     const brand = {
       referenceId: 252,
-      vehicleType: vehicleType.car,
-      brandId: "61",
+      vehicleType: VehicleType.car,
+      brandId: 61,
       brandName: "AM Gen",
     };
 
     beforeAll(async () => {
       MockDate.set("2020-01-01");
       await createPricesTable();
-      await createQueue(queueUrl);
-      await startUpdateBrand({ brand });
+      await createQueue(queueUrl!);
+      await startUpdateBrand(brand);
     });
 
     afterAll(async () => {
       await dropPricesTable();
-      await deleteQueue(queueUrl);
+      await deleteQueue(queueUrl!);
       MockDate.reset();
     });
 
@@ -58,23 +56,22 @@ describe("startUpdateBrand", () => {
 
       const persistedBrand = await getBrand(brand.vehicleType, brand.brandId);
 
-      expect(persistedBrand).toEqual([
-        {
-          pk: "cars",
-          sk: "BRAND#61",
-          name: "AM General",
-          popular: false,
-          createdAt: "2020-01-01T00:00:00.000Z",
-        },
-      ]);
+      expect(persistedBrand).toEqual({
+        pk: VehicleType.car,
+        sk: "BRAND#61",
+        name: "AM General",
+        vehicleType: VehicleType.car,
+        popular: false,
+        createdAt: "2020-01-01T00:00:00.000Z",
+      });
     });
 
     it("should send models to queue", async () => {
       expect.assertions(2);
 
-      const { Messages: messages } = await receiveMessage(queueUrl, 4);
+      const messages = await receiveMessage(queueUrl!, 4);
 
-      const messagesJson = messages.map((message) => JSON.parse(message.Body));
+      const messagesJson = messages.map((message) => JSON.parse(message));
 
       expect(messagesJson.length).toEqual(2);
 
@@ -82,15 +79,15 @@ describe("startUpdateBrand", () => {
         expect.arrayContaining([
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: vehicleType.car,
-            brandId: "61",
+            vehicleType: VehicleType.car,
+            brandId: 61,
             modelId: 43,
             modelName: "100 2.8 V6",
           }),
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: vehicleType.car,
-            brandId: "61",
+            vehicleType: VehicleType.car,
+            brandId: 61,
             modelId: 44,
             modelName: "100 2.8 V6 Avant",
           }),

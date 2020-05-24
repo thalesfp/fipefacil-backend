@@ -1,8 +1,8 @@
-const {
+import {
   normalizeReferences,
   normalizePrice,
   normalizeDateReferenceFromPrice,
-} = require("../../../src/transformers/valuesFromRemoteApi");
+} from "../../../src/transformers/valuesFromRemoteApi";
 
 describe("valuesFromRemoteApi", () => {
   describe("normalizeReferences", () => {

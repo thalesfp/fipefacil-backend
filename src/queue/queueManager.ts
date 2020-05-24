@@ -5,7 +5,7 @@ const sqs = new SQS({
   region: process.env.AWS_REGION,
 });
 
-const createQueue = async (queueUrl: string): Promise<void> => {
+export const createQueue = async (queueUrl: string): Promise<void> => {
   const queueName = queueUrl.split("/")[queueUrl.split("/").length - 1];
 
   const params = {
@@ -15,7 +15,7 @@ const createQueue = async (queueUrl: string): Promise<void> => {
   await sqs.createQueue(params).promise();
 };
 
-const deleteQueue = async (queueUrl: string): Promise<void> => {
+export const deleteQueue = async (queueUrl: string): Promise<void> => {
   const params = {
     QueueUrl: queueUrl,
   };
@@ -23,7 +23,7 @@ const deleteQueue = async (queueUrl: string): Promise<void> => {
   await sqs.deleteQueue(params).promise();
 };
 
-const sendMessage = async (
+export const sendMessage = async (
   queueUrl: string,
   message: string,
 ): Promise<void> => {
@@ -35,31 +35,29 @@ const sendMessage = async (
   await sqs.sendMessage(params).promise();
 };
 
-const receiveMessage = async (
+export const receiveMessage = async (
   queueUrl: string,
   maxNumberOfMessages = 1,
-): Promise<void> => {
+): Promise<string[]> => {
   const params = {
     QueueUrl: queueUrl,
     MaxNumberOfMessages: maxNumberOfMessages,
   };
 
-  await sqs.receiveMessage(params).promise();
+  const message = await sqs.receiveMessage(params).promise();
+
+  if (!message.Messages) return [];
+
+  return message.Messages.map((message) => message.Body ?? "");
 };
 
-const queueNumberOfMessages = async (queueUrl: string): Promise<void> => {
+export const queueNumberOfMessages = async (
+  queueUrl: string,
+): Promise<void> => {
   const params = {
     QueueUrl: queueUrl,
     AttributeNames: ["ApproximateNumberOfMessages"],
   };
 
   await sqs.getQueueAttributes(params).promise();
-};
-
-export default {
-  createQueue,
-  deleteQueue,
-  sendMessage,
-  receiveMessage,
-  queueNumberOfMessages,
 };

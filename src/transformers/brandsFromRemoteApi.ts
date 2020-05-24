@@ -1,4 +1,4 @@
-const normalizeBrandName = (brandName: string): string => {
+export const normalizeBrandName = (brandName: string): string => {
   switch (brandName) {
     case "AM Gen":
       return "AM General";
@@ -45,7 +45,7 @@ const normalizeBrandName = (brandName: string): string => {
   }
 };
 
-const isPopularBrand = (brandName: string): boolean =>
+export const isPopularBrand = (brandName: string): boolean =>
   [
     "GM - Chevrolet",
     "Volkswagen",
@@ -68,8 +68,3 @@ const isPopularBrand = (brandName: string): boolean =>
     "Volvo",
     "Land Rover",
   ].includes(brandName);
-
-export default {
-  normalizeBrandName,
-  isPopularBrand,
-};

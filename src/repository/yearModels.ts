@@ -1,5 +1,5 @@
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
-import FuelType from "../types/FuelType";
+import { FuelType } from "../types/FuelType";
 
 const { PRICES_TABLE } = process.env;
 
@@ -10,12 +10,12 @@ export const createYearModel = async ({
   modelId,
 }: {
   id: string;
-  year: string;
-  fuelType: string;
+  year: number;
+  fuelType: FuelType;
   modelId: number;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     Item: marshall({
       pk: `MODEL#${modelId}`,
       sk: `YEAR_MODEL#${id}`,
@@ -42,9 +42,9 @@ export const updateYearModelCurrentPrice = async ({
   currentPrice: number;
   year: number;
   month: number;
-}): Promise<YearModel> => {
+}): Promise<YearModelDatabaseType> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     Key: {
       pk: {
         S: `MODEL#${modelId}`,
@@ -70,16 +70,21 @@ export const updateYearModelCurrentPrice = async ({
     .updateItem(params)
     .promise();
 
-  return unmarshall(updatedAttributes) as YearModel;
+  if (!updatedAttributes) throw new Error("Year Model not found");
+
+  return unmarshall(updatedAttributes) as YearModelDatabaseType;
 };
 
 export const getYearModels = async (
   modelId: number,
 ): Promise<
-  Pick<YearModel, "year" | "fuelType" | "currentPrice" | "priceHistory">[]
+  Pick<
+    YearModelDatabaseType,
+    "year" | "fuelType" | "currentPrice" | "priceHistory"
+  >[]
 > => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
     ExpressionAttributeValues: {
       ":pk": {
@@ -97,10 +102,12 @@ export const getYearModels = async (
 
   const { Items: response } = await databaseManager.query(params).promise();
 
+  if (!response) return [];
+
   return response.map(
     (model) =>
       unmarshall(model) as Pick<
-        YearModel,
+        YearModelDatabaseType,
         "year" | "fuelType" | "currentPrice" | "priceHistory"
       >,
   );

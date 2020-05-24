@@ -4,11 +4,11 @@ import {
 } from "../../../src/repository/databaseManager";
 import { createBrand } from "../../../src/repository/brands";
 import { createModel, getModels } from "../../../src/repository/models";
-import VehicleType from "../../../src/types/VehicleType";
 import {
   generateBrandFixture,
   generateModelFixture,
 } from "../fixtures/generateFixture";
+import { VehicleType } from "../../../src/types/VehicleType";
 
 describe("repository", () => {
   beforeEach(async () => createPricesTable());

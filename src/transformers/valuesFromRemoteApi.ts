@@ -1,9 +1,4 @@
-import {
-  ReferenciasResponseType,
-  MarcasResponseType,
-  ModelosResponseType,
-  AnoModelosResponseType,
-} from "../../src/types/FipeResponse";
+import { numberToFuelType } from "./numberToFuelType";
 
 enum months {
   janeiro = 1,
@@ -28,22 +23,31 @@ export const extractDateFromRemoteReference = (
   return { month: Object(months)[month], year: parseInt(year, 10) };
 };
 
-export const normalizeReferences = (references: ReferenciasResponseType[]) =>
+export const normalizeReferences = (
+  references: ReferenciasResponseType[],
+): ReferenceType[] =>
   references.map((reference) => ({
     id: reference.Codigo,
     ...extractDateFromRemoteReference(reference.Mes),
   }));
 
-export const normalizeBrands = (brands: MarcasResponseType[]) =>
+export const normalizeBrands = (brands: MarcasResponseType[]): BrandType[] =>
   brands.map((brand) => ({ id: parseInt(brand.Value, 10), name: brand.Label }));
 
-export const normalizeModels = (models: ModelosResponseType[]) =>
+export const normalizeModels = (models: ModelosResponseType[]): ModelType[] =>
   models.map((model) => ({ id: model.Value, name: model.Label }));
 
-export const normalizeYearModels = (yearModels: AnoModelosResponseType[]) =>
+export const normalizeYearModels = (
+  yearModels: AnoModelosResponseType[],
+): YearModelType[] =>
   yearModels.map((yearModel) => {
     const [year, fuelType] = yearModel.Value.split("-");
-    return { id: yearModel.Value, year, fuelType };
+
+    return {
+      id: yearModel.Value,
+      year: parseInt(year, 10),
+      fuelType: numberToFuelType(parseInt(fuelType, 10)),
+    };
   });
 
 export const normalizePrice = (price: string): number => {
@@ -55,7 +59,10 @@ export const normalizePrice = (price: string): number => {
 export const normalizeDateReferenceFromPrice = (mesReferencia: string) => {
   const [month, year] = mesReferencia.trim().split(" de ");
 
-  return { month: months[parseInt(month, 10)], year: parseInt(year, 10) };
+  return {
+    month: Object(months)[month],
+    year: parseInt(year, 10),
+  };
 };
 
 export const normalizeYearModel = (yearModel: {

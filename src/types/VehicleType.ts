@@ -1,7 +1,5 @@
-enum VehicleType {
-  car = 1,
-  motorcycle = 2,
-  trucks = 3,
+export enum VehicleType {
+  car = "car",
+  motorcycle = "motorcycle",
+  trucks = "trucks",
 }
-
-export default VehicleType;

@@ -1,0 +1,6 @@
+{
+  "collectCoverage": false,
+  "testEnvironment": "node",
+  "preset": "ts-jest",
+  "setupFiles": ["../setup-env.ts"]
+}

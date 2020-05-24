@@ -12,7 +12,7 @@ export const createReference = async ({
   year: number;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     Item: marshall({
       pk: "REF",
       sk: String(id),
@@ -27,7 +27,7 @@ export const createReference = async ({
 
 export const getCurrentReferenceId = async (): Promise<number | null> => {
   const params = {
-    TableName: PRICES_TABLE,
+    TableName: PRICES_TABLE!,
     KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
       ":pk": {
@@ -41,7 +41,7 @@ export const getCurrentReferenceId = async (): Promise<number | null> => {
 
   const { Items: response } = await databaseManager.query(params).promise();
 
-  if (response.length === 0) return null;
+  if (!Array.isArray(response) || response.length === 0) return null;
 
   const { sk: referenceId } = unmarshall(response[0]);
 

@@ -3,8 +3,8 @@ import {
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
 import { createBrand, getBrands } from "../../../src/repository/brands";
-import VehicleType from "../../../src/types/VehicleType";
 import { generateBrandFixture } from "../fixtures/generateFixture";
+import { VehicleType } from "../../../src/types/VehicleType";
 
 describe("repository", () => {
   beforeEach(async () => createPricesTable());
@@ -54,20 +54,23 @@ describe("repository", () => {
         expect(response.length).toEqual(3);
 
         expect(response).toContainEqual({
-          name: brand1.name,
           sk: `BRAND#${brand1.id}`,
+          name: brand1.name,
+          vehicleType: VehicleType.car,
           popular: false,
         });
 
         expect(response).toContainEqual({
-          name: brand2.name,
           sk: `BRAND#${brand2.id}`,
+          name: brand2.name,
+          vehicleType: VehicleType.car,
           popular: false,
         });
 
         expect(response).toContainEqual({
-          name: brand3.name,
           sk: `BRAND#${brand3.id}`,
+          name: brand3.name,
+          vehicleType: VehicleType.car,
           popular: false,
         });
       });

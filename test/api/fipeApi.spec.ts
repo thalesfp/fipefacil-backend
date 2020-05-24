@@ -1,12 +1,18 @@
-import fipeApi from "../../src/api/fipeApi";
-import VehicleType from "../../src/types/VehicleType";
-import FuelType from "../../src/types/FuelType";
+import {
+  getReferences,
+  getBrands,
+  getModels,
+  getYearModels,
+  getYearModel,
+} from "../../src/api/fipeApi";
+import { VehicleType } from "../../src/types/VehicleType";
+import { FuelType } from "../../src/types/FuelType";
 
 describe("fipeApi", () => {
   it("should request references", async () => {
     expect.assertions(1);
 
-    expect(await fipeApi.getReferences()).toContainEqual({
+    expect(await getReferences()).toContainEqual({
       Codigo: 252,
       Mes: "março/2020 ",
     });
@@ -16,7 +22,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getBrands({
+      await getBrands({
         referenceId: 252,
         vehicleType: VehicleType.car,
       }),
@@ -27,7 +33,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getBrands({
+      await getBrands({
         referenceId: 252,
         vehicleType: VehicleType.motorcycle,
       }),
@@ -38,7 +44,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getBrands({
+      await getBrands({
         referenceId: 252,
         vehicleType: VehicleType.trucks,
       }),
@@ -49,7 +55,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getModels({
+      await getModels({
         referenceId: 252,
         vehicleType: VehicleType.car,
         brandId: 55,
@@ -61,7 +67,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getModels({
+      await getModels({
         referenceId: 252,
         vehicleType: VehicleType.motorcycle,
         brandId: 99,
@@ -73,7 +79,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getModels({
+      await getModels({
         referenceId: 252,
         vehicleType: VehicleType.trucks,
         brandId: 191,
@@ -85,7 +91,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getYearModels({
+      await getYearModels({
         referenceId: 252,
         vehicleType: VehicleType.car,
         brandId: 55,
@@ -98,7 +104,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getYearModels({
+      await getYearModels({
         referenceId: 252,
         vehicleType: VehicleType.motorcycle,
         brandId: 99,
@@ -111,7 +117,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getYearModels({
+      await getYearModels({
         referenceId: 252,
         vehicleType: VehicleType.trucks,
         brandId: 191,
@@ -124,7 +130,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getYearModel({
+      await getYearModel({
         referenceId: 252,
         vehicleType: VehicleType.car,
         brandId: 55,
@@ -150,7 +156,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getYearModel({
+      await getYearModel({
         referenceId: 252,
         vehicleType: VehicleType.motorcycle,
         brandId: 99,
@@ -176,7 +182,7 @@ describe("fipeApi", () => {
     expect.assertions(1);
 
     expect(
-      await fipeApi.getYearModel({
+      await getYearModel({
         referenceId: 252,
         vehicleType: VehicleType.trucks,
         brandId: 191,

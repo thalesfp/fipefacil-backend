@@ -1,7 +1,7 @@
-const {
+import {
   normalizeBrandName,
   isPopularBrand,
-} = require("../../../src/transformers/brandsFromRemoteApi");
+} from "../../../src/transformers/brandsFromRemoteApi";
 
 describe("brandsFromRemoteApi", () => {
   describe("normalizeBrandName", () => {

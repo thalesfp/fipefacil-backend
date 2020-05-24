@@ -1,20 +1,18 @@
-const {
-  startUpdateModel,
-} = require("../../../src/components/startUpdateModel");
-const {
+import {
   createPricesTable,
   dropPricesTable,
-} = require("../../../src/repository/databaseManager");
-const { getModels } = require("../../../src/repository/models");
-
-const {
+} from "../../../src/repository/databaseManager";
+import {
   createQueue,
   deleteQueue,
   receiveMessage,
-} = require("../../../src/queue/queueManager");
-const { vehicleType } = require("../../../src/constants/vehicleType");
+} from "../../../src/queue/queueManager";
+import startUpdateModel from "../../../src/components/startUpdateModel";
+import { getModels } from "../../../src/repository/models";
+import { VehicleType } from "../../../src/types/VehicleType";
+import { FuelType } from "../../../src/types/FuelType";
 
-jest.mock("../../../src/api/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi", () => ({
   getYearModels: () =>
     Promise.resolve([
       {
@@ -34,21 +32,21 @@ describe("startUpdateModel", () => {
 
     const model = {
       referenceId: 252,
-      vehicleType: vehicleType.motorcycle,
-      brandId: "61",
+      vehicleType: VehicleType.motorcycle,
+      brandId: 61,
       modelId: 43,
       modelName: "100 2.8 V6",
     };
 
     beforeAll(async () => {
       await createPricesTable();
-      await createQueue(queueUrl);
-      await startUpdateModel({ model });
+      await createQueue(queueUrl!);
+      await startUpdateModel(model);
     });
 
     afterAll(async () => {
       await dropPricesTable();
-      await deleteQueue(queueUrl);
+      await deleteQueue(queueUrl!);
     });
 
     it("should save the model", async () => {
@@ -69,9 +67,9 @@ describe("startUpdateModel", () => {
     it("should send year models to queue", async () => {
       expect.assertions(2);
 
-      const { Messages: messages } = await receiveMessage(queueUrl, 2);
+      const messages = await receiveMessage(queueUrl!, 2);
 
-      const messagesJson = messages.map((message) => JSON.parse(message.Body));
+      const messagesJson = messages.map((message) => JSON.parse(message));
 
       expect(messagesJson.length).toEqual(2);
 
@@ -79,21 +77,21 @@ describe("startUpdateModel", () => {
         expect.arrayContaining([
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: vehicleType.motorcycle,
-            brandId: "61",
+            vehicleType: VehicleType.motorcycle,
+            brandId: 61,
             modelId: 43,
             yearModelId: "1995-1",
-            yearModelYear: "1995",
-            yearModelFuelType: "1",
+            yearModelYear: 1995,
+            yearModelFuelType: FuelType.gasolina,
           }),
           expect.objectContaining({
             referenceId: 252,
-            vehicleType: vehicleType.motorcycle,
-            brandId: "61",
+            vehicleType: VehicleType.motorcycle,
+            brandId: 61,
             modelId: 43,
             yearModelId: "1994-1",
-            yearModelYear: "1994",
-            yearModelFuelType: "1",
+            yearModelYear: 1994,
+            yearModelFuelType: FuelType.gasolina,
           }),
         ]),
       );

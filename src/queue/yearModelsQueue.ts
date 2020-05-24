@@ -1,37 +1,21 @@
-import queueManager from "./queueManager";
-import VehicleType from "../types/VehicleType";
-import FuelType from "../types/FuelType";
+import * as queueManager from "./queueManager";
+import { VehicleType } from "../types/VehicleType";
+import { FuelType } from "../types/FuelType";
 
 const QUEUE_NAME = process.env.YEAR_MODELS_QUEUE;
 
-const sendMessage = async ({
-  referenceId,
-  vehicleType,
-  brandId,
-  modelId,
-  yearModelId,
-  yearModelYear,
-  yearModelFuelType,
-}: {
+type YearModelQueueMessage = {
   referenceId: number;
   vehicleType: VehicleType;
   brandId: number;
   modelId: number;
-  yearModelId: number;
+  yearModelId: string;
   yearModelYear: number;
   yearModelFuelType: FuelType;
-}): Promise<void> => {
-  const message = JSON.stringify({
-    referenceId,
-    vehicleType,
-    brandId,
-    modelId,
-    yearModelId,
-    yearModelYear,
-    yearModelFuelType,
-  });
+};
 
-  await queueManager.sendMessage(QUEUE_NAME, message);
+const sendMessage = async (message: YearModelQueueMessage): Promise<void> => {
+  await queueManager.sendMessage(QUEUE_NAME!, JSON.stringify(message));
 };
 
 export default sendMessage;

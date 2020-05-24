@@ -1,16 +1,16 @@
-const { checkForUpdate } = require("../../../src/components/checkForUpdate");
-const {
+import checkForUpdate from "../../../src/components/checkForUpdate";
+import {
   createPricesTable,
   dropPricesTable,
-} = require("../../../src/repository/databaseManager");
-const { createReference } = require("../../../src/repository/references");
-const {
+} from "../../../src/repository/databaseManager";
+import {
   createQueue,
   deleteQueue,
   receiveMessage,
-} = require("../../../src/queue/queueManager");
+} from "../../../src/queue/queueManager";
+import { createReference } from "../../../src/repository/references";
 
-jest.mock("../../../src/api/fipeApi.js", () => ({
+jest.mock("../../../src/api/fipeApi", () => ({
   getReferences: () =>
     Promise.resolve([
       { Codigo: 252, Mes: "março/2020 " },
@@ -25,21 +25,21 @@ describe("checkForUpdate", () => {
 
   beforeEach(async () => {
     await createPricesTable();
-    await createQueue(queueUrl);
+    await createQueue(queueUrl!);
   });
 
   afterEach(async () => {
     await dropPricesTable();
-    await deleteQueue(queueUrl);
+    await deleteQueue(queueUrl!);
   });
 
   describe("when database is empty", () => {
     it("should send last remote reference to queue", async () => {
       expect.assertions(1);
 
-      await checkForUpdate({});
+      await checkForUpdate();
 
-      const message = await receiveMessage(queueUrl);
+      const messages = await receiveMessage(queueUrl!);
 
       const expectedResponse = JSON.stringify({
         id: 252,
@@ -47,7 +47,7 @@ describe("checkForUpdate", () => {
         year: 2020,
       });
 
-      expect(message.Messages[0].Body).toEqual(expectedResponse);
+      expect(messages).toEqual([expectedResponse]);
     });
   });
 
@@ -57,11 +57,11 @@ describe("checkForUpdate", () => {
 
       await createReference({ id: 252, month: 3, year: 2020 });
 
-      await checkForUpdate({});
+      await checkForUpdate();
 
-      const message = await receiveMessage(queueUrl);
+      const messages = await receiveMessage(queueUrl!);
 
-      expect(message.Messages).toBeUndefined();
+      expect(messages.length).toEqual(0);
     });
   });
 
@@ -73,9 +73,9 @@ describe("checkForUpdate", () => {
       await createReference({ id: 250, month: 1, year: 2020 });
       await createReference({ id: 249, month: 12, year: 2019 });
 
-      await checkForUpdate({});
+      await checkForUpdate();
 
-      const message = await receiveMessage(queueUrl);
+      const messages = await receiveMessage(queueUrl!);
 
       const expectedResponse = JSON.stringify({
         id: 252,
@@ -83,7 +83,7 @@ describe("checkForUpdate", () => {
         year: 2020,
       });
 
-      expect(message.Messages[0].Body).toEqual(expectedResponse);
+      expect(messages).toEqual([expectedResponse]);
     });
   });
 });

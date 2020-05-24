@@ -1,22 +1,26 @@
-const {
-  startUpdateReference,
-} = require("../../../src/components/startUpdateReference");
-const {
+import {
   createPricesTable,
   dropPricesTable,
-} = require("../../../src/repository/databaseManager");
-const { getCurrentReferenceId } = require("../../../src/repository/references");
-const {
+} from "../../../src/repository/databaseManager";
+import {
   createQueue,
   deleteQueue,
   receiveMessage,
-} = require("../../../src/queue/queueManager");
-const { vehicleType } = require("../../../src/constants/vehicleType");
+} from "../../../src/queue/queueManager";
+import startUpdateReference from "../../../src/components/startUpdateReference";
+import { getCurrentReferenceId } from "../../../src/repository/references";
+import { VehicleType } from "../../../src/types/VehicleType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getBrands: ({ params: { vehicleType: vehicleTypeParam } }) => {
-    switch (vehicleTypeParam) {
-      case 1:
+  getBrands: ({
+    referenceId,
+    vehicleType,
+  }: {
+    referenceId: number;
+    vehicleType: VehicleType;
+  }) => {
+    switch (vehicleType) {
+      case VehicleType.car:
         return Promise.resolve([
           {
             Label: "Acura",
@@ -27,7 +31,7 @@ jest.mock("../../../src/api/fipeApi", () => ({
             Value: "2",
           },
         ]);
-      case 2:
+      case VehicleType.motorcycle:
         return Promise.resolve([
           {
             Label: "ADLY",
@@ -38,7 +42,7 @@ jest.mock("../../../src/api/fipeApi", () => ({
             Value: "61",
           },
         ]);
-      case 3:
+      case VehicleType.trucks:
         return Promise.resolve([
           {
             Label: "BEPOBUS",
@@ -50,7 +54,7 @@ jest.mock("../../../src/api/fipeApi", () => ({
           },
         ]);
       default:
-        throw new Error(`Invalid vehicleTypeParam: ${vehicleTypeParam}`);
+        throw new Error(`Invalid vehicleTypeParam: ${vehicleType}`);
     }
   },
 }));
@@ -60,12 +64,12 @@ describe("startUpdateReference", () => {
 
   beforeEach(async () => {
     await createPricesTable();
-    await createQueue(queueUrl);
+    await createQueue(queueUrl!);
   });
 
   afterEach(async () => {
     await dropPricesTable();
-    await deleteQueue(queueUrl);
+    await deleteQueue(queueUrl!);
   });
 
   it("should send brands to queue", async () => {
@@ -73,51 +77,53 @@ describe("startUpdateReference", () => {
 
     const reference = { id: 252, month: 3, year: 2020 };
 
-    await startUpdateReference({ reference });
+    await startUpdateReference(reference);
 
-    const { Messages: messages } = await receiveMessage(queueUrl, 6);
+    const messages = await receiveMessage(queueUrl!, 6);
 
-    const messagesJson = messages.map((message) => JSON.parse(message.Body));
+    const messagesJson: ReferenceType[] = messages.map((message: string) =>
+      JSON.parse(message),
+    );
 
     expect(messagesJson.length).toEqual(6);
 
     expect(messagesJson).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          brandId: "1",
+          brandId: 1,
           brandName: "Acura",
           referenceId: 252,
-          vehicleType: vehicleType.car,
+          vehicleType: VehicleType.car,
         }),
         expect.objectContaining({
-          brandId: "2",
+          brandId: 2,
           brandName: "Agrale",
           referenceId: 252,
-          vehicleType: vehicleType.car,
+          vehicleType: VehicleType.car,
         }),
         expect.objectContaining({
-          brandId: "60",
+          brandId: 60,
           brandName: "ADLY",
           referenceId: 252,
-          vehicleType: vehicleType.motorcycle,
+          vehicleType: VehicleType.motorcycle,
         }),
         expect.objectContaining({
-          brandId: "61",
+          brandId: 61,
           brandName: "AGRALE",
           referenceId: 252,
-          vehicleType: vehicleType.motorcycle,
+          vehicleType: VehicleType.motorcycle,
         }),
         expect.objectContaining({
-          brandId: "206",
+          brandId: 206,
           brandName: "BEPOBUS",
           referenceId: 252,
-          vehicleType: vehicleType.trucks,
+          vehicleType: VehicleType.trucks,
         }),
         expect.objectContaining({
-          brandId: "121",
+          brandId: 121,
           brandName: "CICCOBUS",
           referenceId: 252,
-          vehicleType: vehicleType.trucks,
+          vehicleType: VehicleType.trucks,
         }),
       ]),
     );
@@ -128,7 +134,7 @@ describe("startUpdateReference", () => {
 
     const reference = { id: 252, month: 3, year: 2020 };
 
-    await startUpdateReference({ reference });
+    await startUpdateReference(reference);
 
     const currentReferenceId = await getCurrentReferenceId();
 
