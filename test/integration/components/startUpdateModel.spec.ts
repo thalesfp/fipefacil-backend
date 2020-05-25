@@ -13,7 +13,7 @@ import { VehicleType } from "../../../src/types/VehicleType";
 import { FuelType } from "../../../src/types/FuelType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getYearModels: () =>
+  getYearModels: (): Promise<AnoModelosResponseType[]> =>
     Promise.resolve([
       {
         Label: "1995 Gasolina",
@@ -40,13 +40,13 @@ describe("startUpdateModel", () => {
 
     beforeAll(async () => {
       await createPricesTable();
-      await createQueue(queueUrl!);
+      await createQueue(queueUrl);
       await startUpdateModel(model);
     });
 
     afterAll(async () => {
       await dropPricesTable();
-      await deleteQueue(queueUrl!);
+      await deleteQueue(queueUrl);
     });
 
     it("should save the model", async () => {
@@ -67,7 +67,7 @@ describe("startUpdateModel", () => {
     it("should send year models to queue", async () => {
       expect.assertions(2);
 
-      const messages = await receiveMessage(queueUrl!, 2);
+      const messages = await receiveMessage(queueUrl, 2);
 
       const messagesJson = messages.map((message) => JSON.parse(message));
 

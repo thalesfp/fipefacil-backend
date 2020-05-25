@@ -14,7 +14,7 @@ import startUpdateBrand from "../../../src/components/startUpdateBrand";
 import { VehicleType } from "../../../src/types/VehicleType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getModels: () =>
+  getModels: (): Promise<ModelosResponseType[]> =>
     Promise.resolve([
       {
         Label: "100 2.8 V6",
@@ -41,13 +41,13 @@ describe("startUpdateBrand", () => {
     beforeAll(async () => {
       MockDate.set("2020-01-01");
       await createPricesTable();
-      await createQueue(queueUrl!);
+      await createQueue(queueUrl);
       await startUpdateBrand(brand);
     });
 
     afterAll(async () => {
       await dropPricesTable();
-      await deleteQueue(queueUrl!);
+      await deleteQueue(queueUrl);
       MockDate.reset();
     });
 
@@ -69,7 +69,7 @@ describe("startUpdateBrand", () => {
     it("should send models to queue", async () => {
       expect.assertions(2);
 
-      const messages = await receiveMessage(queueUrl!, 4);
+      const messages = await receiveMessage(queueUrl, 4);
 
       const messagesJson = messages.map((message) => JSON.parse(message));
 

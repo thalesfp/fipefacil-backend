@@ -12,7 +12,7 @@ export const createModel = async ({
   brandId: number;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     Item: marshall({
       pk: `BRAND#${brandId}`,
       sk: `MODEL#${id}`,
@@ -28,7 +28,7 @@ export const getModels = async (
   brandId: number,
 ): Promise<ModelDatabaseType[]> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
     ExpressionAttributeValues: {
       ":pk": {

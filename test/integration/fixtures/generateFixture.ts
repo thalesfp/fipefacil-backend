@@ -30,7 +30,7 @@ const generate = <T extends { id: string | number }>(
 };
 
 export const generateBrandFixture = (
-  count: number = 1,
+  count = 1,
 ): { id: number; name: string }[] =>
   generate(normalizeBrands(brandFixtures), count) as {
     id: number;
@@ -38,7 +38,7 @@ export const generateBrandFixture = (
   }[];
 
 export const generateModelFixture = (
-  count: number = 1,
+  count = 1,
 ): { id: number; name: string }[] =>
   generate(normalizeModels(modelFixtures), count) as {
     id: number;
@@ -46,7 +46,7 @@ export const generateModelFixture = (
   }[];
 
 export const generateYearModelFixture = (
-  count: number = 1,
+  count = 1,
 ): { id: string; year: number; fuelType: FuelType }[] =>
   generate(normalizeYearModels(yearModelFixtures), count) as {
     id: string;

@@ -23,7 +23,7 @@ const startUpdateYearModel = async ({
   yearModelId: string;
   yearModelYear: number;
   yearModelFuelType: FuelType;
-}) => {
+}): Promise<void> => {
   await createYearModel({
     id: yearModelId,
     year: yearModelYear,

@@ -3,10 +3,10 @@ import { normalizeReferences } from "../transformers/valuesFromRemoteApi";
 import { getCurrentReferenceId } from "../repository/references";
 import sendMessage from "../queue/referencesQueue";
 
-const getLastRemoteReference = (references: ReferenceType[]) =>
+const getLastRemoteReference = (references: ReferenceType[]): ReferenceType =>
   references.reduce((prev, current) => (prev.id > current.id ? prev : current));
 
-const checkForUpdate = async () => {
+const checkForUpdate = async (): Promise<void> => {
   const references = await getReferences();
   const referencesNormalized = normalizeReferences(references);
   const lastRemoteReference = getLastRemoteReference(referencesNormalized);

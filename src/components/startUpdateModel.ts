@@ -16,7 +16,7 @@ const startUpdateModel = async ({
   brandId: number;
   modelId: number;
   modelName: string;
-}) => {
+}): Promise<void> => {
   await createModel({ id: modelId, name: modelName, brandId });
 
   const yearModels = await getYearModels({
@@ -27,7 +27,7 @@ const startUpdateModel = async ({
   });
   const normalizedYearModels = normalizeYearModels(yearModels);
 
-  return Promise.all(
+  await Promise.all(
     normalizedYearModels.map(async (yearModel) =>
       sendMessage({
         referenceId,

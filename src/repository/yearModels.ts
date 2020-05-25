@@ -15,7 +15,7 @@ export const createYearModel = async ({
   modelId: number;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     Item: marshall({
       pk: `MODEL#${modelId}`,
       sk: `YEAR_MODEL#${id}`,
@@ -44,7 +44,7 @@ export const updateYearModelCurrentPrice = async ({
   month: number;
 }): Promise<YearModelDatabaseType> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     Key: {
       pk: {
         S: `MODEL#${modelId}`,
@@ -84,7 +84,7 @@ export const getYearModels = async (
   >[]
 > => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
     ExpressionAttributeValues: {
       ":pk": {

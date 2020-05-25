@@ -12,7 +12,7 @@ export const createReference = async ({
   year: number;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     Item: marshall({
       pk: "REF",
       sk: String(id),
@@ -27,7 +27,7 @@ export const createReference = async ({
 
 export const getCurrentReferenceId = async (): Promise<number | null> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
       ":pk": {

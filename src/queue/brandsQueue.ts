@@ -11,7 +11,7 @@ type BrandQueueMessage = {
 };
 
 const sendMessage = async (message: BrandQueueMessage): Promise<void> => {
-  await queueManager.sendMessage(QUEUE_NAME!, JSON.stringify(message));
+  await queueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
 };
 
 export default sendMessage;

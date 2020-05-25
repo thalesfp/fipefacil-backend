@@ -43,6 +43,6 @@ interface AnoModeloResponseType {
   MesReferencia: string;
   Autenticacao: string;
   TipoVeiculo: number;
-  SigaCombustivel: string;
+  SiglaCombustivel: string;
   DataConsulta: string;
 }

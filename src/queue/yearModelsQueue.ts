@@ -15,7 +15,7 @@ type YearModelQueueMessage = {
 };
 
 const sendMessage = async (message: YearModelQueueMessage): Promise<void> => {
-  await queueManager.sendMessage(QUEUE_NAME!, JSON.stringify(message));
+  await queueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
 };
 
 export default sendMessage;

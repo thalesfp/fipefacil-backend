@@ -18,7 +18,7 @@ const startUpdateBrand = async ({
   vehicleType: VehicleType;
   brandId: number;
   brandName: string;
-}) => {
+}): Promise<void> => {
   await createBrand({
     id: brandId,
     name: normalizeBrandName(brandName),
@@ -33,7 +33,7 @@ const startUpdateBrand = async ({
   });
   const normalizedModels = normalizeModels(models);
 
-  return Promise.all(
+  await Promise.all(
     normalizedModels.map(async (model) =>
       sendMessage({
         referenceId,

@@ -13,12 +13,13 @@ import { VehicleType } from "../../../src/types/VehicleType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getBrands: ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     referenceId,
     vehicleType,
   }: {
     referenceId: number;
     vehicleType: VehicleType;
-  }) => {
+  }): Promise<MarcasResponseType[]> => {
     switch (vehicleType) {
       case VehicleType.car:
         return Promise.resolve([
@@ -64,12 +65,12 @@ describe("startUpdateReference", () => {
 
   beforeEach(async () => {
     await createPricesTable();
-    await createQueue(queueUrl!);
+    await createQueue(queueUrl);
   });
 
   afterEach(async () => {
     await dropPricesTable();
-    await deleteQueue(queueUrl!);
+    await deleteQueue(queueUrl);
   });
 
   it("should send brands to queue", async () => {
@@ -79,7 +80,7 @@ describe("startUpdateReference", () => {
 
     await startUpdateReference(reference);
 
-    const messages = await receiveMessage(queueUrl!, 6);
+    const messages = await receiveMessage(queueUrl, 6);
 
     const messagesJson: ReferenceType[] = messages.map((message: string) =>
       JSON.parse(message),

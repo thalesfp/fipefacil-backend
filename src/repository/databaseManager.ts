@@ -7,7 +7,7 @@ export const databaseManager = new DynamoDB({
 
 export const createPricesTable = async (): Promise<void> => {
   const params = {
-    TableName: process.env.PRICES_TABLE!,
+    TableName: process.env.PRICES_TABLE,
     AttributeDefinitions: [
       {
         AttributeName: "pk",
@@ -39,15 +39,18 @@ export const createPricesTable = async (): Promise<void> => {
 
 export const dropPricesTable = async (): Promise<void> => {
   const params = {
-    TableName: process.env.PRICES_TABLE!,
+    TableName: process.env.PRICES_TABLE,
   };
 
   await databaseManager.deleteTable(params).promise();
 };
 
 export const marshall = (object: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
-}) => DynamoDB.Converter.marshall(object);
+}): DynamoDB.AttributeMap => DynamoDB.Converter.marshall(object);
 
-export const unmarshall = (response: DynamoDB.AttributeMap) =>
-  DynamoDB.Converter.unmarshall(response);
+export const unmarshall = (
+  response: DynamoDB.AttributeMap,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): { [key: string]: any } => DynamoDB.Converter.unmarshall(response);

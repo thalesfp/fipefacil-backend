@@ -15,7 +15,7 @@ export const createBrand = async ({
   popular: boolean;
 }): Promise<void> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     Item: marshall({
       pk: vehicleType.toString(),
       sk: `BRAND#${id}`,
@@ -34,7 +34,7 @@ export const getBrand = async (
   id: number,
 ): Promise<BrandDatabaseType | null> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND sk = :sk",
     ExpressionAttributeValues: {
       ":pk": {
@@ -57,7 +57,7 @@ export const getBrands = async (
   vehicleTypeParam: VehicleType,
 ): Promise<BrandDatabaseType[]> => {
   const params = {
-    TableName: PRICES_TABLE!,
+    TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with(sk, :sk)",
     ExpressionAttributeValues: {
       ":pk": {

@@ -56,7 +56,9 @@ export const normalizePrice = (price: string): number => {
   return parseFloat(normalizedPrice);
 };
 
-export const normalizeDateReferenceFromPrice = (mesReferencia: string) => {
+export const normalizeDateReferenceFromPrice = (
+  mesReferencia: string,
+): { month: number; year: number } => {
   const [month, year] = mesReferencia.trim().split(" de ");
 
   return {
@@ -68,7 +70,7 @@ export const normalizeDateReferenceFromPrice = (mesReferencia: string) => {
 export const normalizeYearModel = (yearModel: {
   Valor: string;
   MesReferencia: string;
-}) => ({
+}): { value: number; reference: { month: number; year: number } } => ({
   value: normalizePrice(yearModel.Valor),
   reference: normalizeDateReferenceFromPrice(yearModel.MesReferencia),
 });

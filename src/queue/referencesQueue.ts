@@ -9,7 +9,7 @@ type ReferenceQueueMessage = {
 };
 
 const sendMessage = async (message: ReferenceQueueMessage): Promise<void> => {
-  await queueManager.sendMessage(QUEUE_NAME!, JSON.stringify(message));
+  await queueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
 };
 
 export default sendMessage;

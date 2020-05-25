@@ -11,7 +11,7 @@ import {
 import { createReference } from "../../../src/repository/references";
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getReferences: () =>
+  getReferences: (): Promise<ReferenciasResponseType[]> =>
     Promise.resolve([
       { Codigo: 252, Mes: "março/2020 " },
       { Codigo: 251, Mes: "fevereiro/2020 " },
@@ -25,12 +25,12 @@ describe("checkForUpdate", () => {
 
   beforeEach(async () => {
     await createPricesTable();
-    await createQueue(queueUrl!);
+    await createQueue(queueUrl);
   });
 
   afterEach(async () => {
     await dropPricesTable();
-    await deleteQueue(queueUrl!);
+    await deleteQueue(queueUrl);
   });
 
   describe("when database is empty", () => {
@@ -39,7 +39,7 @@ describe("checkForUpdate", () => {
 
       await checkForUpdate();
 
-      const messages = await receiveMessage(queueUrl!);
+      const messages = await receiveMessage(queueUrl);
 
       const expectedResponse = JSON.stringify({
         id: 252,
@@ -59,7 +59,7 @@ describe("checkForUpdate", () => {
 
       await checkForUpdate();
 
-      const messages = await receiveMessage(queueUrl!);
+      const messages = await receiveMessage(queueUrl);
 
       expect(messages.length).toEqual(0);
     });
@@ -75,7 +75,7 @@ describe("checkForUpdate", () => {
 
       await checkForUpdate();
 
-      const messages = await receiveMessage(queueUrl!);
+      const messages = await receiveMessage(queueUrl);
 
       const expectedResponse = JSON.stringify({
         id: 252,

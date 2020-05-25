@@ -10,7 +10,7 @@ import { VehicleType } from "../../../src/types/VehicleType";
 import { FuelType } from "../../../src/types/FuelType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
-  getYearModel: () =>
+  getYearModel: (): Promise<AnoModeloResponseType> =>
     Promise.resolve({
       Valor: "R$ 16.728,00",
       Marca: "Audi",
