@@ -6,7 +6,7 @@ import {
 import { normalizeModels } from "../transformers/valuesFromRemoteApi";
 import { createBrand } from "../repository/brands";
 import sendMessage from "../queue/modelsQueue";
-import { VehicleType } from "../types/VehicleType";
+import VehicleType from "../types/VehicleType";
 
 const startUpdateBrand = async ({
   referenceId,

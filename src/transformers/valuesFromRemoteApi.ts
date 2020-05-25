@@ -1,4 +1,10 @@
 import { numberToFuelType } from "./numberToFuelType";
+import {
+  PriceReferenceType,
+  BrandType,
+  ModelType,
+  YearModelType,
+} from "../types/Types";
 
 enum months {
   janeiro = 1,
@@ -25,7 +31,7 @@ export const extractDateFromRemoteReference = (
 
 export const normalizeReferences = (
   references: ReferenciasResponseType[],
-): ReferenceType[] =>
+): PriceReferenceType[] =>
   references.map((reference) => ({
     id: reference.Codigo,
     ...extractDateFromRemoteReference(reference.Mes),

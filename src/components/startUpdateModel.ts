@@ -2,7 +2,7 @@ import { getYearModels } from "../api/fipeApi";
 import { createModel } from "../repository/models";
 import sendMessage from "../queue/yearModelsQueue";
 import { normalizeYearModels } from "../transformers/valuesFromRemoteApi";
-import { VehicleType } from "../types/VehicleType";
+import VehicleType from "../types/VehicleType";
 
 const startUpdateModel = async ({
   referenceId,

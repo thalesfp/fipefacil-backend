@@ -4,8 +4,8 @@ import {
   updateYearModelCurrentPrice,
 } from "../repository/yearModels";
 import { normalizeYearModel } from "../transformers/valuesFromRemoteApi";
-import { VehicleType } from "../types/VehicleType";
-import { FuelType } from "../types/FuelType";
+import VehicleType from "../types/VehicleType";
+import FuelType from "../types/FuelType";
 
 const startUpdateYearModel = async ({
   referenceId,

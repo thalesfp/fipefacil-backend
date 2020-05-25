@@ -1,4 +1,4 @@
-import { FuelType } from "../types/FuelType";
+import FuelType from "../types/FuelType";
 
 export const numberToFuelType = (fuelType: number): FuelType => {
   switch (fuelType) {

@@ -7,7 +7,7 @@ import {
   normalizeModels,
   normalizeYearModels,
 } from "../../../src/transformers/valuesFromRemoteApi";
-import { FuelType } from "../../../src/types/FuelType";
+import FuelType from "../../../src/types/FuelType";
 
 const generate = <T extends { id: string | number }>(
   arrayOfFixtures: T[],

@@ -1,4 +1,4 @@
-import { VehicleType } from "../types/VehicleType";
+import VehicleType from "../types/VehicleType";
 
 export const vehicleTypeToNumber = (vehicleType: VehicleType): number => {
   switch (vehicleType) {

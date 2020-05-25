@@ -9,7 +9,8 @@ import {
 } from "../../../src/queue/queueManager";
 import startUpdateReference from "../../../src/components/startUpdateReference";
 import { getCurrentReferenceId } from "../../../src/repository/references";
-import { VehicleType } from "../../../src/types/VehicleType";
+import VehicleType from "../../../src/types/VehicleType";
+import { PriceReferenceType } from "../../../src/types/Types";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getBrands: ({
@@ -82,7 +83,7 @@ describe("startUpdateReference", () => {
 
     const messages = await receiveMessage(queueUrl, 6);
 
-    const messagesJson: ReferenceType[] = messages.map((message: string) =>
+    const messagesJson: PriceReferenceType[] = messages.map((message: string) =>
       JSON.parse(message),
     );
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import querystring from "querystring";
 
 import { vehicleTypeToNumber } from "../transformers/valuesToRemoteApi";
-import { VehicleType } from "../types/VehicleType";
+import VehicleType from "../types/VehicleType";
 
 const BASE_URL = "https://veiculos.fipe.org.br";
 const DEFAULT_TIMEOUT_IN_MS = 10_000;

@@ -5,8 +5,8 @@ import {
   getYearModels,
   getYearModel,
 } from "../../src/api/fipeApi";
-import { VehicleType } from "../../src/types/VehicleType";
-import { FuelType } from "../../src/types/FuelType";
+import VehicleType from "../../src/types/VehicleType";
+import FuelType from "../../src/types/FuelType";
 
 describe("fipeApi", () => {
   it("should request references", async () => {

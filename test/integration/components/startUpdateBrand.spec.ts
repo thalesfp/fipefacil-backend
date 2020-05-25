@@ -11,7 +11,7 @@ import {
 } from "../../../src/queue/queueManager";
 import { getBrand } from "../../../src/repository/brands";
 import startUpdateBrand from "../../../src/components/startUpdateBrand";
-import { VehicleType } from "../../../src/types/VehicleType";
+import VehicleType from "../../../src/types/VehicleType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getModels: (): Promise<ModelosResponseType[]> =>

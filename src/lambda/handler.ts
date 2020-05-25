@@ -8,11 +8,11 @@ import startUpdateYearModel from "../components/startUpdateYearModel";
 
 export const checkForUpdateHandler: APIGatewayProxyHandler = async () => {
   try {
-    await checkForUpdate();
+    const response = await checkForUpdate();
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Success" }),
+      body: JSON.stringify({ needUpdate: response }),
     };
   } catch (error) {
     console.error(error);

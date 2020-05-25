@@ -144,7 +144,8 @@ resources:
 
 package:
   individually: true
+  exclude:
+    - node_modules/aws-sdk/**
 
 plugins:
-  # - serverless-webpack
   - serverless-plugin-typescript

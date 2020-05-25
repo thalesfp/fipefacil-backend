@@ -1,5 +1,5 @@
 import * as queueManager from "./queueManager";
-import { VehicleType } from "../types/VehicleType";
+import VehicleType from "../types/VehicleType";
 
 const QUEUE_NAME = process.env.MODELS_QUEUE;
 

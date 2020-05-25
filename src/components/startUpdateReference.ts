@@ -2,10 +2,11 @@ import sendMessage from "../queue/brandsQueue";
 import { getBrands } from "../api/fipeApi";
 import { createReference } from "../repository/references";
 import { normalizeBrands } from "../transformers/valuesFromRemoteApi";
-import { VehicleType } from "../types/VehicleType";
+import VehicleType from "../types/VehicleType";
+import { PriceReferenceType } from "../types/Types";
 
 const startUpdateReference = async (
-  reference: ReferenceType,
+  reference: PriceReferenceType,
 ): Promise<void> => {
   await createReference(reference);
 

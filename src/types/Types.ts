@@ -1,4 +1,6 @@
-interface ReferenceType {
+import FuelType from "./FuelType";
+
+interface PriceReferenceType {
   month: number;
   year: number;
   id: number;
@@ -19,3 +21,5 @@ interface YearModelType {
   year: number;
   fuelType: FuelType;
 }
+
+export { PriceReferenceType, BrandType, ModelType, YearModelType };

@@ -6,8 +6,8 @@ import {
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
 import { getYearModels } from "../../../src/repository/yearModels";
-import { VehicleType } from "../../../src/types/VehicleType";
-import { FuelType } from "../../../src/types/FuelType";
+import VehicleType from "../../../src/types/VehicleType";
+import FuelType from "../../../src/types/FuelType";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getYearModel: (): Promise<AnoModeloResponseType> =>
