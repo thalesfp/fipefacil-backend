@@ -3,7 +3,7 @@ import VehicleType from "../types/VehicleType";
 
 const QUEUE_NAME = process.env.BRANDS_QUEUE;
 
-type BrandQueueMessage = {
+export type BrandQueueMessage = {
   referenceId: number;
   vehicleType: VehicleType;
   brandId: number;

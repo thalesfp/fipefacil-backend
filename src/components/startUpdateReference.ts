@@ -3,10 +3,10 @@ import { getBrands } from "../api/fipeApi";
 import { createReference } from "../repository/references";
 import { normalizeBrands } from "../transformers/valuesFromRemoteApi";
 import VehicleType from "../types/VehicleType";
-import { PriceReferenceType } from "../types/Types";
+import { ReferenceQueueMessage } from "../queue/referencesQueue";
 
 const startUpdateReference = async (
-  reference: PriceReferenceType,
+  reference: ReferenceQueueMessage,
 ): Promise<void> => {
   await createReference(reference);
 

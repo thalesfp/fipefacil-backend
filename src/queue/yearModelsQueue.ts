@@ -4,7 +4,7 @@ import FuelType from "../types/FuelType";
 
 const QUEUE_NAME = process.env.YEAR_MODELS_QUEUE;
 
-type YearModelQueueMessage = {
+export type YearModelQueueMessage = {
   referenceId: number;
   vehicleType: VehicleType;
   brandId: number;

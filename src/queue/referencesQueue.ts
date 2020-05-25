@@ -2,7 +2,7 @@ import * as queueManager from "./queueManager";
 
 const QUEUE_NAME = process.env.REFERENCES_QUEUE;
 
-type ReferenceQueueMessage = {
+export type ReferenceQueueMessage = {
   id: number;
   month: number;
   year: number;

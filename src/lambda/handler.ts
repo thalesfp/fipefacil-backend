@@ -6,6 +6,11 @@ import startUpdateBrand from "../components/startUpdateBrand";
 import startUpdateModel from "../components/startUpdateModel";
 import startUpdateYearModel from "../components/startUpdateYearModel";
 
+import { ReferenceQueueMessage } from "../queue/referencesQueue";
+import { BrandQueueMessage } from "../queue/brandsQueue";
+import { ModelQueueMessage } from "../queue/modelsQueue";
+import { YearModelQueueMessage } from "../queue/yearModelsQueue";
+
 export const checkForUpdateHandler: APIGatewayProxyHandler = async () => {
   try {
     const response = await checkForUpdate();
@@ -30,7 +35,7 @@ export const startUpdateReferenceHandler: SQSHandler = async (event) => {
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateReference(JSON.parse(message.body)),
+        startUpdateReference(JSON.parse(message.body) as ReferenceQueueMessage),
       ),
     );
   } catch (error) {
@@ -47,7 +52,7 @@ export const startUpdateBrandHandler: SQSHandler = async (event) => {
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateBrand(JSON.parse(message.body)),
+        startUpdateBrand(JSON.parse(message.body) as BrandQueueMessage),
       ),
     );
   } catch (error) {
@@ -64,7 +69,7 @@ export const startUpdateModelHandler: SQSHandler = async (event) => {
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateModel(JSON.parse(message.body)),
+        startUpdateModel(JSON.parse(message.body) as ModelQueueMessage),
       ),
     );
   } catch (error) {
@@ -81,7 +86,7 @@ export const startUpdateYearModelHandler: SQSHandler = async (event) => {
 
     await Promise.all(
       messages.map(async (message) =>
-        startUpdateYearModel(JSON.parse(message.body)),
+        startUpdateYearModel(JSON.parse(message.body) as YearModelQueueMessage),
       ),
     );
   } catch (error) {

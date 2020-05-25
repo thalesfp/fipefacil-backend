@@ -4,8 +4,7 @@ import {
   updateYearModelCurrentPrice,
 } from "../repository/yearModels";
 import { normalizeYearModel } from "../transformers/valuesFromRemoteApi";
-import VehicleType from "../types/VehicleType";
-import FuelType from "../types/FuelType";
+import { YearModelQueueMessage } from "../queue/yearModelsQueue";
 
 const startUpdateYearModel = async ({
   referenceId,
@@ -15,15 +14,7 @@ const startUpdateYearModel = async ({
   yearModelId,
   yearModelYear,
   yearModelFuelType,
-}: {
-  referenceId: number;
-  vehicleType: VehicleType;
-  brandId: number;
-  modelId: number;
-  yearModelId: string;
-  yearModelYear: number;
-  yearModelFuelType: FuelType;
-}): Promise<void> => {
+}: YearModelQueueMessage): Promise<void> => {
   await createYearModel({
     id: yearModelId,
     year: yearModelYear,

@@ -1,9 +1,9 @@
 import FuelType from "./FuelType";
 
 interface PriceReferenceType {
+  id: number;
   month: number;
   year: number;
-  id: number;
 }
 
 interface BrandType {

@@ -6,19 +6,14 @@ import {
 import { normalizeModels } from "../transformers/valuesFromRemoteApi";
 import { createBrand } from "../repository/brands";
 import sendMessage from "../queue/modelsQueue";
-import VehicleType from "../types/VehicleType";
+import { BrandQueueMessage } from "../queue/brandsQueue";
 
 const startUpdateBrand = async ({
   referenceId,
   vehicleType,
   brandId,
   brandName,
-}: {
-  referenceId: number;
-  vehicleType: VehicleType;
-  brandId: number;
-  brandName: string;
-}): Promise<void> => {
+}: BrandQueueMessage): Promise<void> => {
   await createBrand({
     id: brandId,
     name: normalizeBrandName(brandName),
