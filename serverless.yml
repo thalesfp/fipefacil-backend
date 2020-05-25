@@ -146,4 +146,5 @@ package:
   individually: true
 
 plugins:
-  - serverless-webpack
+  # - serverless-webpack
+  - serverless-plugin-typescript
