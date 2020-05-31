@@ -89,6 +89,7 @@ describe("repository", () => {
         expect(response.length).toEqual(3);
 
         expect(response).toContainEqual({
+          sk: `YEAR_MODEL#${yearModel1.year}-${yearModel1.fuelType}`,
           year: yearModel1.year,
           fuelType: yearModel1.fuelType,
           currentPrice: null,
@@ -96,6 +97,7 @@ describe("repository", () => {
         });
 
         expect(response).toContainEqual({
+          sk: `YEAR_MODEL#${yearModel2.year}-${yearModel2.fuelType}`,
           year: yearModel2.year,
           fuelType: yearModel2.fuelType,
           currentPrice: null,
@@ -103,6 +105,7 @@ describe("repository", () => {
         });
 
         expect(response).toContainEqual({
+          sk: `YEAR_MODEL#${yearModel3.year}-${yearModel3.fuelType}`,
           year: yearModel3.year,
           fuelType: yearModel3.fuelType,
           currentPrice: null,

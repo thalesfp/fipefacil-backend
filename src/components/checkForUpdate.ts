@@ -1,6 +1,6 @@
 import { getReferences } from "../api/fipeApi";
 import { normalizeReferences } from "../transformers/valuesFromRemoteApi";
-import { getCurrentReferenceId } from "../repository/references";
+import { getCurrentReference } from "../repository/references";
 import sendMessage from "../queue/referencesQueue";
 import { PriceReferenceType } from "../types/Types";
 
@@ -13,9 +13,12 @@ const checkForUpdate = async (): Promise<boolean> => {
   const references = await getReferences();
   const referencesNormalized = normalizeReferences(references);
   const lastRemoteReference = getLastRemoteReference(referencesNormalized);
-  const currentReferenceId = await getCurrentReferenceId();
+  const currentReferenceId = await getCurrentReference();
 
-  if (!currentReferenceId || lastRemoteReference.id > currentReferenceId) {
+  if (
+    !currentReferenceId ||
+    lastRemoteReference.id > parseInt(currentReferenceId.sk, 10)
+  ) {
     await sendMessage(lastRemoteReference);
 
     return true;

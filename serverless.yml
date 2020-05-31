@@ -60,13 +60,13 @@ provider:
 
 functions:
   checkForUpdate:
-    handler: src/lambda/handler.checkForUpdateHandler
+    handler: src/lambda/updateHandler.checkForUpdateHandler
     events:
       - http:
           path: /checkForUpdate
           method: get
   startUpdateReference:
-    handler: src/lambda/handler.startUpdateReferenceHandler
+    handler: src/lambda/updateHandler.startUpdateReferenceHandler
     events:
       - sqs:
           arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:references
@@ -75,7 +75,7 @@ functions:
           path: /startUpdateReference
           method: get
   startUpdateBrand:
-    handler: src/lambda/handler.startUpdateBrandHandler
+    handler: src/lambda/updateHandler.startUpdateBrandHandler
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     timeout: ${self:custom.functions.timeout}
     events:
@@ -86,7 +86,7 @@ functions:
           path: /startUpdateBrand
           method: get
   startUpdateModel:
-    handler: src/lambda/handler.startUpdateModelHandler
+    handler: src/lambda/updateHandler.startUpdateModelHandler
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     events:
       - sqs:
@@ -96,7 +96,7 @@ functions:
           path: /startUpdateModel
           method: get
   startUpdateYearModel:
-    handler: src/lambda/handler.startUpdateYearModelHandler
+    handler: src/lambda/updateHandler.startUpdateYearModelHandler
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     events:
       - sqs:
@@ -105,6 +105,46 @@ functions:
       - http:
           path: /startUpdateYearModel
           method: get
+  queryCurrentReference:
+    handler: src/lambda/queryHandler.queryCurrentReference
+    events:
+      - http:
+          path: /currentReference
+          method: get
+          cors: true
+  queryBrands:
+    handler: src/lambda/queryHandler.queryBrands
+    events:
+      - http:
+          path: /{vehicleType}/brands
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                vehicleType: true
+  queryModels:
+    handler: src/lambda/queryHandler.queryModels
+    events:
+      - http:
+          path: /brand/{brandId}/models
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                brandId: true
+  queryYearModels:
+    handler: src/lambda/queryHandler.queryYearModels
+    events:
+      - http:
+          path: /model/{modelId}/yearModels
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                modelId: true
 
 resources:
   Resources:

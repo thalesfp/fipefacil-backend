@@ -8,7 +8,7 @@ import {
   receiveMessage,
 } from "../../../src/queue/queueManager";
 import startUpdateReference from "../../../src/components/startUpdateReference";
-import { getCurrentReferenceId } from "../../../src/repository/references";
+import { getCurrentReference } from "../../../src/repository/references";
 import VehicleType from "../../../src/types/VehicleType";
 import { PriceReferenceType } from "../../../src/types/Types";
 
@@ -138,8 +138,8 @@ describe("startUpdateReference", () => {
 
     await startUpdateReference(reference);
 
-    const currentReferenceId = await getCurrentReferenceId();
+    const currentReferenceId = await getCurrentReference();
 
-    expect(currentReferenceId).toEqual(252);
+    expect(currentReferenceId?.sk).toEqual("252");
   });
 });

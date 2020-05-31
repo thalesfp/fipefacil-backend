@@ -25,7 +25,7 @@ export const createReference = async ({
   await databaseManager.putItem(params).promise();
 };
 
-export const getCurrentReferenceId = async (): Promise<number | null> => {
+export const getCurrentReference = async (): Promise<ReferenceDatabaseType | null> => {
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk",
@@ -34,7 +34,6 @@ export const getCurrentReferenceId = async (): Promise<number | null> => {
         S: "REF",
       },
     },
-    ProjectionExpression: "sk",
     ScanIndexForward: false,
     Limit: 1,
   };
@@ -43,7 +42,7 @@ export const getCurrentReferenceId = async (): Promise<number | null> => {
 
   if (!Array.isArray(response) || response.length === 0) return null;
 
-  const { sk: referenceId } = unmarshall(response[0]);
+  const reference = unmarshall(response[0]) as ReferenceDatabaseType;
 
-  return parseInt(referenceId, 10);
+  return reference;
 };

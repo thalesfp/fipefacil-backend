@@ -56,6 +56,7 @@ describe("startUpdateYearModel", () => {
 
       const expectedResponse = [
         {
+          sk: "YEAR_MODEL#1995-1",
           fuelType: FuelType.gasolina,
           year: 1995,
           currentPrice: 16728,

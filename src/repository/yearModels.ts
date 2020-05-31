@@ -94,7 +94,7 @@ export const getYearModels = async (
         S: "YEAR_MODEL#",
       },
     },
-    ProjectionExpression: "#yearAttr, fuelType, currentPrice, priceHistory",
+    ProjectionExpression: "sk, #yearAttr, fuelType, currentPrice, priceHistory",
     ExpressionAttributeNames: {
       "#yearAttr": "year",
     },

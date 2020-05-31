@@ -5,7 +5,7 @@ import {
 
 import {
   createReference,
-  getCurrentReferenceId,
+  getCurrentReference,
 } from "../../../src/repository/references";
 
 describe("repository", () => {
@@ -17,7 +17,7 @@ describe("repository", () => {
     it("should return null when there is no reference", async () => {
       expect.assertions(1);
 
-      expect(await getCurrentReferenceId()).toBeNull();
+      expect(await getCurrentReference()).toBeNull();
     });
 
     it("should return greatest reference id", async () => {
@@ -27,7 +27,9 @@ describe("repository", () => {
       await createReference({ id: 3, month: 30, year: 2020 });
       await createReference({ id: 2, month: 12, year: 2020 });
 
-      expect(await getCurrentReferenceId()).toEqual(3);
+      const currentReference = await getCurrentReference();
+
+      expect(currentReference?.sk).toEqual("3");
     });
   });
 });
