@@ -1,25 +1,23 @@
 import FuelType from "./FuelType";
 
-interface PriceReferenceType {
+export interface PriceReferenceType {
   id: number;
   month: number;
   year: number;
 }
 
-interface BrandType {
+export interface BrandType {
   id: number;
   name: string;
 }
 
-interface ModelType {
+export interface ModelType {
   id: number;
   name: string;
 }
 
-interface YearModelType {
+export interface YearModelType {
   id: string;
   year: number;
   fuelType: FuelType;
 }
-
-export { PriceReferenceType, BrandType, ModelType, YearModelType };

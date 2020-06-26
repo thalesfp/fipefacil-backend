@@ -11,6 +11,9 @@ custom:
     includeModules:
       forceExclude:
         - aws-sdk
+  customDomain:
+    domainName: ${self:service}.thales.work
+    certificateName: "*.thales.work"
 
 provider:
   name: aws
@@ -189,3 +192,4 @@ package:
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-domain-manager
