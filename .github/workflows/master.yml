@@ -56,6 +56,8 @@ jobs:
           MODELS_QUEUE: http://localhost:9324/queue/models
           YEAR_MODELS_QUEUE: http://localhost:9324/queue/yearmodels
           PRICES_TABLE: prices_test
+          UPDATE_BUCKET_NAME: fipe-updates
+          UPDATE_BUCKET_REGION: sa-east-1
       # - name: serverless deploy
       #   uses: serverless/github-action@master
       #   with:
