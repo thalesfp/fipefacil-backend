@@ -58,6 +58,8 @@ jobs:
           PRICES_TABLE: prices_test
           UPDATE_BUCKET_NAME: fipe-updates
           UPDATE_BUCKET_REGION: sa-east-1
+          AWS_ACCESS_KEY_ID: minio_access_key
+          AWS_SECRET_ACCESS_KEY: minio_secret_key
       # - name: serverless deploy
       #   uses: serverless/github-action@master
       #   with:

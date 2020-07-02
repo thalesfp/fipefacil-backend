@@ -7,16 +7,20 @@ const {
   AWS_SECRET_ACCESS_KEY,
 } = process.env;
 
-// const s3ForcePathStyle = AWS_S3_ENDPOINT === "http://localhost:9000";
+const isLocalDevelopment = AWS_S3_ENDPOINT === "http://localhost:9000";
 
 export const storageManager = (region: string): S3 =>
-  new S3({
-    region,
-    // endpoint: AWS_S3_ENDPOINT,
-    // accessKeyId: AWS_ACCESS_KEY_ID,
-    // secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    // s3ForcePathStyle,
-  });
+  isLocalDevelopment
+    ? new S3({
+        region,
+        endpoint: AWS_S3_ENDPOINT,
+        accessKeyId: AWS_ACCESS_KEY_ID,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        s3ForcePathStyle: true,
+      })
+    : new S3({
+        region,
+      });
 
 export const createBucket = async (
   region: string,
