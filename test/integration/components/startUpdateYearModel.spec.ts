@@ -8,6 +8,7 @@ import {
 import { getYearModels } from "../../../src/repository/yearModels";
 import VehicleType from "../../../src/types/VehicleType";
 import FuelType from "../../../src/types/FuelType";
+import { AnoModeloResponseType } from "../../../src/types/FipeResponseTypes";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getYearModel: (): Promise<AnoModeloResponseType> =>

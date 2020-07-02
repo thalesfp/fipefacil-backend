@@ -1,4 +1,4 @@
-interface ReferenceDatabaseType {
+export interface ReferenceDatabaseType {
   pk: string;
   sk: string;
   month: number;
@@ -6,7 +6,7 @@ interface ReferenceDatabaseType {
   createdAt: Date;
 }
 
-interface BrandDatabaseType {
+export interface BrandDatabaseType {
   pk: number;
   sk: string;
   name: string;
@@ -14,14 +14,14 @@ interface BrandDatabaseType {
   createdAt: Date;
 }
 
-interface ModelDatabaseType {
+export interface ModelDatabaseType {
   pk: string;
   sk: string;
   name: string;
   createdAt: Date;
 }
 
-interface YearModelDatabaseType {
+export interface YearModelDatabaseType {
   pk: string;
   sk: string;
   year: number;
@@ -29,4 +29,15 @@ interface YearModelDatabaseType {
   currentPrice: number;
   createdAt: Date;
   priceHistory: { [key: string]: number };
+}
+
+export interface ModelsWithYearModelsType extends ModelDatabaseType {
+  yearModels?: Pick<
+    YearModelDatabaseType,
+    "year" | "fuelType" | "currentPrice" | "priceHistory"
+  >[];
+}
+
+export interface BrandsWithModelsType extends BrandDatabaseType {
+  models?: ModelsWithYearModelsType[];
 }

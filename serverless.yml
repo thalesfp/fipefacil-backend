@@ -28,6 +28,8 @@ provider:
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/brands
     MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/models
     YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/yearmodels
+    UPDATE_BUCKET_NAME: fipefacil-dev-attachmentsbucket-j36o9zne9er4
+    UPDATE_BUCKET_REGION: us-east-1
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -60,6 +62,11 @@ provider:
         - sqs:ReceiveMessage
       Resource:
         - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:yearmodels
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+      Resource:
+        - Fn::Join: ["", [Fn::GetAtt: [AttachmentsBucket, Arn], "/*"]]
 
 functions:
   checkForUpdate:
@@ -148,42 +155,14 @@ functions:
             parameters:
               paths:
                 modelId: true
+  queryUpdateApp:
+    handler: src/lambda/queryHandler.queryUpdateApp
+    timeout: 900
 
 resources:
-  Resources:
-    PricesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: prices
-        AttributeDefinitions:
-          - AttributeName: pk
-            AttributeType: S
-          - AttributeName: sk
-            AttributeType: S
-        KeySchema:
-          - AttributeName: pk
-            KeyType: HASH
-          - AttributeName: sk
-            KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 25
-          WriteCapacityUnits: 25
-    ReferencesQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "references"
-    BrandsQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "brands"
-    ModelsQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "models"
-    YearModelsQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "yearmodels"
+  - ${file(serverless/resources-dynamodb.yml)}
+  - ${file(serverless/resources-sqs.yml)}
+  - ${file(serverless/resources-s3.yml)}
 
 package:
   individually: true

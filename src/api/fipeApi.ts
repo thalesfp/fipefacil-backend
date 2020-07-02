@@ -3,6 +3,14 @@ import querystring from "querystring";
 
 import { vehicleTypeToNumber } from "../transformers/valuesToRemoteApi";
 import VehicleType from "../types/VehicleType";
+import {
+  ReferenciasResponseType,
+  MarcasResponseType,
+  ModelosFullResponseType,
+  ModelosResponseType,
+  AnoModelosResponseType,
+  AnoModeloResponseType,
+} from "../types/FipeResponseTypes";
 
 const BASE_URL = "https://veiculos.fipe.org.br";
 const DEFAULT_TIMEOUT_IN_MS = 10_000;

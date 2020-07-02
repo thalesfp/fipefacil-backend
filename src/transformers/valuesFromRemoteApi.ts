@@ -6,6 +6,13 @@ import {
   YearModelType,
 } from "../types/Types";
 
+import {
+  ReferenciasResponseType,
+  MarcasResponseType,
+  ModelosResponseType,
+  AnoModelosResponseType,
+} from "../types/FipeResponseTypes";
+
 enum months {
   janeiro = 1,
   fevereiro = 2,

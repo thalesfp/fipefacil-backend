@@ -1,5 +1,6 @@
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
 import FuelType from "../types/FuelType";
+import { YearModelDatabaseType } from "../types/DatabaseTypes";
 
 const { PRICES_TABLE } = process.env;
 

@@ -11,6 +11,7 @@ import startUpdateReference from "../../../src/components/startUpdateReference";
 import { getCurrentReference } from "../../../src/repository/references";
 import VehicleType from "../../../src/types/VehicleType";
 import { PriceReferenceType } from "../../../src/types/Types";
+import { MarcasResponseType } from "../../../src/types/FipeResponseTypes";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getBrands: ({

@@ -11,6 +11,7 @@ import startUpdateModel from "../../../src/components/startUpdateModel";
 import { getModels } from "../../../src/repository/models";
 import VehicleType from "../../../src/types/VehicleType";
 import FuelType from "../../../src/types/FuelType";
+import { AnoModelosResponseType } from "../../../src/types/FipeResponseTypes";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getYearModels: (): Promise<AnoModelosResponseType[]> =>

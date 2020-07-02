@@ -1,5 +1,6 @@
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
 import VehicleType from "../types/VehicleType";
+import { BrandDatabaseType } from "../types/DatabaseTypes";
 
 const { PRICES_TABLE } = process.env;
 

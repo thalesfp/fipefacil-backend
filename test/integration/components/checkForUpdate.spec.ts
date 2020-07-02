@@ -9,6 +9,7 @@ import {
   receiveMessage,
 } from "../../../src/queue/queueManager";
 import { createReference } from "../../../src/repository/references";
+import { ReferenciasResponseType } from "../../../src/types/FipeResponseTypes";
 
 jest.mock("../../../src/api/fipeApi", () => ({
   getReferences: (): Promise<ReferenciasResponseType[]> =>

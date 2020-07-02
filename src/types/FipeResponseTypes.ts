@@ -1,14 +1,14 @@
-interface ReferenciasResponseType {
+export interface ReferenciasResponseType {
   Codigo: number;
   Mes: string;
 }
 
-interface MarcasResponseType {
+export interface MarcasResponseType {
   Label: string;
   Value: string;
 }
 
-interface ModelosFullResponseType {
+export interface ModelosFullResponseType {
   Anos: [
     {
       Label: string;
@@ -23,17 +23,17 @@ interface ModelosFullResponseType {
   ];
 }
 
-interface ModelosResponseType {
+export interface ModelosResponseType {
   Label: string;
   Value: number;
 }
 
-interface AnoModelosResponseType {
+export interface AnoModelosResponseType {
   Label: string;
   Value: string;
 }
 
-interface AnoModeloResponseType {
+export interface AnoModeloResponseType {
   Valor: string;
   Marca: string;
   Modelo: string;

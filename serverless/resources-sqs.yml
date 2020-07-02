@@ -1,0 +1,17 @@
+Resources:
+  ReferencesQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "references"
+  BrandsQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "brands"
+  ModelsQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "models"
+  YearModelsQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "yearmodels"
