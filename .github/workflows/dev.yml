@@ -46,8 +46,6 @@ jobs:
         run: npm run test:integration
         env:
           CI: true
-          AWS_ACCESS_KEY_ID: foobar
-          AWS_SECRET_ACCESS_KEY: foobar
           AWS_REGION: us-east-1
           AWS_DYNAMODB_ENDPOINT: http://localhost:8000
           AWS_SQS_ENDPOINT: http://localhost:9324
