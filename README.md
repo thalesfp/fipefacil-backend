@@ -1,3 +1,4 @@
 # Fipe Fácil Backend
 
-![Node.js CI](https://github.com/thalesfp/fipefacil-backend/workflows/Node.js%20CI/badge.svg)
+![branch master](https://github.com/fipefacil/fipefacil-backend/workflows/branch%20master/badge.svg?branch=master)
+![branch dev](https://github.com/fipefacil/fipefacil-backend/workflows/branch%20dev/badge.svg?branch=dev)
