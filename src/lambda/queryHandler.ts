@@ -6,7 +6,6 @@ import { getModels } from "../repository/models";
 import { getYearModels } from "../repository/yearModels";
 import { updateApp } from "../components/updateApp";
 import { numberToVehicleType } from "../transformers/valuesToRemoteApi";
-import VehicleType from "../types/VehicleType";
 
 export const queryCurrentReference: APIGatewayProxyHandler = async () => {
   try {
@@ -102,7 +101,7 @@ export const queryUpdateApp: APIGatewayProxyHandler = async () => {
     };
   } catch (error) {
     return {
-      statusCode: 500,
+      statusCode: error.statusCode ?? 500,
       body: error,
     };
   }

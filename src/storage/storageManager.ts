@@ -103,7 +103,7 @@ export const listKeysInBucket = async (
 ): Promise<string[]> => {
   const client = storageManager(region);
 
-  const objects = await client.listObjects({ Bucket: bucketName }).promise();
+  const objects = await client.listObjectsV2({ Bucket: bucketName }).promise();
 
   const keys = objects.Contents?.map((content) => content.Key ?? "") ?? [];
 

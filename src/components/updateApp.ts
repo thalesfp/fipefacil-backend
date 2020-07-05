@@ -8,11 +8,19 @@ import {
   ReferenceDatabaseType,
 } from "../types/DatabaseTypes";
 import { compressStringToZip } from "../utils/compress";
-import { saveUpdateFile } from "../storage/updates";
+import { saveUpdateFile, listUpdateFiles } from "../storage/updates";
 import { getCurrentReference } from "../repository/references";
 
-const handler = async (
+const generateFileName = (
   currentReference: ReferenceDatabaseType,
+  vehicleType: VehicleType,
+): string =>
+  `${vehicleType.toString()}-${currentReference.year}-${
+    currentReference.month
+  }.zip`;
+
+const handler = async (
+  fileName: string,
   vehicleType: VehicleType,
 ): Promise<void> => {
   const brands: BrandsWithModelsType[] = await getBrands(vehicleType);
@@ -33,10 +41,6 @@ const handler = async (
 
   const compressedBody = compressStringToZip(JSON.stringify(brands));
 
-  const fileName = `${vehicleType.toString()}-${currentReference.year}-${
-    currentReference.month
-  }.zip`;
-
   await saveUpdateFile(fileName, compressedBody);
 
   return;
@@ -55,8 +59,14 @@ export const updateApp = async (): Promise<void> => {
     VehicleType.trucks,
   ];
 
+  const updateFiles = await listUpdateFiles();
+
   for (const vehicleType of vehicleTypes) {
-    await handler(currentReference, vehicleType);
+    const fileName = generateFileName(currentReference, vehicleType);
+
+    if (!updateFiles.includes(fileName)) {
+      await handler(fileName, vehicleType);
+    }
   }
 
   return;

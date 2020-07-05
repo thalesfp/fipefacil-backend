@@ -64,6 +64,11 @@ provider:
         - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:yearmodels
     - Effect: "Allow"
       Action:
+        - "s3:ListBucket"
+      Resource:
+        - Fn::Join: ["", [Fn::GetAtt: [AttachmentsBucket, Arn]]]
+    - Effect: "Allow"
+      Action:
         - "s3:PutObject"
       Resource:
         - Fn::Join: ["", [Fn::GetAtt: [AttachmentsBucket, Arn], "/*"]]
