@@ -2,7 +2,7 @@ import {
   createPricesTable,
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
-import { updateApp } from "../../../src/repository/updateApp";
+import { updateApp } from "../../../src/components/updateApp";
 import { createBrand } from "../../../src/repository/brands";
 import { createModel } from "../../../src/repository/models";
 import { createYearModel } from "../../../src/repository/yearModels";
