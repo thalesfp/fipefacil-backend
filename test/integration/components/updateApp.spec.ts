@@ -104,7 +104,7 @@ describe("components", () => {
         expect(JSON.parse(truckFile)).toEqual(expectedTruckFileContent);
       });
 
-      it("should not create new update files when they are already created", async () => {
+      it("should not overwrite update files", async () => {
         expect.assertions(1);
 
         await updateApp();
