@@ -57,5 +57,5 @@ jobs:
           AWS_S3_ENDPOINT: http://localhost:9000
           AWS_ACCESS_KEY_ID: minio_access_key
           AWS_SECRET_ACCESS_KEY: minio_secret_key
-          UPDATE_BUCKET_NAME: fileUpdatesBucket
+          UPDATE_BUCKET_NAME: file-updates-bucket
           UPDATE_BUCKET_REGION: sa-east-1
