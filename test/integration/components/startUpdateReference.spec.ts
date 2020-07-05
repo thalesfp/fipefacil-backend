@@ -13,7 +13,7 @@ import VehicleType from "../../../src/types/VehicleType";
 import { PriceReferenceType } from "../../../src/types/Types";
 import { MarcasResponseType } from "../../../src/types/FipeResponseTypes";
 
-jest.mock("../../../src/api/fipeApi", () => ({
+jest.mock("../../../src/services/fipeApi", () => ({
   getBrands: ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     referenceId,

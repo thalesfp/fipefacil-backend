@@ -14,7 +14,7 @@ import startUpdateBrand from "../../../src/components/startUpdateBrand";
 import VehicleType from "../../../src/types/VehicleType";
 import { ModelosResponseType } from "../../../src/types/FipeResponseTypes";
 
-jest.mock("../../../src/api/fipeApi", () => ({
+jest.mock("../../../src/services/fipeApi", () => ({
   getModels: (): Promise<ModelosResponseType[]> =>
     Promise.resolve([
       {

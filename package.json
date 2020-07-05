@@ -7,8 +7,8 @@
   "scripts": {
     "test:unit": "jest --config test/unit/jest.config.json",
     "test:integration": "jest --config test/integration/jest.config.json --runInBand --verbose",
-    "test:api": "jest --config test/api/jest.config.json --runInBand --verbose",
-    "test": "npm run test:unit && npm run test:integration && npm run test:api",
+    "test:services": "jest --config test/services/jest.config.json --runInBand --verbose",
+    "test": "npm run test:unit && npm run test:integration && npm run test:services",
     "deploy": "serverless deploy",
     "lint": "eslint . --ext .ts",
     "build": "tsc"

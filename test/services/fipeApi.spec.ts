@@ -4,7 +4,7 @@ import {
   getModels,
   getYearModels,
   getYearModel,
-} from "../../src/api/fipeApi";
+} from "../../src/services/fipeApi";
 import VehicleType from "../../src/types/VehicleType";
 import FuelType from "../../src/types/FuelType";
 

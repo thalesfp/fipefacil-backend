@@ -1,4 +1,4 @@
-import { getYearModels } from "../api/fipeApi";
+import { getYearModels } from "../services/fipeApi";
 import { createModel } from "../repository/models";
 import sendMessage from "../queue/yearModelsQueue";
 import { normalizeYearModels } from "../transformers/valuesFromRemoteApi";

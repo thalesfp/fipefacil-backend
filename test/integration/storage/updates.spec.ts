@@ -2,19 +2,19 @@ import {
   saveUpdateFile,
   deleteUpdateFile,
   listUpdateFiles,
-  createUpdateBucket,
-  deleteUpdateBucket,
-} from "../../../src/storage/updates";
+  createUpdateFilesBucket,
+  deleteUpdateFilesBucket,
+} from "../../../src/storage/updateFiles";
 import { compressStringToZip } from "../../../src/utils/compress";
 
 describe("storage", () => {
   describe("updates", () => {
     beforeAll(async () => {
-      await createUpdateBucket();
+      await createUpdateFilesBucket();
     });
 
     afterEach(async () => {
-      await deleteUpdateBucket();
+      await deleteUpdateFilesBucket();
     });
 
     it("should create and delete objects in the bucket", async () => {

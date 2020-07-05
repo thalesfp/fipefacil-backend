@@ -13,7 +13,7 @@ import VehicleType from "../../../src/types/VehicleType";
 import FuelType from "../../../src/types/FuelType";
 import { AnoModelosResponseType } from "../../../src/types/FipeResponseTypes";
 
-jest.mock("../../../src/api/fipeApi", () => ({
+jest.mock("../../../src/services/fipeApi", () => ({
   getYearModels: (): Promise<AnoModelosResponseType[]> =>
     Promise.resolve([
       {

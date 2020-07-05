@@ -10,7 +10,7 @@ import VehicleType from "../../../src/types/VehicleType";
 import FuelType from "../../../src/types/FuelType";
 import { AnoModeloResponseType } from "../../../src/types/FipeResponseTypes";
 
-jest.mock("../../../src/api/fipeApi", () => ({
+jest.mock("../../../src/services/fipeApi", () => ({
   getYearModel: (): Promise<AnoModeloResponseType> =>
     Promise.resolve({
       Valor: "R$ 16.728,00",

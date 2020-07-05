@@ -11,7 +11,7 @@ import {
 import { createReference } from "../../../src/repository/references";
 import { ReferenciasResponseType } from "../../../src/types/FipeResponseTypes";
 
-jest.mock("../../../src/api/fipeApi", () => ({
+jest.mock("../../../src/services/fipeApi", () => ({
   getReferences: (): Promise<ReferenciasResponseType[]> =>
     Promise.resolve([
       { Codigo: 252, Mes: "março/2020 " },

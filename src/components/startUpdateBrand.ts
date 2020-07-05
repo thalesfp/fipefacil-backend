@@ -1,4 +1,4 @@
-import { getModels } from "../api/fipeApi";
+import { getModels } from "../services/fipeApi";
 import {
   normalizeBrandName,
   isPopularBrand,

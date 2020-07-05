@@ -1,5 +1,5 @@
 import sendMessage from "../queue/brandsQueue";
-import { getBrands } from "../api/fipeApi";
+import { getBrands } from "../services/fipeApi";
 import { createReference } from "../repository/references";
 import { normalizeBrands } from "../transformers/valuesFromRemoteApi";
 import VehicleType from "../types/VehicleType";

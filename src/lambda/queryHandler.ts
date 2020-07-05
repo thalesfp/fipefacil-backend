@@ -4,7 +4,6 @@ import { getCurrentReference } from "../repository/references";
 import { getBrands } from "../repository/brands";
 import { getModels } from "../repository/models";
 import { getYearModels } from "../repository/yearModels";
-import { updateApp } from "../components/updateApp";
 import { numberToVehicleType } from "../transformers/valuesToRemoteApi";
 
 export const queryCurrentReference: APIGatewayProxyHandler = async () => {
@@ -82,26 +81,6 @@ export const queryYearModels: APIGatewayProxyHandler = async (event) => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: error,
-    };
-  }
-};
-
-export const queryUpdateApp: APIGatewayProxyHandler = async () => {
-  try {
-    await updateApp();
-
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({ status: "success" }),
-    };
-  } catch (error) {
-    return {
-      statusCode: error.statusCode ?? 500,
       body: error,
     };
   }

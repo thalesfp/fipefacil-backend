@@ -1,4 +1,4 @@
-import { getYearModel } from "../api/fipeApi";
+import { getYearModel } from "../services/fipeApi";
 import {
   createYearModel,
   updateYearModelCurrentPrice,

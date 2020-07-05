@@ -1,4 +1,4 @@
-import { getReferences } from "../api/fipeApi";
+import { getReferences } from "../services/fipeApi";
 import { normalizeReferences } from "../transformers/valuesFromRemoteApi";
 import { getCurrentReference } from "../repository/references";
 import sendMessage from "../queue/referencesQueue";

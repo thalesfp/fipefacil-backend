@@ -1,5 +1,5 @@
 Resources:
-  AttachmentsBucket:
+  UpdateFilesBucket:
     Type: AWS::S3::Bucket
     Properties:
       CorsConfiguration:
@@ -15,8 +15,3 @@ Resources:
               - DELETE
               - HEAD
             MaxAge: 3000
-
-Outputs:
-  AttachmentsBucketName:
-    Value:
-      Ref: AttachmentsBucket

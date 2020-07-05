@@ -28,7 +28,7 @@ provider:
     BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/brands
     MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/models
     YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/yearmodels
-    UPDATE_BUCKET_NAME: fipefacil-dev-attachmentsbucket-j36o9zne9er4
+    UPDATE_BUCKET_NAME: fipefacil-dev-updatefilesbucket-1m7ayhtcb8kym
     UPDATE_BUCKET_REGION: us-east-1
   iamRoleStatements:
     - Effect: Allow
@@ -66,12 +66,12 @@ provider:
       Action:
         - "s3:ListBucket"
       Resource:
-        - Fn::Join: ["", [Fn::GetAtt: [AttachmentsBucket, Arn]]]
+        - Fn::Join: ["", [Fn::GetAtt: [UpdateFilesBucket, Arn]]]
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
       Resource:
-        - Fn::Join: ["", [Fn::GetAtt: [AttachmentsBucket, Arn], "/*"]]
+        - Fn::Join: ["", [Fn::GetAtt: [UpdateFilesBucket, Arn], "/*"]]
 
 functions:
   checkForUpdate:
@@ -120,6 +120,9 @@ functions:
       - http:
           path: /startUpdateYearModel
           method: get
+  createUpdateFiles:
+    handler: src/lambda/updateHandler.createUpdateFilesHandler
+    timeout: 900
   queryCurrentReference:
     handler: src/lambda/queryHandler.queryCurrentReference
     events:
@@ -160,9 +163,6 @@ functions:
             parameters:
               paths:
                 modelId: true
-  queryUpdateApp:
-    handler: src/lambda/queryHandler.queryUpdateApp
-    timeout: 900
 
 resources:
   - ${file(serverless/resources-dynamodb.yml)}

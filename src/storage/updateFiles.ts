@@ -9,10 +9,10 @@ import {
 
 const { UPDATE_BUCKET_NAME, UPDATE_BUCKET_REGION } = process.env;
 
-export const createUpdateBucket = async (): Promise<void> =>
+export const createUpdateFilesBucket = async (): Promise<void> =>
   createBucket(UPDATE_BUCKET_REGION, UPDATE_BUCKET_NAME);
 
-export const deleteUpdateBucket = async (): Promise<void> =>
+export const deleteUpdateFilesBucket = async (): Promise<void> =>
   deleteBucket(UPDATE_BUCKET_REGION, UPDATE_BUCKET_NAME);
 
 export const saveUpdateFile = async (

@@ -2,15 +2,15 @@ import {
   createPricesTable,
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
-import { updateApp } from "../../../src/components/updateApp";
+import createUpdateFiles from "../../../src/components/createUpdateFiles";
 import {
-  createUpdateBucket,
-  deleteUpdateBucket,
+  createUpdateFilesBucket,
+  deleteUpdateFilesBucket,
   listUpdateFiles,
   deleteUpdateFile,
   getUpdateFile,
   saveUpdateFile,
-} from "../../../src/storage/updates";
+} from "../../../src/storage/updateFiles";
 
 import { decompressZipToString } from "../../../src/utils/compress";
 import {
@@ -18,10 +18,10 @@ import {
   expectedCarFileContent,
   expectedMotorcycleFileContent,
   expectedTruckFileContent,
-} from "./updateApp.helper";
+} from "./createUpdateFiles.helper";
 
-jest.mock("../../../src/storage/updates", () => {
-  const originalModule = jest.requireActual("../../../src/storage/updates");
+jest.mock("../../../src/storage/updateFiles", () => {
+  const originalModule = jest.requireActual("../../../src/storage/updateFiles");
 
   return {
     ...originalModule,
@@ -31,24 +31,24 @@ jest.mock("../../../src/storage/updates", () => {
 
 describe("components", () => {
   beforeAll(async () => {
-    await createUpdateBucket();
+    await createUpdateFilesBucket();
     await createPricesTable();
   });
 
   afterAll(async () => {
     await dropPricesTable();
-    await deleteUpdateBucket();
+    await deleteUpdateFilesBucket();
   });
 
-  describe("updateApp", () => {
-    describe("#updateApp", () => {
+  describe("createUpdateFiles", () => {
+    describe("#createUpdateFiles", () => {
       const carFileUpdate = "car-2020-3.zip";
       const motorcycleFileUpdate = "motorcycle-2020-3.zip";
       const truckFileUpdate = "trucks-2020-3.zip";
 
       beforeAll(async () => {
         await createFixtures();
-        await updateApp();
+        await createUpdateFiles();
       });
 
       afterAll(async () => {
@@ -107,7 +107,7 @@ describe("components", () => {
       it("should not overwrite update files", async () => {
         expect.assertions(1);
 
-        await updateApp();
+        await createUpdateFiles();
 
         expect(saveUpdateFile).toBeCalledTimes(3);
       });

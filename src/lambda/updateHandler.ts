@@ -5,6 +5,7 @@ import startUpdateReference from "../components/startUpdateReference";
 import startUpdateBrand from "../components/startUpdateBrand";
 import startUpdateModel from "../components/startUpdateModel";
 import startUpdateYearModel from "../components/startUpdateYearModel";
+import createUpdateFiles from "../components/createUpdateFiles";
 
 import { ReferenceQueueMessage } from "../queue/referencesQueue";
 import { BrandQueueMessage } from "../queue/brandsQueue";
@@ -94,5 +95,25 @@ export const startUpdateYearModelHandler: SQSHandler = async (event) => {
     console.error(error);
 
     throw error;
+  }
+};
+
+export const createUpdateFilesHandler: APIGatewayProxyHandler = async () => {
+  try {
+    await createUpdateFiles();
+
+    return {
+      statusCode: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({ status: "success" }),
+    };
+  } catch (error) {
+    return {
+      statusCode: error.statusCode ?? 500,
+      body: error,
+    };
   }
 };

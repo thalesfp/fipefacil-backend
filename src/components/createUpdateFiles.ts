@@ -8,7 +8,7 @@ import {
   ReferenceDatabaseType,
 } from "../types/DatabaseTypes";
 import { compressStringToZip } from "../utils/compress";
-import { saveUpdateFile, listUpdateFiles } from "../storage/updates";
+import { saveUpdateFile, listUpdateFiles } from "../storage/updateFiles";
 import { getCurrentReference } from "../repository/references";
 
 const generateFileName = (
@@ -19,9 +19,9 @@ const generateFileName = (
     currentReference.month
   }.zip`;
 
-const handler = async (
-  fileName: string,
+const createUpdateFileForVehicleType = async (
   vehicleType: VehicleType,
+  fileName: string,
 ): Promise<void> => {
   const brands: BrandsWithModelsType[] = await getBrands(vehicleType);
 
@@ -46,7 +46,7 @@ const handler = async (
   return;
 };
 
-export const updateApp = async (): Promise<void> => {
+const createUpdateFiles = async (): Promise<void> => {
   const currentReference = await getCurrentReference();
 
   if (!currentReference) {
@@ -65,9 +65,11 @@ export const updateApp = async (): Promise<void> => {
     const fileName = generateFileName(currentReference, vehicleType);
 
     if (!updateFiles.includes(fileName)) {
-      await handler(fileName, vehicleType);
+      await createUpdateFileForVehicleType(vehicleType, fileName);
     }
   }
 
   return;
 };
+
+export default createUpdateFiles;
