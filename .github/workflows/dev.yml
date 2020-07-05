@@ -20,28 +20,28 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
+      - name: Run Docker Compose
+        run: docker-compose up -d
       - name: Run Unit Tests
         run: npm run test:unit
         env:
           CI: true
       - name: Run Services Tests
         run: npm run test:services
-      - name: Run Docker Compose
-        run: docker-compose up -d
-      - name: Wait for DynamoDB
-        uses: nev7n/wait_for_response@v1
-        with:
-          url: "http://localhost:8000"
-          responseCode: 400
-          timeout: 20000
-          interval: 1000
-      - name: Wait for SQS
-        uses: nev7n/wait_for_response@v1
-        with:
-          url: "http://localhost:9324"
-          responseCode: 400
-          timeout: 20000
-          interval: 1000
+      # - name: Wait for DynamoDB
+      #   uses: nev7n/wait_for_response@v1
+      #   with:
+      #     url: "http://localhost:8000"
+      #     responseCode: 400
+      #     timeout: 20000
+      #     interval: 1000
+      # - name: Wait for SQS
+      #   uses: nev7n/wait_for_response@v1
+      #   with:
+      #     url: "http://localhost:9324"
+      #     responseCode: 400
+      #     timeout: 20000
+      #     interval: 1000
       - name: Run Integration Tests
         run: npm run test:integration
         env:
@@ -54,7 +54,8 @@ jobs:
           MODELS_QUEUE: http://localhost:9324/queue/models
           YEAR_MODELS_QUEUE: http://localhost:9324/queue/yearmodels
           PRICES_TABLE: prices_test
+          AWS_S3_ENDPOINT: http://localhost:9000
           AWS_ACCESS_KEY_ID: minio_access_key
           AWS_SECRET_ACCESS_KEY: minio_secret_key
-          UPDATE_BUCKET_NAME: fipe-updates
+          UPDATE_BUCKET_NAME: fileUpdatesBucket
           UPDATE_BUCKET_REGION: sa-east-1
