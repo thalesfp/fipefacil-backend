@@ -9,6 +9,7 @@ import {
   listUpdateFiles,
   deleteUpdateFile,
   getUpdateFile,
+  saveUpdateFile,
 } from "../../../src/storage/updates";
 
 import { decompressZipToString } from "../../../src/utils/compress";
@@ -18,6 +19,15 @@ import {
   expectedMotorcycleFileContent,
   expectedTruckFileContent,
 } from "./updateApp.helper";
+
+jest.mock("../../../src/storage/updates", () => {
+  const originalModule = jest.requireActual("../../../src/storage/updates");
+
+  return {
+    ...originalModule,
+    saveUpdateFile: jest.fn(originalModule.saveUpdateFile),
+  };
+});
 
 describe("components", () => {
   beforeAll(async () => {
@@ -92,6 +102,14 @@ describe("components", () => {
         const truckFile = decompressZipToString(compressedTruckFile);
 
         expect(JSON.parse(truckFile)).toEqual(expectedTruckFileContent);
+      });
+
+      it("should not create new update files when they are already created", async () => {
+        expect.assertions(1);
+
+        await updateApp();
+
+        expect(saveUpdateFile).toBeCalledTimes(3);
       });
     });
   });
