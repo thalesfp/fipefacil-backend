@@ -5,3 +5,9 @@ export const compressStringToZip = (string: string): Buffer => {
 
   return zlib.gzipSync(buffer);
 };
+
+export const decompressZipToString = (buffer: Buffer): string => {
+  const decompressed = zlib.gunzipSync(buffer);
+
+  return Buffer.from(decompressed).toString();
+};

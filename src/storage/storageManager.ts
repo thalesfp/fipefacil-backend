@@ -80,6 +80,23 @@ export const deleteObject = async (
     .promise();
 };
 
+export const getObjectAsBuffer = async (
+  region: string,
+  bucketName: string,
+  key: string,
+): Promise<Buffer> => {
+  const client = storageManager(region);
+
+  const object = await client
+    .getObject({
+      Bucket: bucketName,
+      Key: key,
+    })
+    .promise();
+
+  return object.Body as Buffer;
+};
+
 export const listKeysInBucket = async (
   region: string,
   bucketName: string,
