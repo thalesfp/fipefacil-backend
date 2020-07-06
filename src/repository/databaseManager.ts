@@ -2,8 +2,8 @@ import { DynamoDB } from "aws-sdk";
 import * as env from "env-var";
 
 export const databaseManager = new DynamoDB({
-  endpoint: env.get("AWS_DYNAMODB_ENDPOINT").required().asString(),
-  region: env.get("AWS_REGION").required().asString(),
+  endpoint: env.get("AWS_DYNAMODB_ENDPOINT").asString(),
+  region: env.get("AWS_REGION").asString(),
 });
 
 export const createPricesTable = async (): Promise<void> => {
