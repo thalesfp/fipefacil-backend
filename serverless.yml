@@ -11,8 +11,32 @@ custom:
     includeModules:
       forceExclude:
         - aws-sdk
+  tables:
+    prices:
+      dev: prices-dev
+      production: prices
+  queues:
+    references:
+      dev: references-dev
+      production: references
+    brands:
+      dev: brands-dev
+      production: brands
+    models:
+      dev: models-dev
+      production: models
+    yearModels:
+      dev: yearmodels-dev
+      production: yearmodels
+  buckets:
+    updateFiles:
+      dev: update-files-bucket-dev
+      production: update-files-bucket
+  domain:
+    dev: ${self:service}-dev.thales.work
+    production: ${self:service}.thales.work
   customDomain:
-    domainName: ${self:service}.thales.work
+    domainName: ${self:custom.domain.${self:provider.stage}}
     certificateName: "*.thales.work"
 
 provider:
@@ -23,12 +47,12 @@ provider:
   accountId: 678634121400
   memorySize: 256
   environment:
-    PRICES_TABLE: prices-${self:provider.stage}
-    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/references-${self:provider.stage}
-    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/brands-${self:provider.stage}
-    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/models-${self:provider.stage}
-    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/yearmodels-${self:provider.stage}
-    UPDATE_FILES_BUCKET_NAME: update-files-bucket-${self:provider.stage}
+    PRICES_TABLE: ${self:custom.tables.prices.${self:provider.stage}}
+    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.references.${self:provider.stage}}
+    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.brands.${self:provider.stage}}
+    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.models.${self:provider.stage}}
+    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.yearModels.${self:provider.stage}}
+    UPDATE_FILES_BUCKET_NAME: ${self:custom.buckets.updateFiles.${self:provider.stage}}
     UPDATE_FILES_BUCKET_REGION: us-east-1
   iamRoleStatements:
     - Effect: Allow

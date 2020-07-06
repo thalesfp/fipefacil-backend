@@ -2,27 +2,30 @@ import { S3 } from "aws-sdk";
 import { Readable } from "stream";
 import * as env from "env-var";
 
-const AWS_S3_ENDPOINT = env.get("AWS_S3_ENDPOINT").required().asString();
-const AWS_ACCESS_KEY_ID = env.get("AWS_ACCESS_KEY_ID").required().asString();
-const AWS_SECRET_ACCESS_KEY = env
-  .get("AWS_SECRET_ACCESS_KEY")
-  .required()
-  .asString();
+export const storageManager = (region: string): S3 => {
+  const AWS_S3_ENDPOINT = env.get("AWS_S3_ENDPOINT").required(false).asString();
 
-const isLocalDevelopment = AWS_S3_ENDPOINT === "http://localhost:9000";
+  if (AWS_S3_ENDPOINT) {
+    const AWS_ACCESS_KEY_ID = env
+      .get("AWS_ACCESS_KEY_ID")
+      .required()
+      .asString();
+    const AWS_SECRET_ACCESS_KEY = env
+      .get("AWS_SECRET_ACCESS_KEY")
+      .required()
+      .asString();
 
-export const storageManager = (region: string): S3 =>
-  isLocalDevelopment
-    ? new S3({
-        region,
-        endpoint: AWS_S3_ENDPOINT,
-        accessKeyId: AWS_ACCESS_KEY_ID,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY,
-        s3ForcePathStyle: true,
-      })
-    : new S3({
-        region,
-      });
+    return new S3({
+      region,
+      endpoint: AWS_S3_ENDPOINT,
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      s3ForcePathStyle: true,
+    });
+  }
+
+  return new S3({ region });
+};
 
 export const createBucket = async (
   region: string,

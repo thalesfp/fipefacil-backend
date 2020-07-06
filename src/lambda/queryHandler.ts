@@ -26,7 +26,7 @@ export const queryCurrentReference: APIGatewayProxyHandler = async () => {
 export const queryBrands: APIGatewayProxyHandler = async (event) => {
   try {
     const vehicleTypeParam = event.pathParameters?.vehicleType;
-    if (!vehicleTypeParam) throw Error("Parameter misson: vehicleType");
+    if (!vehicleTypeParam) throw Error("Parameter missing: vehicleType");
 
     const vehicleType = numberToVehicleType(parseInt(vehicleTypeParam, 10));
     const brands = await getBrands(vehicleType);
@@ -47,7 +47,7 @@ export const queryBrands: APIGatewayProxyHandler = async (event) => {
 export const queryModels: APIGatewayProxyHandler = async (event) => {
   try {
     const brandIdParam = event.pathParameters?.brandIdParam;
-    if (!brandIdParam) throw Error("Parameter misson: brandIdParam");
+    if (!brandIdParam) throw Error("Parameter missing: brandIdParam");
 
     const brandId = parseInt(brandIdParam, 10);
     const models = await getModels(brandId);
@@ -68,7 +68,7 @@ export const queryModels: APIGatewayProxyHandler = async (event) => {
 export const queryYearModels: APIGatewayProxyHandler = async (event) => {
   try {
     const modelIdParam = event.pathParameters?.modelIdParam;
-    if (!modelIdParam) throw Error("Parameter misson: brandIdParam");
+    if (!modelIdParam) throw Error("Parameter missing: brandIdParam");
 
     const modelId = parseInt(modelIdParam, 10);
     const yearModels = await getYearModels(modelId);

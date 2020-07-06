@@ -2,16 +2,16 @@ Resources:
   ReferencesQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: references-${self:provider.stage}
+      QueueName: ${self:custom.queues.references.${self:provider.stage}}
   BrandsQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: brands-${self:provider.stage}
+      QueueName: ${self:custom.queues.brands.${self:provider.stage}}
   ModelsQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: models-${self:provider.stage}
+      QueueName: ${self:custom.queues.models.${self:provider.stage}}
   YearModelsQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: yearmodels-${self:provider.stage}
+      QueueName: ${self:custom.queues.yearModels.${self:provider.stage}}

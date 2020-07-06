@@ -2,7 +2,7 @@ Resources:
   UpdateFilesBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: update-files-bucket-${self:provider.stage}
+      BucketName: ${self:custom.buckets.updateFiles.${self:provider.stage}}
       CorsConfiguration:
         CorsRules:
           - AllowedOrigins:
