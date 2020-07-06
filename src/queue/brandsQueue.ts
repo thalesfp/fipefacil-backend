@@ -1,7 +1,8 @@
+import * as env from "env-var";
 import * as queueManager from "./queueManager";
 import VehicleType from "../types/VehicleType";
 
-const QUEUE_NAME = process.env.BRANDS_QUEUE;
+const QUEUE_NAME = env.get("BRANDS_QUEUE").required().asString();
 
 export type BrandQueueMessage = {
   referenceId: number;

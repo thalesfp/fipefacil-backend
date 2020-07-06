@@ -1,3 +1,4 @@
+import * as env from "env-var";
 import {
   createBucket,
   deleteBucket,
@@ -7,7 +8,14 @@ import {
   getObjectAsBuffer,
 } from "./storageManager";
 
-const { UPDATE_FILES_BUCKET_NAME, UPDATE_FILES_BUCKET_REGION } = process.env;
+const UPDATE_FILES_BUCKET_NAME = env
+  .get("UPDATE_FILES_BUCKET_NAME")
+  .required()
+  .asString();
+const UPDATE_FILES_BUCKET_REGION = env
+  .get("UPDATE_FILES_BUCKET_REGION")
+  .required()
+  .asString();
 
 export const createUpdateFilesBucket = async (): Promise<void> =>
   createBucket(UPDATE_FILES_BUCKET_REGION, UPDATE_FILES_BUCKET_NAME);

@@ -1,11 +1,13 @@
 import { S3 } from "aws-sdk";
 import { Readable } from "stream";
+import * as env from "env-var";
 
-const {
-  AWS_S3_ENDPOINT,
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
-} = process.env;
+const AWS_S3_ENDPOINT = env.get("AWS_S3_ENDPOINT").required().asString();
+const AWS_ACCESS_KEY_ID = env.get("AWS_ACCESS_KEY_ID").required().asString();
+const AWS_SECRET_ACCESS_KEY = env
+  .get("AWS_SECRET_ACCESS_KEY")
+  .required()
+  .asString();
 
 const isLocalDevelopment = AWS_S3_ENDPOINT === "http://localhost:9000";
 

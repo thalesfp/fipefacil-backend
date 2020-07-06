@@ -1,8 +1,9 @@
+import * as env from "env-var";
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
 import FuelType from "../types/FuelType";
 import { YearModelDatabaseType } from "../types/DatabaseTypes";
 
-const { PRICES_TABLE } = process.env;
+const PRICES_TABLE = env.get("PRICES_TABLE").required().asString();
 
 export const createYearModel = async ({
   id,

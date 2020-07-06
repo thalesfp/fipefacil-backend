@@ -1,8 +1,9 @@
 import { SQS } from "aws-sdk";
+import * as env from "env-var";
 
 const sqs = new SQS({
-  endpoint: process.env.AWS_SQS_ENDPOINT,
-  region: process.env.AWS_REGION,
+  endpoint: env.get("AWS_SQS_ENDPOINT").required().asString(),
+  region: env.get("AWS_REGION").required().asString(),
 });
 
 export const createQueue = async (queueUrl: string): Promise<void> => {

@@ -1,8 +1,9 @@
+import * as env from "env-var";
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
 import VehicleType from "../types/VehicleType";
 import { BrandDatabaseType } from "../types/DatabaseTypes";
 
-const { PRICES_TABLE } = process.env;
+const PRICES_TABLE = env.get("PRICES_TABLE").required().asString();
 
 export const createBrand = async ({
   id,

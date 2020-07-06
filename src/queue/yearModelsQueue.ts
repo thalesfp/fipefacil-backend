@@ -1,8 +1,9 @@
+import * as env from "env-var";
 import * as queueManager from "./queueManager";
 import VehicleType from "../types/VehicleType";
 import FuelType from "../types/FuelType";
 
-const QUEUE_NAME = process.env.YEAR_MODELS_QUEUE;
+const QUEUE_NAME = env.get("YEAR_MODELS_QUEUE").required().asString();
 
 export type YearModelQueueMessage = {
   referenceId: number;

@@ -1,13 +1,14 @@
 import { DynamoDB } from "aws-sdk";
+import * as env from "env-var";
 
 export const databaseManager = new DynamoDB({
-  endpoint: process.env.AWS_DYNAMODB_ENDPOINT,
-  region: process.env.AWS_REGION,
+  endpoint: env.get("AWS_DYNAMODB_ENDPOINT").required().asString(),
+  region: env.get("AWS_REGION").required().asString(),
 });
 
 export const createPricesTable = async (): Promise<void> => {
   const params = {
-    TableName: process.env.PRICES_TABLE,
+    TableName: env.get("PRICES_TABLE").required().asString(),
     AttributeDefinitions: [
       {
         AttributeName: "pk",
@@ -39,7 +40,7 @@ export const createPricesTable = async (): Promise<void> => {
 
 export const dropPricesTable = async (): Promise<void> => {
   const params = {
-    TableName: process.env.PRICES_TABLE,
+    TableName: env.get("PRICES_TABLE").required().asString(),
   };
 
   await databaseManager.deleteTable(params).promise();
