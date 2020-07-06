@@ -3,7 +3,7 @@ import { Readable } from "stream";
 import * as env from "env-var";
 
 export const storageManager = (region: string): S3 => {
-  const AWS_S3_ENDPOINT = env.get("AWS_S3_ENDPOINT").required(false).asString();
+  const AWS_S3_ENDPOINT = env.get("AWS_S3_ENDPOINT").asString();
 
   if (AWS_S3_ENDPOINT) {
     const AWS_ACCESS_KEY_ID = env
