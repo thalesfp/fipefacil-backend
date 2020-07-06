@@ -46,7 +46,7 @@ describe("fipeApi", () => {
     expect(
       await getBrands({
         referenceId: 252,
-        vehicleType: VehicleType.trucks,
+        vehicleType: VehicleType.truck,
       }),
     ).toContainEqual({ Label: "FOTON", Value: "191" });
   });
@@ -81,7 +81,7 @@ describe("fipeApi", () => {
     expect(
       await getModels({
         referenceId: 252,
-        vehicleType: VehicleType.trucks,
+        vehicleType: VehicleType.truck,
         brandId: 191,
       }),
     ).toContainEqual({ Label: "10-16DT 3.8 4x2 Diesel(E5)", Value: 6904 });
@@ -119,7 +119,7 @@ describe("fipeApi", () => {
     expect(
       await getYearModels({
         referenceId: 252,
-        vehicleType: VehicleType.trucks,
+        vehicleType: VehicleType.truck,
         brandId: 191,
         modelId: 6904,
       }),
@@ -184,7 +184,7 @@ describe("fipeApi", () => {
     expect(
       await getYearModel({
         referenceId: 252,
-        vehicleType: VehicleType.trucks,
+        vehicleType: VehicleType.truck,
         brandId: 191,
         modelId: 6904,
         yearModelYear: 2015,

@@ -56,7 +56,7 @@ const createUpdateFiles = async (): Promise<void> => {
   const vehicleTypes = [
     VehicleType.car,
     VehicleType.motorcycle,
-    VehicleType.trucks,
+    VehicleType.truck,
   ];
 
   const updateFiles = await listUpdateFiles();

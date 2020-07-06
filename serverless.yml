@@ -23,13 +23,13 @@ provider:
   accountId: 678634121400
   memorySize: 256
   environment:
-    PRICES_TABLE: prices
-    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/references
-    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/brands
-    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/models
-    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/yearmodels
-    UPDATE_BUCKET_NAME: fipefacil-dev-updatefilesbucket-1m7ayhtcb8kym
-    UPDATE_BUCKET_REGION: us-east-1
+    PRICES_TABLE: prices-${self:provider.stage}
+    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/references-${self:provider.stage}
+    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/brands-${self:provider.stage}
+    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/models-${self:provider.stage}
+    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/yearmodels-${self:provider.stage}
+    UPDATE_FILES_BUCKET_NAME: update-files-bucket-${self:provider.stage}
+    UPDATE_FILES_BUCKET_REGION: us-east-1
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -37,39 +37,39 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
       Resource:
-        - arn:aws:dynamodb:${self:provider.region}:${self:provider.accountId}:table/prices
+        - Fn::GetAtt: [PricesTable, Arn]
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:references
+        - Fn::GetAtt: [ReferencesQueue, Arn]
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:brands
+        - Fn::GetAtt: [BrandsQueue, Arn]
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:models
+        - Fn::GetAtt: [ModelsQueue, Arn]
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:ReceiveMessage
       Resource:
-        - arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:yearmodels
-    - Effect: "Allow"
+        - Fn::GetAtt: [YearModelsQueue, Arn]
+    - Effect: Allow
       Action:
-        - "s3:ListBucket"
+        - s3:ListBucket
       Resource:
-        - Fn::Join: ["", [Fn::GetAtt: [UpdateFilesBucket, Arn]]]
-    - Effect: "Allow"
+        - Fn::GetAtt: [UpdateFilesBucket, Arn]
+    - Effect: Allow
       Action:
-        - "s3:PutObject"
+        - s3:PutObject
       Resource:
         - Fn::Join: ["", [Fn::GetAtt: [UpdateFilesBucket, Arn], "/*"]]
 
@@ -84,7 +84,8 @@ functions:
     handler: src/lambda/updateHandler.startUpdateReferenceHandler
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:references
+          arn:
+            Fn::GetAtt: [ReferencesQueue, Arn]
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateReference
@@ -95,7 +96,8 @@ functions:
     timeout: ${self:custom.functions.timeout}
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:brands
+          arn:
+            Fn::GetAtt: [BrandsQueue, Arn]
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateBrand
@@ -105,7 +107,8 @@ functions:
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:models
+          arn:
+            Fn::GetAtt: [ModelsQueue, Arn]
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateModel
@@ -115,7 +118,8 @@ functions:
     reservedConcurrency: ${self:custom.functions.reservedConcurrency}
     events:
       - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:${self:provider.accountId}:yearmodels
+          arn:
+            Fn::GetAtt: [YearModelsQueue, Arn]
           batchSize: ${self:custom.functions.batchSize}
       - http:
           path: /startUpdateYearModel

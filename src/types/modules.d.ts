@@ -9,8 +9,8 @@ declare namespace NodeJS {
     YEAR_MODELS_QUEUE: string;
     PRICES_TABLE: string;
     REFERENCES_TABLE: string;
-    UPDATE_BUCKET_NAME: string;
-    UPDATE_BUCKET_REGION: string;
+    UPDATE_FILES_BUCKET_NAME: string;
+    UPDATE_FILES_BUCKET_REGION: string;
     AWS_S3_ENDPOINT: string;
     AWS_ACCESS_KEY_ID: string;
     AWS_SECRET_ACCESS_KEY: string;

@@ -55,8 +55,8 @@ jobs:
           YEAR_MODELS_QUEUE: http://localhost:9324/queue/yearmodels
           PRICES_TABLE: prices_test
           AWS_S3_ENDPOINT: http://localhost:9000
-          UPDATE_BUCKET_NAME: file-updates-bucket
-          UPDATE_BUCKET_REGION: sa-east-1
+          UPDATE_FILES_BUCKET_NAME: file-updates-bucket
+          UPDATE_FILES_BUCKET_REGION: sa-east-1
           AWS_ACCESS_KEY_ID: minio_access_key
           AWS_SECRET_ACCESS_KEY: minio_secret_key
       # - name: serverless deploy

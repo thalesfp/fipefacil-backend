@@ -49,7 +49,7 @@ export const createFixtures = async (): Promise<void> => {
   await createBrand({
     id: brand4.id,
     name: brand4.name,
-    vehicleType: VehicleType.trucks,
+    vehicleType: VehicleType.truck,
     popular: false,
   });
 
@@ -195,7 +195,7 @@ export const expectedTruckFileContent = expect.arrayContaining([
     sk: `BRAND#${brand4.id}`,
     name: brand4.name,
     popular: false,
-    vehicleType: VehicleType.trucks,
+    vehicleType: VehicleType.truck,
     models: expect.arrayContaining([
       {
         sk: `MODEL#${model4.id}`,

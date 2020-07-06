@@ -44,7 +44,7 @@ describe("components", () => {
     describe("#createUpdateFiles", () => {
       const carFileUpdate = "car-2020-3.zip";
       const motorcycleFileUpdate = "motorcycle-2020-3.zip";
-      const truckFileUpdate = "trucks-2020-3.zip";
+      const truckFileUpdate = "truck-2020-3.zip";
 
       beforeAll(async () => {
         await createFixtures();

@@ -2,7 +2,7 @@ Resources:
   PricesTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: prices
+      TableName: prices-${self:provider.stage}
       AttributeDefinitions:
         - AttributeName: pk
           AttributeType: S

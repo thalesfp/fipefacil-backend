@@ -6,7 +6,7 @@ export const vehicleTypeToNumber = (vehicleType: VehicleType): number => {
       return 1;
     case VehicleType.motorcycle:
       return 2;
-    case VehicleType.trucks:
+    case VehicleType.truck:
       return 3;
     default:
       throw new Error(`Invalid vehicle type: ${vehicleType}`);
@@ -20,7 +20,7 @@ export const numberToVehicleType = (vehicleType: number): VehicleType => {
     case 2:
       return VehicleType.motorcycle;
     case 3:
-      return VehicleType.trucks;
+      return VehicleType.truck;
     default:
       throw new Error(`Invalid vehicle type: ${vehicleType}`);
   }

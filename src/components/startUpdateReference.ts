@@ -11,7 +11,7 @@ const startUpdateReference = async (
   await createReference(reference);
 
   await Promise.all(
-    [VehicleType.car, VehicleType.motorcycle, VehicleType.trucks].map(
+    [VehicleType.car, VehicleType.motorcycle, VehicleType.truck].map(
       async (type) => {
         const brands = await getBrands({
           referenceId: reference.id,

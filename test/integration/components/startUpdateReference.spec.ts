@@ -45,7 +45,7 @@ jest.mock("../../../src/services/fipeApi", () => ({
             Value: "61",
           },
         ]);
-      case VehicleType.trucks:
+      case VehicleType.truck:
         return Promise.resolve([
           {
             Label: "BEPOBUS",
@@ -120,13 +120,13 @@ describe("startUpdateReference", () => {
           brandId: 206,
           brandName: "BEPOBUS",
           referenceId: 252,
-          vehicleType: VehicleType.trucks,
+          vehicleType: VehicleType.truck,
         }),
         expect.objectContaining({
           brandId: 121,
           brandName: "CICCOBUS",
           referenceId: 252,
-          vehicleType: VehicleType.trucks,
+          vehicleType: VehicleType.truck,
         }),
       ]),
     );
