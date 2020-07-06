@@ -1,3 +1,4 @@
+import * as env from "env-var";
 import checkForUpdate from "../../../src/components/checkForUpdate";
 import {
   createPricesTable,
@@ -22,7 +23,7 @@ jest.mock("../../../src/services/fipeApi", () => ({
 }));
 
 describe("checkForUpdate", () => {
-  const queueUrl = process.env.REFERENCES_QUEUE;
+  const queueUrl = env.get("REFERENCES_QUEUE").required().asString();
 
   beforeEach(async () => {
     await createPricesTable();

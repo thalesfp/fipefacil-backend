@@ -1,3 +1,4 @@
+import * as env from "env-var";
 import {
   createPricesTable,
   dropPricesTable,
@@ -29,7 +30,7 @@ jest.mock("../../../src/services/fipeApi", () => ({
 
 describe("startUpdateModel", () => {
   describe("when updating a model", () => {
-    const queueUrl = process.env.YEAR_MODELS_QUEUE;
+    const queueUrl = env.get("YEAR_MODELS_QUEUE").required().asString();
 
     const model = {
       referenceId: 252,

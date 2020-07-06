@@ -1,3 +1,4 @@
+import * as env from "env-var";
 import {
   createPricesTable,
   dropPricesTable,
@@ -63,7 +64,7 @@ jest.mock("../../../src/services/fipeApi", () => ({
 }));
 
 describe("startUpdateReference", () => {
-  const queueUrl = process.env.BRANDS_QUEUE;
+  const queueUrl = env.get("BRANDS_QUEUE").required().asString();
 
   beforeEach(async () => {
     await createPricesTable();
