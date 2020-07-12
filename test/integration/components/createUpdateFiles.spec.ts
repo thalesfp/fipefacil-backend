@@ -42,9 +42,9 @@ describe("components", () => {
 
   describe("createUpdateFiles", () => {
     describe("#createUpdateFiles", () => {
-      const carFileUpdate = "car-2020-3.zip";
-      const motorcycleFileUpdate = "motorcycle-2020-3.zip";
-      const truckFileUpdate = "truck-2020-3.zip";
+      const carFileUpdate = "252-car.zip";
+      const motorcycleFileUpdate = "252-motorcycle.zip";
+      const truckFileUpdate = "252-truck.zip";
 
       beforeAll(async () => {
         await createFixtures();

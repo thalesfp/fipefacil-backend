@@ -14,10 +14,7 @@ import { getCurrentReference } from "../repository/references";
 const generateFileName = (
   currentReference: ReferenceDatabaseType,
   vehicleType: VehicleType,
-): string =>
-  `${vehicleType.toString()}-${currentReference.year}-${
-    currentReference.month
-  }.zip`;
+): string => `${currentReference.sk}-${vehicleType.toString()}.zip`;
 
 const createUpdateFileForVehicleType = async (
   vehicleType: VehicleType,
