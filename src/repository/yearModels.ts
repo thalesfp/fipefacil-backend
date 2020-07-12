@@ -33,7 +33,11 @@ export const createYearModel = async ({
   try {
     await databaseManager.putItem(params).promise();
   } catch (error) {
-    return;
+    if (error.code === "ConditionalCheckFailedException") {
+      return;
+    }
+
+    throw error;
   }
 };
 
