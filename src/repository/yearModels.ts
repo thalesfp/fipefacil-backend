@@ -27,9 +27,14 @@ export const createYearModel = async ({
       createdAt: new Date().toISOString(),
       priceHistory: {},
     }),
+    ConditionExpression: "attribute_not_exists(sk)",
   };
 
-  await databaseManager.putItem(params).promise();
+  try {
+    await databaseManager.putItem(params).promise();
+  } catch (error) {
+    return;
+  }
 };
 
 export const updateYearModelCurrentPrice = async ({
