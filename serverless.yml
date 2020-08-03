@@ -102,7 +102,7 @@ functions:
     handler: src/lambda/updateHandler.checkForUpdateHandler
     events:
       - schedule:
-          name: update-handler-schedule
+          name: update-handler-schedule-${self:provider.stage}
           rate: rate(24 hours)
       - http:
           path: /checkForUpdate
