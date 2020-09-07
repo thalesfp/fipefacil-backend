@@ -16,8 +16,8 @@ export const createReference = async ({
   const params = {
     TableName: PRICES_TABLE,
     Item: marshall({
-      pk: "REF",
-      sk: String(id),
+      pk: String(id),
+      sk: "REF",
       month: month,
       year: year,
       createdAt: new Date().toISOString(),
@@ -28,23 +28,26 @@ export const createReference = async ({
 };
 
 export const getCurrentReference = async (): Promise<ReferenceDatabaseType | null> => {
-  const params = {
-    TableName: PRICES_TABLE,
-    KeyConditionExpression: "pk = :pk",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: "REF",
-      },
-    },
-    ScanIndexForward: false,
-    Limit: 1,
-  };
-
-  const { Items: response } = await databaseManager.query(params).promise();
+  const { Items: response } = await databaseManager
+    .scan({
+      TableName: PRICES_TABLE,
+      FilterExpression: "sk = :ref_string",
+      ExpressionAttributeValues: marshall({ ":ref_string": "REF" }),
+    })
+    .promise();
 
   if (!Array.isArray(response) || response.length === 0) return null;
 
-  const reference = unmarshall(response[0]) as ReferenceDatabaseType;
+  const references: ReferenceDatabaseType[] = response.map(
+    (item) => unmarshall(item) as ReferenceDatabaseType,
+  );
 
-  return reference;
+  const lastReference = references.reduce(function (
+    previousValue,
+    currentValue,
+  ) {
+    return previousValue.pk > currentValue.pk ? previousValue : currentValue;
+  });
+
+  return lastReference;
 };

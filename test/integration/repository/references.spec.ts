@@ -29,7 +29,7 @@ describe("repository", () => {
 
       const currentReference = await getCurrentReference();
 
-      expect(currentReference?.sk).toEqual("3");
+      expect(currentReference?.pk).toEqual("3");
     });
   });
 });
