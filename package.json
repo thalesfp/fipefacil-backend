@@ -13,7 +13,7 @@
     "lint": "eslint . --ext .ts",
     "build": "tsc"
   },
-  "author": "Thales Pereira <thales@appcraft.com.br>",
+  "author": "Thales Pereira <thalesfp@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.725.0",
