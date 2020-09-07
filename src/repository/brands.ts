@@ -16,39 +16,35 @@ export const createBrand = async ({
   vehicleType: VehicleType;
   popular: boolean;
 }): Promise<void> => {
-  const params = {
-    TableName: PRICES_TABLE,
-    Item: marshall({
-      pk: vehicleType.toString(),
-      sk: `BRAND#${id}`,
-      name,
-      vehicleType,
-      popular,
-      createdAt: new Date().toISOString(),
-    }),
-  };
-
-  await databaseManager.putItem(params).promise();
+  await databaseManager
+    .putItem({
+      TableName: PRICES_TABLE,
+      Item: marshall({
+        pk: `BRAND#${id}`,
+        sk: vehicleType.toString(),
+        name,
+        vehicleType,
+        popular,
+        createdAt: new Date().toISOString(),
+      }),
+    })
+    .promise();
 };
 
 export const getBrand = async (
   vehicleTypeParam: VehicleType,
   id: number,
 ): Promise<BrandDatabaseType | null> => {
-  const params = {
-    TableName: PRICES_TABLE,
-    KeyConditionExpression: "pk = :pk AND sk = :sk",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: vehicleTypeParam.toString(),
-      },
-      ":sk": {
-        S: `BRAND#${id}`,
-      },
-    },
-  };
-
-  const { Items: response } = await databaseManager.query(params).promise();
+  const { Items: response } = await databaseManager
+    .query({
+      TableName: PRICES_TABLE,
+      KeyConditionExpression: "pk = :pk AND sk = :sk",
+      ExpressionAttributeValues: marshall({
+        ":sk": vehicleTypeParam.toString(),
+        ":pk": `BRAND#${id}`,
+      }),
+    })
+    .promise();
 
   if (!response || response.length === 0) return null;
 
@@ -58,24 +54,20 @@ export const getBrand = async (
 export const getBrands = async (
   vehicleTypeParam: VehicleType,
 ): Promise<BrandDatabaseType[]> => {
-  const params = {
-    TableName: PRICES_TABLE,
-    KeyConditionExpression: "pk = :pk AND begins_with(sk, :sk)",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: vehicleTypeParam.toString(),
+  const { Items: response } = await databaseManager
+    .scan({
+      TableName: PRICES_TABLE,
+      FilterExpression: "sk = :sk AND begins_with(pk, :pk)",
+      ExpressionAttributeValues: marshall({
+        ":sk": vehicleTypeParam.toString(),
+        ":pk": "BRAND#",
+      }),
+      ProjectionExpression: "pk, #nameAttr, vehicleType, popular",
+      ExpressionAttributeNames: {
+        "#nameAttr": "name",
       },
-      ":sk": {
-        S: `BRAND#`,
-      },
-    },
-    ProjectionExpression: "sk, #nameAttr, vehicleType, popular",
-    ExpressionAttributeNames: {
-      "#nameAttr": "name",
-    },
-  };
-
-  const { Items: response } = await databaseManager.query(params).promise();
+    })
+    .promise();
 
   if (!response) return [];
 
