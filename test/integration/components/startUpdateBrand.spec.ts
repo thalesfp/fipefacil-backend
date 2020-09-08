@@ -59,8 +59,8 @@ describe("startUpdateBrand", () => {
       const persistedBrand = await getBrand(brand.vehicleType, brand.brandId);
 
       expect(persistedBrand).toEqual({
-        pk: VehicleType.car,
-        sk: "BRAND#61",
+        sk: VehicleType.car,
+        pk: "BRAND#61",
         name: "AM General",
         vehicleType: VehicleType.car,
         popular: false,

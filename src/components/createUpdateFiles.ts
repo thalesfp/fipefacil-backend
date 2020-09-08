@@ -14,7 +14,7 @@ import { getCurrentReference } from "../repository/references";
 const generateFileName = (
   currentReference: ReferenceDatabaseType,
   vehicleType: VehicleType,
-): string => `${currentReference.sk}-${vehicleType.toString()}.zip`;
+): string => `${currentReference.pk}-${vehicleType.toString()}.zip`;
 
 const createUpdateFileForVehicleType = async (
   vehicleType: VehicleType,
@@ -23,7 +23,7 @@ const createUpdateFileForVehicleType = async (
   const brands: BrandsWithModelsType[] = await getBrands(vehicleType);
 
   for (const brand of brands) {
-    const brandId = parseInt(brand.sk.split("#")[1]);
+    const brandId = parseInt(brand.pk.split("#")[1]);
     const models: ModelsWithYearModelsType[] = await getModels(brandId);
 
     brand.models = models;

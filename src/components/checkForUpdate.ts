@@ -17,7 +17,7 @@ const checkForUpdate = async (): Promise<boolean> => {
 
   if (
     !currentReferenceId ||
-    lastRemoteReference.id > parseInt(currentReferenceId.sk, 10)
+    lastRemoteReference.id > parseInt(currentReferenceId.pk, 10)
   ) {
     await sendMessage(lastRemoteReference);
 

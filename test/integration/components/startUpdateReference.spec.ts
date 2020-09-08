@@ -142,6 +142,6 @@ describe("startUpdateReference", () => {
 
     const currentReferenceId = await getCurrentReference();
 
-    expect(currentReferenceId?.sk).toEqual("252");
+    expect(currentReferenceId?.pk).toEqual("252");
   });
 });

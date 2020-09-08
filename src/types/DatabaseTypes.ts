@@ -7,8 +7,8 @@ export interface ReferenceDatabaseType {
 }
 
 export interface BrandDatabaseType {
-  pk: number;
-  sk: string;
+  pk: string;
+  sk: number;
   name: string;
   popular: boolean;
   createdAt: Date;
