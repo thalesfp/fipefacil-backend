@@ -1,5 +1,5 @@
 import * as env from "env-var";
-import * as queueManager from "./queueManager";
+import * as QueueManager from "./queueManager";
 import VehicleType from "../types/VehicleType";
 import FuelType from "../types/FuelType";
 
@@ -15,8 +15,8 @@ export type YearModelQueueMessage = {
   yearModelFuelType: FuelType;
 };
 
-const sendMessage = async (message: YearModelQueueMessage): Promise<void> => {
-  await queueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
+export const sendMessage = async (
+  message: YearModelQueueMessage,
+): Promise<void> => {
+  await QueueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
 };
-
-export default sendMessage;

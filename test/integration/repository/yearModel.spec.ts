@@ -2,13 +2,13 @@ import {
   createPricesTable,
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
-import { createBrand } from "../../../src/repository/brands";
-import { createModel } from "../../../src/repository/models";
+import { createBrand } from "../../../src/repository/brand";
+import { createModel } from "../../../src/repository/model";
 import {
   createYearModel,
   getYearModels,
   updateYearModelCurrentPrice,
-} from "../../../src/repository/yearModels";
+} from "../../../src/repository/yearModel";
 import {
   generateBrandFixture,
   generateModelFixture,

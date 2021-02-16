@@ -1,15 +1,15 @@
-import { getBrands } from "../repository/brands";
-import { getModels } from "../repository/models";
-import { getYearModels } from "../repository/yearModels";
+import * as BrandRepository from "../repository/brand";
+import * as ModelRepository from "../repository/model";
+import * as YearModelRepository from "../repository/yearModel";
+import * as ReferenceRepository from "../repository/reference";
+import * as UpdateFileStorage from "../storage/updateFile";
 import VehicleType from "../types/VehicleType";
 import {
   BrandsWithModelsType,
   ModelsWithYearModelsType,
   ReferenceDatabaseType,
 } from "../types/DatabaseTypes";
-import { compressStringToZip } from "../utils/compress";
-import { saveUpdateFile, listUpdateFiles } from "../storage/updateFiles";
-import { getCurrentReference } from "../repository/references";
+import * as Compress from "../utils/compress";
 
 const generateFileName = (
   currentReference: ReferenceDatabaseType,
@@ -20,31 +20,35 @@ const createUpdateFileForVehicleType = async (
   vehicleType: VehicleType,
   fileName: string,
 ): Promise<void> => {
-  const brands: BrandsWithModelsType[] = await getBrands(vehicleType);
+  const brands: BrandsWithModelsType[] = await BrandRepository.getBrands(
+    vehicleType,
+  );
 
   for (const brand of brands) {
     const brandId = parseInt(brand.sk.split("#")[1]);
-    const models: ModelsWithYearModelsType[] = await getModels(brandId);
+    const models: ModelsWithYearModelsType[] = await ModelRepository.getModels(
+      brandId,
+    );
 
     brand.models = models;
 
     for (const model of models) {
       const modelId = parseInt(model.sk.split("#")[1]);
-      const yearModels = await getYearModels(modelId);
+      const yearModels = await YearModelRepository.getYearModels(modelId);
 
       model.yearModels = yearModels;
     }
   }
 
-  const compressedBody = compressStringToZip(JSON.stringify(brands));
+  const compressedBody = Compress.stringToZip(JSON.stringify(brands));
 
-  await saveUpdateFile(fileName, compressedBody);
+  await UpdateFileStorage.saveUpdateFile(fileName, compressedBody);
 
   return;
 };
 
 const createUpdateFiles = async (): Promise<void> => {
-  const currentReference = await getCurrentReference();
+  const currentReference = await ReferenceRepository.getCurrentReference();
 
   if (!currentReference) {
     throw Error("Reference not found");
@@ -56,7 +60,7 @@ const createUpdateFiles = async (): Promise<void> => {
     VehicleType.truck,
   ];
 
-  const updateFiles = await listUpdateFiles();
+  const updateFiles = await UpdateFileStorage.listUpdateFiles();
 
   for (const vehicleType of vehicleTypes) {
     const fileName = generateFileName(currentReference, vehicleType);

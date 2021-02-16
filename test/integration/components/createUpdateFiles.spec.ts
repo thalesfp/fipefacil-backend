@@ -10,9 +10,9 @@ import {
   deleteUpdateFile,
   getUpdateFile,
   saveUpdateFile,
-} from "../../../src/storage/updateFiles";
+} from "../../../src/storage/updateFile";
 
-import { decompressZipToString } from "../../../src/utils/compress";
+import * as Compress from "../../../src/utils/compress";
 import {
   createFixtures,
   expectedCarFileContent,
@@ -20,8 +20,8 @@ import {
   expectedTruckFileContent,
 } from "./createUpdateFiles.helper";
 
-jest.mock("../../../src/storage/updateFiles", () => {
-  const originalModule = jest.requireActual("../../../src/storage/updateFiles");
+jest.mock("../../../src/storage/updateFile", () => {
+  const originalModule = jest.requireActual("../../../src/storage/updateFile");
 
   return {
     ...originalModule,
@@ -77,7 +77,7 @@ describe("components", () => {
         expect.assertions(1);
 
         const compressedCarFile = await getUpdateFile(carFileUpdate);
-        const carFile = decompressZipToString(compressedCarFile);
+        const carFile = Compress.zipToString(compressedCarFile);
 
         expect(JSON.parse(carFile)).toEqual(expectedCarFileContent);
       });
@@ -88,7 +88,7 @@ describe("components", () => {
         const compressedMotorcycleFile = await getUpdateFile(
           motorcycleFileUpdate,
         );
-        const motorcycleFile = decompressZipToString(compressedMotorcycleFile);
+        const motorcycleFile = Compress.zipToString(compressedMotorcycleFile);
 
         expect(JSON.parse(motorcycleFile)).toEqual(
           expectedMotorcycleFileContent,
@@ -99,7 +99,7 @@ describe("components", () => {
         expect.assertions(1);
 
         const compressedTruckFile = await getUpdateFile(truckFileUpdate);
-        const truckFile = decompressZipToString(compressedTruckFile);
+        const truckFile = Compress.zipToString(compressedTruckFile);
 
         expect(JSON.parse(truckFile)).toEqual(expectedTruckFileContent);
       });

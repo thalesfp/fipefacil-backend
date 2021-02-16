@@ -1,10 +1,7 @@
-import { getYearModel } from "../services/fipeApi";
-import {
-  createYearModel,
-  updateYearModelCurrentPrice,
-} from "../repository/yearModels";
+import * as FipeApi from "../services/fipeApi";
+import * as YearModelRepository from "../repository/yearModel";
 import { normalizeYearModel } from "../transformers/valuesFromRemoteApi";
-import { YearModelQueueMessage } from "../queue/yearModelsQueue";
+import { YearModelQueueMessage } from "../queue/yearModelQueue";
 
 const startUpdateYearModel = async ({
   referenceId,
@@ -15,14 +12,14 @@ const startUpdateYearModel = async ({
   yearModelYear,
   yearModelFuelType,
 }: YearModelQueueMessage): Promise<void> => {
-  await createYearModel({
+  await YearModelRepository.createYearModel({
     id: yearModelId,
     year: yearModelYear,
     fuelType: yearModelFuelType,
     modelId,
   });
 
-  const yearModelDetails = await getYearModel({
+  const yearModelDetails = await FipeApi.getYearModel({
     referenceId,
     vehicleType,
     brandId,
@@ -33,7 +30,7 @@ const startUpdateYearModel = async ({
 
   const yearModelNormalized = normalizeYearModel(yearModelDetails);
 
-  await updateYearModelCurrentPrice({
+  await YearModelRepository.updateYearModelCurrentPrice({
     modelId,
     yearModelId,
     currentPrice: yearModelNormalized.value,

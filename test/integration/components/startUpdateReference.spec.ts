@@ -9,7 +9,7 @@ import {
   receiveMessage,
 } from "../../../src/queue/queueManager";
 import startUpdateReference from "../../../src/components/startUpdateReference";
-import { getCurrentReference } from "../../../src/repository/references";
+import { getCurrentReference } from "../../../src/repository/reference";
 import VehicleType from "../../../src/types/VehicleType";
 import { PriceReferenceType } from "../../../src/types/Types";
 import { MarcasResponseType } from "../../../src/types/FipeResponseTypes";

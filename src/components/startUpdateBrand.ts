@@ -1,12 +1,12 @@
-import { getModels } from "../services/fipeApi";
+import * as FipeApi from "../services/fipeApi";
+import * as BrandRepository from "../repository/brand";
+import * as ModelQueue from "../queue/modelQueue";
 import {
   normalizeBrandName,
   isPopularBrand,
 } from "../transformers/brandsFromRemoteApi";
 import { normalizeModels } from "../transformers/valuesFromRemoteApi";
-import { createBrand } from "../repository/brands";
-import sendMessage from "../queue/modelsQueue";
-import { BrandQueueMessage } from "../queue/brandsQueue";
+import { BrandQueueMessage } from "../queue/brandQueue";
 
 const startUpdateBrand = async ({
   referenceId,
@@ -14,14 +14,14 @@ const startUpdateBrand = async ({
   brandId,
   brandName,
 }: BrandQueueMessage): Promise<void> => {
-  await createBrand({
+  await BrandRepository.createBrand({
     id: brandId,
     name: normalizeBrandName(brandName),
     vehicleType,
     popular: isPopularBrand(brandName),
   });
 
-  const models = await getModels({
+  const models = await FipeApi.getModels({
     referenceId,
     vehicleType,
     brandId,
@@ -30,7 +30,7 @@ const startUpdateBrand = async ({
 
   await Promise.all(
     normalizedModels.map(async (model) =>
-      sendMessage({
+      ModelQueue.sendMessage({
         referenceId,
         vehicleType,
         brandId,

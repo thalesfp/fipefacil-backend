@@ -10,7 +10,7 @@ import {
   deleteQueue,
   receiveMessage,
 } from "../../../src/queue/queueManager";
-import { getBrand } from "../../../src/repository/brands";
+import { getBrand } from "../../../src/repository/brand";
 import startUpdateBrand from "../../../src/components/startUpdateBrand";
 import VehicleType from "../../../src/types/VehicleType";
 import { ModelosResponseType } from "../../../src/types/FipeResponseTypes";

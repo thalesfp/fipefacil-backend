@@ -8,7 +8,7 @@ import {
   createReference,
   getCurrentReference,
   getAllReferences,
-} from "../../../src/repository/references";
+} from "../../../src/repository/reference";
 
 describe("repository", () => {
   beforeEach(async () => {

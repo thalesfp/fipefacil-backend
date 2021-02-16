@@ -1,8 +1,8 @@
-import { getYearModels } from "../services/fipeApi";
-import { createModel } from "../repository/models";
-import sendMessage from "../queue/yearModelsQueue";
+import * as FipeApi from "../services/fipeApi";
+import * as ModelRepository from "../repository/model";
+import * as YearModelQueue from "../queue/yearModelQueue";
 import { normalizeYearModels } from "../transformers/valuesFromRemoteApi";
-import { ModelQueueMessage } from "../queue/modelsQueue";
+import { ModelQueueMessage } from "../queue/modelQueue";
 
 const startUpdateModel = async ({
   referenceId,
@@ -11,9 +11,9 @@ const startUpdateModel = async ({
   modelId,
   modelName,
 }: ModelQueueMessage): Promise<void> => {
-  await createModel({ id: modelId, name: modelName, brandId });
+  await ModelRepository.createModel({ id: modelId, name: modelName, brandId });
 
-  const yearModels = await getYearModels({
+  const yearModels = await FipeApi.getYearModels({
     referenceId,
     vehicleType,
     brandId,
@@ -23,7 +23,7 @@ const startUpdateModel = async ({
 
   await Promise.all(
     normalizedYearModels.map(async (yearModel) =>
-      sendMessage({
+      YearModelQueue.sendMessage({
         referenceId,
         vehicleType,
         brandId,

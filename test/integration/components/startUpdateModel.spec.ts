@@ -9,7 +9,7 @@ import {
   receiveMessage,
 } from "../../../src/queue/queueManager";
 import startUpdateModel from "../../../src/components/startUpdateModel";
-import { getModels } from "../../../src/repository/models";
+import { getModels } from "../../../src/repository/model";
 import VehicleType from "../../../src/types/VehicleType";
 import FuelType from "../../../src/types/FuelType";
 import { AnoModelosResponseType } from "../../../src/types/FipeResponseTypes";

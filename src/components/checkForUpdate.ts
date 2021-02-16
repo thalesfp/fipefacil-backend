@@ -1,7 +1,7 @@
-import { getReferences } from "../services/fipeApi";
+import * as FipeApi from "../services/fipeApi";
+import * as ReferenceRepository from "../repository/reference";
+import * as ReferenceQueue from "../queue/referenceQueue";
 import { normalizeReferences } from "../transformers/valuesFromRemoteApi";
-import { getCurrentReference } from "../repository/references";
-import sendMessage from "../queue/referencesQueue";
 import { PriceReferenceType } from "../types/Types";
 
 const getLastRemoteReference = (
@@ -10,16 +10,17 @@ const getLastRemoteReference = (
   references.reduce((prev, current) => (prev.id > current.id ? prev : current));
 
 const checkForUpdate = async (): Promise<boolean> => {
-  const references = await getReferences();
+  const references = await FipeApi.getReferences();
+  const currentReferenceId = await ReferenceRepository.getCurrentReference();
+
   const referencesNormalized = normalizeReferences(references);
   const lastRemoteReference = getLastRemoteReference(referencesNormalized);
-  const currentReferenceId = await getCurrentReference();
 
   if (
     !currentReferenceId ||
     lastRemoteReference.id > parseInt(currentReferenceId.sk, 10)
   ) {
-    await sendMessage(lastRemoteReference);
+    await ReferenceQueue.sendMessage(lastRemoteReference);
 
     return true;
   }

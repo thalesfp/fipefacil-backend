@@ -1,7 +1,7 @@
-import { createBrand } from "../../../src/repository/brands";
-import { createModel } from "../../../src/repository/models";
-import { createYearModel } from "../../../src/repository/yearModels";
-import { createReference } from "../../../src/repository/references";
+import { createBrand } from "../../../src/repository/brand";
+import { createModel } from "../../../src/repository/model";
+import { createYearModel } from "../../../src/repository/yearModel";
+import { createReference } from "../../../src/repository/reference";
 import {
   generateBrandFixture,
   generateModelFixture,

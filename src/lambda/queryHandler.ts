@@ -1,13 +1,13 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 
-import { getCurrentReference } from "../repository/references";
-import { getBrands } from "../repository/brands";
-import { getModels } from "../repository/models";
-import { getYearModels } from "../repository/yearModels";
+import * as ReferenceRepository from "../repository/reference";
+import * as BrandRepository from "../repository/brand";
+import * as ModelRepository from "../repository/model";
+import * as YearModelRepository from "../repository/yearModel";
 import { numberToVehicleType } from "../transformers/valuesToRemoteApi";
 
 export const queryCurrentReference: APIGatewayProxyHandler = async () => {
-  const currentReference = await getCurrentReference();
+  const currentReference = await ReferenceRepository.getCurrentReference();
 
   return {
     statusCode: 200,
@@ -21,7 +21,7 @@ export const queryBrands: APIGatewayProxyHandler = async (event) => {
   if (!vehicleTypeParam) throw Error("Parameter missing: vehicleType");
 
   const vehicleType = numberToVehicleType(parseInt(vehicleTypeParam, 10));
-  const brands = await getBrands(vehicleType);
+  const brands = await BrandRepository.getBrands(vehicleType);
 
   return {
     statusCode: 200,
@@ -35,7 +35,7 @@ export const queryModels: APIGatewayProxyHandler = async (event) => {
   if (!brandIdParam) throw Error("Parameter missing: brandId");
 
   const brandId = parseInt(brandIdParam, 10);
-  const models = await getModels(brandId);
+  const models = await ModelRepository.getModels(brandId);
 
   return {
     statusCode: 200,
@@ -49,7 +49,7 @@ export const queryYearModels: APIGatewayProxyHandler = async (event) => {
   if (!modelIdParam) throw Error("Parameter missing: brandId");
 
   const modelId = parseInt(modelIdParam, 10);
-  const yearModels = await getYearModels(modelId);
+  const yearModels = await YearModelRepository.getYearModels(modelId);
 
   return {
     statusCode: 200,

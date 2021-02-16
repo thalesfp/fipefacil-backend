@@ -1,15 +1,8 @@
 import * as env from "env-var";
 import checkForUpdate from "../../../src/components/checkForUpdate";
-import {
-  createPricesTable,
-  dropPricesTable,
-} from "../../../src/repository/databaseManager";
-import {
-  createQueue,
-  deleteQueue,
-  receiveMessage,
-} from "../../../src/queue/queueManager";
-import { createReference } from "../../../src/repository/references";
+import * as DatabaseManager from "../../../src/repository/databaseManager";
+import * as QueueManager from "../../../src/queue/queueManager";
+import * as ReferenceRepository from "../../../src/repository/reference";
 import { ReferenciasResponseType } from "../../../src/types/FipeResponseTypes";
 
 jest.mock("../../../src/services/fipeApi", () => ({
@@ -26,13 +19,13 @@ describe("checkForUpdate", () => {
   const queueUrl = env.get("REFERENCES_QUEUE").required().asString();
 
   beforeEach(async () => {
-    await createPricesTable();
-    await createQueue(queueUrl);
+    await DatabaseManager.createPricesTable();
+    await QueueManager.createQueue(queueUrl);
   });
 
   afterEach(async () => {
-    await dropPricesTable();
-    await deleteQueue(queueUrl);
+    await DatabaseManager.dropPricesTable();
+    await QueueManager.deleteQueue(queueUrl);
   });
 
   describe("when database is empty", () => {
@@ -41,7 +34,7 @@ describe("checkForUpdate", () => {
 
       await checkForUpdate();
 
-      const messages = await receiveMessage(queueUrl);
+      const messages = await QueueManager.receiveMessage(queueUrl);
 
       const expectedResponse = JSON.stringify({
         id: 252,
@@ -57,11 +50,15 @@ describe("checkForUpdate", () => {
     it("should not send last remote reference", async () => {
       expect.assertions(1);
 
-      await createReference({ id: 252, month: 3, year: 2020 });
+      await ReferenceRepository.createReference({
+        id: 252,
+        month: 3,
+        year: 2020,
+      });
 
       await checkForUpdate();
 
-      const messages = await receiveMessage(queueUrl);
+      const messages = await QueueManager.receiveMessage(queueUrl);
 
       expect(messages.length).toEqual(0);
     });
@@ -71,13 +68,25 @@ describe("checkForUpdate", () => {
     it("should send last remote reference to queue", async () => {
       expect.assertions(1);
 
-      await createReference({ id: 251, month: 2, year: 2020 });
-      await createReference({ id: 250, month: 1, year: 2020 });
-      await createReference({ id: 249, month: 12, year: 2019 });
+      await ReferenceRepository.createReference({
+        id: 251,
+        month: 2,
+        year: 2020,
+      });
+      await ReferenceRepository.createReference({
+        id: 250,
+        month: 1,
+        year: 2020,
+      });
+      await ReferenceRepository.createReference({
+        id: 249,
+        month: 12,
+        year: 2019,
+      });
 
       await checkForUpdate();
 
-      const messages = await receiveMessage(queueUrl);
+      const messages = await QueueManager.receiveMessage(queueUrl);
 
       const expectedResponse = JSON.stringify({
         id: 252,

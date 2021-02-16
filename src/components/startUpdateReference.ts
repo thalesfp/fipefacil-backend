@@ -1,19 +1,19 @@
-import sendMessage from "../queue/brandsQueue";
-import { getBrands } from "../services/fipeApi";
-import { createReference } from "../repository/references";
+import * as ReferenceRepository from "../repository/reference";
+import * as BrandQueue from "../queue/brandQueue";
+import * as FipeApi from "../services/fipeApi";
 import { normalizeBrands } from "../transformers/valuesFromRemoteApi";
 import VehicleType from "../types/VehicleType";
-import { ReferenceQueueMessage } from "../queue/referencesQueue";
+import { ReferenceQueueMessage } from "../queue/referenceQueue";
 
 const startUpdateReference = async (
   reference: ReferenceQueueMessage,
 ): Promise<void> => {
-  await createReference(reference);
+  await ReferenceRepository.createReference(reference);
 
   await Promise.all(
     [VehicleType.car, VehicleType.motorcycle, VehicleType.truck].map(
       async (type) => {
-        const brands = await getBrands({
+        const brands = await FipeApi.getBrands({
           referenceId: reference.id,
           vehicleType: type,
         });
@@ -22,7 +22,7 @@ const startUpdateReference = async (
 
         await Promise.all(
           normalizedBrands.map(async (brand) =>
-            sendMessage({
+            BrandQueue.sendMessage({
               referenceId: reference.id,
               vehicleType: type,
               brandId: brand.id,

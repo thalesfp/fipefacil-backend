@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 
-import * as ReferenceRepository from "../repository/references";
+import * as ReferenceRepository from "../repository/reference";
 
 export const getAllReferencesHandler: APIGatewayProxyHandler = async () => {
   try {

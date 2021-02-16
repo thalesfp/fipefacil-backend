@@ -7,10 +7,10 @@ import startUpdateModel from "../components/startUpdateModel";
 import startUpdateYearModel from "../components/startUpdateYearModel";
 import createUpdateFiles from "../components/createUpdateFiles";
 
-import { ReferenceQueueMessage } from "../queue/referencesQueue";
-import { BrandQueueMessage } from "../queue/brandsQueue";
-import { ModelQueueMessage } from "../queue/modelsQueue";
-import { YearModelQueueMessage } from "../queue/yearModelsQueue";
+import { ReferenceQueueMessage } from "../queue/referenceQueue";
+import { BrandQueueMessage } from "../queue/brandQueue";
+import { ModelQueueMessage } from "../queue/modelQueue";
+import { YearModelQueueMessage } from "../queue/yearModelQueue";
 
 export const checkForUpdateHandler: APIGatewayProxyHandler = async () => {
   try {

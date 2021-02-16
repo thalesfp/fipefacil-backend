@@ -1,39 +1,33 @@
-import {
-  saveUpdateFile,
-  deleteUpdateFile,
-  listUpdateFiles,
-  createUpdateFilesBucket,
-  deleteUpdateFilesBucket,
-} from "../../../src/storage/updateFiles";
-import { compressStringToZip } from "../../../src/utils/compress";
+import * as UpdateFileStorage from "../../../src/storage/updateFile";
+import * as Compress from "../../../src/utils/compress";
 
 describe("storage", () => {
   describe("updates", () => {
     beforeAll(async () => {
-      await createUpdateFilesBucket();
+      await UpdateFileStorage.createUpdateFilesBucket();
     });
 
     afterEach(async () => {
-      await deleteUpdateFilesBucket();
+      await UpdateFileStorage.deleteUpdateFilesBucket();
     });
 
     it("should create and delete objects in the bucket", async () => {
       expect.assertions(2);
 
       const key = "my-test-key.zip";
-      const compressedBody = compressStringToZip("hello world");
+      const compressedBody = Compress.stringToZip("hello world");
 
-      await saveUpdateFile(key, compressedBody);
+      await UpdateFileStorage.saveUpdateFile(key, compressedBody);
 
-      const keysBeforeDelete = await listUpdateFiles();
+      const keysBeforeDelete = await UpdateFileStorage.listUpdateFiles();
 
       expect(keysBeforeDelete).toContain(key);
 
-      await deleteUpdateFile(key);
+      await UpdateFileStorage.deleteUpdateFile(key);
 
       await new Promise((r) => setTimeout(r, 1000));
 
-      const keysAfterDelete = await listUpdateFiles();
+      const keysAfterDelete = await UpdateFileStorage.listUpdateFiles();
 
       expect(keysAfterDelete).toEqual([]);
     });

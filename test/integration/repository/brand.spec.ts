@@ -2,7 +2,7 @@ import {
   createPricesTable,
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
-import { createBrand, getBrands } from "../../../src/repository/brands";
+import { createBrand, getBrands } from "../../../src/repository/brand";
 import { generateBrandFixture } from "../fixtures/generateFixture";
 import VehicleType from "../../../src/types/VehicleType";
 
