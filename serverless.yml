@@ -53,7 +53,7 @@ provider:
     MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.models.${self:provider.stage}}
     YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.yearModels.${self:provider.stage}}
     UPDATE_FILES_BUCKET_NAME: ${self:custom.buckets.updateFiles.${self:provider.stage}}
-    UPDATE_FILES_BUCKET_REGION: us-east-1
+    UPDATE_FILES_BUCKET_REGION: ${self:provider.region}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -106,6 +106,7 @@ resources:
   - ${file(serverless/resources-dynamodb.yml)}
   - ${file(serverless/resources-sqs.yml)}
   - ${file(serverless/resources-s3.yml)}
+  - ${file(serverless/resources-cognito.yml)}
 
 package:
   individually: true

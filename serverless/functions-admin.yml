@@ -2,5 +2,9 @@ queryAllReferences:
   handler: src/lambda/adminHandler.getAllReferencesHandler
   events:
     - http:
-        path: /getAllReferences
+        path: /admin/getAllReferences
         method: get
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
