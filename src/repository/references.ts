@@ -48,3 +48,25 @@ export const getCurrentReference = async (): Promise<ReferenceDatabaseType | nul
 
   return reference;
 };
+
+export const getAllReferences = async (): Promise<ReferenceDatabaseType[]> => {
+  const params = {
+    TableName: PRICES_TABLE,
+    KeyConditionExpression: "pk = :pk",
+    ExpressionAttributeValues: {
+      ":pk": {
+        S: "REF",
+      },
+    },
+  };
+
+  const { Items: response } = await databaseManager.query(params).promise();
+
+  if (!Array.isArray(response) || response.length === 0) return [];
+
+  const references = response.map(
+    (reference) => unmarshall(reference) as ReferenceDatabaseType,
+  );
+
+  return references;
+};

@@ -1,0 +1,61 @@
+checkForUpdate:
+  handler: src/lambda/updateHandler.checkForUpdateHandler
+  events:
+    - schedule:
+        name: update-handler-schedule-${self:provider.stage}
+        rate: rate(24 hours)
+    - http:
+        path: /checkForUpdate
+        method: get
+
+startUpdateReference:
+  handler: src/lambda/updateHandler.startUpdateReferenceHandler
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt: [ReferencesQueue, Arn]
+        batchSize: ${self:custom.functions.batchSize}
+    - http:
+        path: /startUpdateReference
+        method: get
+
+startUpdateBrand:
+  handler: src/lambda/updateHandler.startUpdateBrandHandler
+  reservedConcurrency: ${self:custom.functions.reservedConcurrency}
+  timeout: ${self:custom.functions.timeout}
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt: [BrandsQueue, Arn]
+        batchSize: ${self:custom.functions.batchSize}
+    - http:
+        path: /startUpdateBrand
+        method: get
+
+startUpdateModel:
+  handler: src/lambda/updateHandler.startUpdateModelHandler
+  reservedConcurrency: ${self:custom.functions.reservedConcurrency}
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt: [ModelsQueue, Arn]
+        batchSize: ${self:custom.functions.batchSize}
+    - http:
+        path: /startUpdateModel
+        method: get
+
+startUpdateYearModel:
+  handler: src/lambda/updateHandler.startUpdateYearModelHandler
+  reservedConcurrency: ${self:custom.functions.reservedConcurrency}
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt: [YearModelsQueue, Arn]
+        batchSize: ${self:custom.functions.batchSize}
+    - http:
+        path: /startUpdateYearModel
+        method: get
+
+createUpdateFiles:
+  handler: src/lambda/updateHandler.createUpdateFilesHandler
+  timeout: 900

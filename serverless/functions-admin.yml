@@ -1,0 +1,6 @@
+queryAllReferences:
+  handler: src/lambda/adminHandler.getAllReferencesHandler
+  events:
+    - http:
+        path: /getAllReferences
+        method: get
