@@ -1,5 +1,5 @@
 import * as FipeApi from "../services/fipeApi";
-import * as BrandRepository from "../repository/brand";
+import * as BrandRepository from "../repository/brandRepository";
 import * as ModelQueue from "../queue/modelQueue";
 import {
   normalizeBrandName,

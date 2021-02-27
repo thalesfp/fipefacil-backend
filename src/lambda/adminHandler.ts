@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 
-import * as ReferenceRepository from "../repository/reference";
-import * as BrandRepository from "../repository/brand";
+import * as ReferenceRepository from "../repository/referenceRepository";
+import * as BrandRepository from "../repository/brandRepository";
 import { numberToVehicleType } from "../transformers/valuesToRemoteApi";
 
 export const getAllReferencesHandler: APIGatewayProxyHandler = async () => {
@@ -36,6 +36,22 @@ export const getAllBrandsHandler: APIGatewayProxyHandler = async (event) => {
       statusCode: 200,
       headers: { "Access-Control-Allow-Origin": "*" },
       body: JSON.stringify(response),
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    };
+  }
+};
+
+export const updateBrandHandler: APIGatewayProxyHandler = async (event) => {
+  try {
+    return {
+      statusCode: 204,
+      headers: { "Access-Control-Allow-Origin": "*" },
     };
   } catch (error) {
     console.error(error);

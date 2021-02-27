@@ -1,9 +1,9 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 
-import * as ReferenceRepository from "../repository/reference";
-import * as BrandRepository from "../repository/brand";
-import * as ModelRepository from "../repository/model";
-import * as YearModelRepository from "../repository/yearModel";
+import * as ReferenceRepository from "../repository/referenceRepository";
+import * as BrandRepository from "../repository/brandRepository";
+import * as ModelRepository from "../repository/modelRepository";
+import * as YearModelRepository from "../repository/yearModelRepository";
 import { numberToVehicleType } from "../transformers/valuesToRemoteApi";
 
 export const queryCurrentReference: APIGatewayProxyHandler = async () => {

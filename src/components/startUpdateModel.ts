@@ -1,5 +1,5 @@
 import * as FipeApi from "../services/fipeApi";
-import * as ModelRepository from "../repository/model";
+import * as ModelRepository from "../repository/modelRepository";
 import * as YearModelQueue from "../queue/yearModelQueue";
 import { normalizeYearModels } from "../transformers/valuesFromRemoteApi";
 import { ModelQueueMessage } from "../queue/modelQueue";

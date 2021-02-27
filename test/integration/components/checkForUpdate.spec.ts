@@ -2,7 +2,7 @@ import * as env from "env-var";
 import checkForUpdate from "../../../src/components/checkForUpdate";
 import * as DatabaseManager from "../../../src/repository/databaseManager";
 import * as QueueManager from "../../../src/queue/queueManager";
-import * as ReferenceRepository from "../../../src/repository/reference";
+import * as ReferenceRepository from "../../../src/repository/referenceRepository";
 import { ReferenciasResponseType } from "../../../src/types/FipeResponseTypes";
 
 jest.mock("../../../src/services/fipeApi", () => ({

@@ -1,4 +1,4 @@
-import * as ReferenceRepository from "../repository/reference";
+import * as ReferenceRepository from "../repository/referenceRepository";
 import * as BrandQueue from "../queue/brandQueue";
 import * as FipeApi from "../services/fipeApi";
 import { normalizeBrands } from "../transformers/valuesFromRemoteApi";

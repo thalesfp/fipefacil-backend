@@ -1,5 +1,5 @@
 import * as FipeApi from "../services/fipeApi";
-import * as ReferenceRepository from "../repository/reference";
+import * as ReferenceRepository from "../repository/referenceRepository";
 import * as ReferenceQueue from "../queue/referenceQueue";
 import { normalizeReferences } from "../transformers/valuesFromRemoteApi";
 import { PriceReferenceType } from "../types/Types";

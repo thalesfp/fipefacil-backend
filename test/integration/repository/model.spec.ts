@@ -2,8 +2,11 @@ import {
   createPricesTable,
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
-import { createBrand } from "../../../src/repository/brand";
-import { createModel, getModels } from "../../../src/repository/model";
+import { createBrand } from "../../../src/repository/brandRepository";
+import {
+  createModel,
+  getModels,
+} from "../../../src/repository/modelRepository";
 import {
   generateBrandFixture,
   generateModelFixture,

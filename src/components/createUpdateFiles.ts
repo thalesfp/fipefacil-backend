@@ -1,8 +1,8 @@
-import * as BrandRepository from "../repository/brand";
-import * as ModelRepository from "../repository/model";
-import * as YearModelRepository from "../repository/yearModel";
-import * as ReferenceRepository from "../repository/reference";
-import * as UpdateFileStorage from "../storage/updateFile";
+import * as BrandRepository from "../repository/brandRepository";
+import * as ModelRepository from "../repository/modelRepository";
+import * as YearModelRepository from "../repository/yearModelRepository";
+import * as ReferenceRepository from "../repository/referenceRepository";
+import * as UpdateFileStorage from "../storage/updateFileStorage";
 import VehicleType from "../types/VehicleType";
 import {
   BrandsWithModelsType,

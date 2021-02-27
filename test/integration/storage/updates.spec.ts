@@ -1,4 +1,4 @@
-import * as UpdateFileStorage from "../../../src/storage/updateFile";
+import * as UpdateFileStorage from "../../../src/storage/updateFileStorage";
 import * as Compress from "../../../src/utils/compress";
 
 describe("storage", () => {

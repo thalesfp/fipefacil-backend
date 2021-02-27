@@ -10,7 +10,7 @@ import {
   deleteUpdateFile,
   getUpdateFile,
   saveUpdateFile,
-} from "../../../src/storage/updateFile";
+} from "../../../src/storage/updateFileStorage";
 
 import * as Compress from "../../../src/utils/compress";
 import {

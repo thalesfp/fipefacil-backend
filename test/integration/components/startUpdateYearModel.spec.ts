@@ -5,7 +5,7 @@ import {
   createPricesTable,
   dropPricesTable,
 } from "../../../src/repository/databaseManager";
-import { getYearModels } from "../../../src/repository/yearModel";
+import { getYearModels } from "../../../src/repository/yearModelRepository";
 import VehicleType from "../../../src/types/VehicleType";
 import FuelType from "../../../src/types/FuelType";
 
