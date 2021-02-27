@@ -20,8 +20,10 @@ import {
   expectedTruckFileContent,
 } from "./createUpdateFiles.helper";
 
-jest.mock("../../../src/storage/updateFile", () => {
-  const originalModule = jest.requireActual("../../../src/storage/updateFile");
+jest.mock("../../../src/storage/updateFileStorage", () => {
+  const originalModule = jest.requireActual(
+    "../../../src/storage/updateFileStorage",
+  );
 
   return {
     ...originalModule,
