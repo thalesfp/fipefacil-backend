@@ -56,23 +56,17 @@ export const updateYearModelCurrentPrice = async ({
 }): Promise<YearModelDatabaseType> => {
   const params = {
     TableName: PRICES_TABLE,
-    Key: {
-      pk: {
-        S: `MODEL#${modelId}`,
-      },
-      sk: {
-        S: `YEAR_MODEL#${yearModelId}`,
-      },
-    },
+    Key: marshall({
+      pk: `MODEL#${modelId}`,
+      sk: `YEAR_MODEL#${yearModelId}`,
+    }),
     ReturnValues: "ALL_NEW",
     ExpressionAttributeNames: {
       "#yearMonth": `${year}-${month}`,
     },
-    ExpressionAttributeValues: {
-      ":currentPrice": {
-        N: String(currentPrice),
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":currentPrice": currentPrice,
+    }),
     UpdateExpression:
       "SET currentPrice = :currentPrice, priceHistory.#yearMonth = :currentPrice",
   };
@@ -97,14 +91,10 @@ export const getYearModels = async (
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: `MODEL#${modelId}`,
-      },
-      ":sk": {
-        S: "YEAR_MODEL#",
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":pk": `MODEL#${modelId}`,
+      ":sk": "YEAR_MODEL#",
+    }),
     ProjectionExpression: "sk, #yearAttr, fuelType, currentPrice, priceHistory",
     ExpressionAttributeNames: {
       "#yearAttr": "year",

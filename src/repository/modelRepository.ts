@@ -32,14 +32,10 @@ export const getModels = async (
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with ( sk, :sk )",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: `BRAND#${brandId}`,
-      },
-      ":sk": {
-        S: "MODEL#",
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":pk": `BRAND#${brandId}`,
+      ":sk": "MODEL#",
+    }),
     ProjectionExpression: "sk, #nameAttr",
     ExpressionAttributeNames: {
       "#nameAttr": "name",

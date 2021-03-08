@@ -31,11 +31,9 @@ export const getCurrentReference = async (): Promise<ReferenceDatabaseType | nul
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: "REF",
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":pk": "REF",
+    }),
     ScanIndexForward: false,
     Limit: 1,
   };
@@ -53,11 +51,9 @@ export const getAllReferences = async (): Promise<ReferenceDatabaseType[]> => {
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: "REF",
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":pk": "REF",
+    }),
   };
 
   const { Items: response } = await databaseManager.query(params).promise();
