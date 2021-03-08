@@ -41,3 +41,5 @@ export interface ModelsWithYearModelsType extends ModelDatabaseType {
 export interface BrandsWithModelsType extends BrandDatabaseType {
   models?: ModelsWithYearModelsType[];
 }
+
+export type BrandUpdate = Partial<Pick<BrandDatabaseType, "name" | "popular">>;

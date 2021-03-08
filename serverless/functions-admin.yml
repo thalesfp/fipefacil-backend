@@ -14,9 +14,30 @@ queryAllBrands:
   handler: src/lambda/adminHandler.getAllBrandsHandler
   events:
     - http:
-        path: /admin/brands
+        path: /admin/{vehicleType}/brands
         method: get
         cors: true
+        request:
+          parameters:
+            paths:
+              vehicleType: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: ApiGatewayAuthorizer
+
+updateBrand:
+  handler: src/lambda/adminHandler.updateBrandHandler
+  events:
+    - http:
+        path: /admin/{vehicleType}/brands/{brandId}
+        method: post
+        cors: true
+        request:
+          parameters:
+            paths:
+              vehicleType: true
+              brandId: true
         authorizer:
           type: COGNITO_USER_POOLS
           authorizerId:

@@ -1,7 +1,7 @@
 import * as env from "env-var";
 import { databaseManager, marshall, unmarshall } from "./databaseManager";
 import VehicleType from "../types/VehicleType";
-import { BrandDatabaseType } from "../types/DatabaseTypes";
+import { BrandDatabaseType, BrandUpdate } from "../types/DatabaseTypes";
 
 const PRICES_TABLE = env.get("PRICES_TABLE").required().asString();
 
@@ -38,14 +38,10 @@ export const getBrand = async (
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND sk = :sk",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: vehicleTypeParam.toString(),
-      },
-      ":sk": {
-        S: `BRAND#${id}`,
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":pk": vehicleTypeParam.toString(),
+      ":sk": `BRAND#${id}`,
+    }),
   };
 
   const { Items: response } = await databaseManager.query(params).promise();
@@ -61,14 +57,10 @@ export const getBrands = async (
   const params = {
     TableName: PRICES_TABLE,
     KeyConditionExpression: "pk = :pk AND begins_with(sk, :sk)",
-    ExpressionAttributeValues: {
-      ":pk": {
-        S: vehicleTypeParam.toString(),
-      },
-      ":sk": {
-        S: `BRAND#`,
-      },
-    },
+    ExpressionAttributeValues: marshall({
+      ":pk": vehicleTypeParam.toString(),
+      ":sk": `BRAND#`,
+    }),
     ProjectionExpression: "sk, #nameAttr, vehicleType, popular",
     ExpressionAttributeNames: {
       "#nameAttr": "name",
@@ -80,4 +72,44 @@ export const getBrands = async (
   if (!response) return [];
 
   return response.map((brand) => unmarshall(brand) as BrandDatabaseType);
+};
+
+export const updateBrand = async (
+  vehicleTypeParam: VehicleType,
+  id: number,
+  brand: BrandUpdate,
+): Promise<BrandDatabaseType | null> => {
+  const params = {
+    TableName: PRICES_TABLE,
+    Key: marshall({
+      pk: vehicleTypeParam.toString(),
+      sk: `BRAND#${id}`,
+    }),
+    UpdateExpression: "set #name = :name, popular = :popular",
+    ExpressionAttributeNames: {
+      "#name": "name",
+    },
+    ExpressionAttributeValues: marshall({
+      ":name": brand.name,
+      ":popular": brand.popular,
+    }),
+    ConditionExpression: "attribute_exists(pk) AND attribute_exists(sk)",
+    ReturnValues: "ALL_NEW",
+  };
+
+  try {
+    const { Attributes: response } = await databaseManager
+      .updateItem(params)
+      .promise();
+
+    if (!response) throw new Error("Item not found");
+
+    return unmarshall(response) as BrandDatabaseType;
+  } catch (error) {
+    if (error.code === "ConditionalCheckFailedException") {
+      throw new Error("Item not found");
+    } else {
+      throw error;
+    }
+  }
 };
