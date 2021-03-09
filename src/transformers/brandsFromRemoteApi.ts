@@ -44,27 +44,3 @@ export const normalizeBrandName = (brandName: string): string => {
       return brandName;
   }
 };
-
-export const isPopularBrand = (brandName: string): boolean =>
-  [
-    "GM - Chevrolet",
-    "Volkswagen",
-    "Fiat",
-    "Renault",
-    "Ford",
-    "Toyota",
-    "Hyundai",
-    "Jeep",
-    "Honda",
-    "Nissan",
-    "Citroën",
-    "Mitsubishi",
-    "Peugeot",
-    "Chery",
-    "BMW",
-    "Mercedes-Benz",
-    "Kia Motors",
-    "Audi",
-    "Volvo",
-    "Land Rover",
-  ].includes(brandName);

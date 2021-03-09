@@ -26,9 +26,18 @@ export const createBrand = async ({
       popular,
       createdAt: new Date().toISOString(),
     }),
+    ConditionExpression: "attribute_not_exists(sk)",
   };
 
-  await databaseManager.putItem(params).promise();
+  try {
+    await databaseManager.putItem(params).promise();
+  } catch (error) {
+    if (error.code === "ConditionalCheckFailedException") {
+      return;
+    } else {
+      throw error;
+    }
+  }
 };
 
 export const getBrand = async (
@@ -61,10 +70,6 @@ export const getBrands = async (
       ":pk": vehicleTypeParam.toString(),
       ":sk": `BRAND#`,
     }),
-    ProjectionExpression: "sk, #nameAttr, vehicleType, popular",
-    ExpressionAttributeNames: {
-      "#nameAttr": "name",
-    },
   };
 
   const { Items: response } = await databaseManager.query(params).promise();

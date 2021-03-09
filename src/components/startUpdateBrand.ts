@@ -1,10 +1,7 @@
 import * as FipeApi from "../services/fipeApi";
 import * as BrandRepository from "../repository/brandRepository";
 import * as ModelQueue from "../queue/modelQueue";
-import {
-  normalizeBrandName,
-  isPopularBrand,
-} from "../transformers/brandsFromRemoteApi";
+import { normalizeBrandName } from "../transformers/brandsFromRemoteApi";
 import { normalizeModels } from "../transformers/valuesFromRemoteApi";
 import { BrandQueueMessage } from "../queue/brandQueue";
 
@@ -18,7 +15,7 @@ const startUpdateBrand = async ({
     id: brandId,
     name: normalizeBrandName(brandName),
     vehicleType,
-    popular: isPopularBrand(brandName),
+    popular: false,
   });
 
   const models = await FipeApi.getModels({

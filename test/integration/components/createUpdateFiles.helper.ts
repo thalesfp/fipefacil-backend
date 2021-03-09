@@ -118,10 +118,12 @@ export const createFixtures = async (): Promise<void> => {
 
 export const expectedCarFileContent = expect.arrayContaining([
   {
+    pk: VehicleType.car,
     sk: `BRAND#${brand1.id}`,
     name: brand1.name,
     popular: false,
     vehicleType: VehicleType.car,
+    createdAt: expect.any(String),
     models: expect.arrayContaining([
       {
         sk: `MODEL#${model1.id}`,
@@ -158,20 +160,24 @@ export const expectedCarFileContent = expect.arrayContaining([
     ]),
   },
   {
+    pk: VehicleType.car,
     sk: `BRAND#${brand2.id}`,
     name: brand2.name,
     popular: false,
     vehicleType: VehicleType.car,
+    createdAt: expect.any(String),
     models: [],
   },
 ]);
 
 export const expectedMotorcycleFileContent = expect.arrayContaining([
   {
+    pk: VehicleType.motorcycle,
     sk: `BRAND#${brand3.id}`,
     name: brand3.name,
     popular: true,
     vehicleType: VehicleType.motorcycle,
+    createdAt: expect.any(String),
     models: expect.arrayContaining([
       {
         sk: `MODEL#${model3.id}`,
@@ -192,10 +198,12 @@ export const expectedMotorcycleFileContent = expect.arrayContaining([
 
 export const expectedTruckFileContent = expect.arrayContaining([
   {
+    pk: VehicleType.truck,
     sk: `BRAND#${brand4.id}`,
     name: brand4.name,
     popular: false,
     vehicleType: VehicleType.truck,
+    createdAt: expect.any(String),
     models: expect.arrayContaining([
       {
         sk: `MODEL#${model4.id}`,

@@ -17,7 +17,62 @@ describe("repository", () => {
   });
 
   describe("brands", () => {
-    describe("#getBrands", () => {
+    describe("createBrand", () => {
+      it("should create a new brand", async () => {
+        expect.assertions(1);
+
+        const [brand] = generateBrandFixture(4);
+
+        await repository.createBrand({
+          id: brand.id,
+          name: brand.name,
+          popular: false,
+          vehicleType: VehicleType.car,
+        });
+
+        const response = await repository.getBrands(VehicleType.car);
+
+        expect(response).toContainEqual({
+          pk: VehicleType.car,
+          sk: `BRAND#${brand.id}`,
+          name: brand.name,
+          vehicleType: VehicleType.car,
+          popular: false,
+          createdAt: "2020-01-01T00:00:00.000Z",
+        });
+      });
+
+      it("should not replace an existing brand", async () => {
+        expect.assertions(1);
+
+        const [brand] = generateBrandFixture(4);
+
+        await repository.createBrand({
+          id: brand.id,
+          name: "brand-original",
+          popular: false,
+          vehicleType: VehicleType.car,
+        });
+
+        const currentBrand = await repository.getBrand(
+          VehicleType.car,
+          brand.id,
+        );
+
+        await repository.createBrand({
+          id: brand.id,
+          name: "brand-updated",
+          popular: false,
+          vehicleType: VehicleType.car,
+        });
+
+        const response = await repository.getBrands(VehicleType.car);
+
+        expect(response[0]).toEqual(currentBrand);
+      });
+    });
+
+    describe("getBrands", () => {
       it("should return empty array for empty responses", async () => {
         expect.assertions(1);
 
@@ -59,24 +114,30 @@ describe("repository", () => {
         expect(response.length).toEqual(3);
 
         expect(response).toContainEqual({
+          pk: VehicleType.car,
           sk: `BRAND#${brand1.id}`,
           name: brand1.name,
           vehicleType: VehicleType.car,
           popular: false,
+          createdAt: "2020-01-01T00:00:00.000Z",
         });
 
         expect(response).toContainEqual({
+          pk: VehicleType.car,
           sk: `BRAND#${brand2.id}`,
           name: brand2.name,
           vehicleType: VehicleType.car,
           popular: false,
+          createdAt: "2020-01-01T00:00:00.000Z",
         });
 
         expect(response).toContainEqual({
+          pk: VehicleType.car,
           sk: `BRAND#${brand3.id}`,
           name: brand3.name,
           vehicleType: VehicleType.car,
           popular: false,
+          createdAt: "2020-01-01T00:00:00.000Z",
         });
       });
     });
@@ -107,6 +168,9 @@ describe("repository", () => {
             vehicleType: VehicleType.car,
             popular: false,
           });
+
+          // should keep the createdAt parameter to 2020-01-01
+          MockDate.set("2020-01-02");
 
           const response = await repository.updateBrand(
             VehicleType.car,
