@@ -77,7 +77,7 @@ export const deleteObject = async (
 ): Promise<void> => {
   const client = storageManager(region);
 
-  client
+  await client
     .deleteObject({
       Bucket: bucketName,
       Key: key,
