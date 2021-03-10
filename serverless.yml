@@ -1,6 +1,7 @@
 service: fipefacil
 
 custom:
+  accountId: 678634121400
   functions:
     reservedConcurrency: 2
     batchSize: 1
@@ -44,16 +45,18 @@ provider:
   runtime: nodejs12.x
   stage: ${opt:stage, "dev"}
   region: us-east-1
-  accountId: 678634121400
   memorySize: 256
   environment:
     PRICES_TABLE: ${self:custom.tables.prices.${self:provider.stage}}
-    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.references.${self:provider.stage}}
-    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.brands.${self:provider.stage}}
-    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.models.${self:provider.stage}}
-    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:provider.accountId}/${self:custom.queues.yearModels.${self:provider.stage}}
+    REFERENCES_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:custom.accountId}/${self:custom.queues.references.${self:provider.stage}}
+    BRANDS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:custom.accountId}/${self:custom.queues.brands.${self:provider.stage}}
+    MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:custom.accountId}/${self:custom.queues.models.${self:provider.stage}}
+    YEAR_MODELS_QUEUE: https://sqs.${self:provider.region}.amazonaws.com/${self:custom.accountId}/${self:custom.queues.yearModels.${self:provider.stage}}
     UPDATE_FILES_BUCKET_NAME: ${self:custom.buckets.updateFiles.${self:provider.stage}}
     UPDATE_FILES_BUCKET_REGION: ${self:provider.region}
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    shouldStartNameWithService: true
   iam:
     role:
       statements:

@@ -9,4 +9,4 @@ Resources:
         Ref: ApiGatewayRestApi
       Type: COGNITO_USER_POOLS
       ProviderARNs:
-        - arn:aws:cognito-idp:us-east-1:678634121400:userpool/us-east-1_oBrTJEuIA
+        - arn:aws:cognito-idp:${self:provider.region}:${self:custom.accountId}:userpool/us-east-1_oBrTJEuIA
