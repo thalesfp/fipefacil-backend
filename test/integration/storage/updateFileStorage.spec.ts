@@ -2,7 +2,7 @@ import * as UpdateFileStorage from "../../../src/storage/updateFileStorage";
 import * as Compress from "../../../src/utils/compress";
 
 describe("storage", () => {
-  describe("updates", () => {
+  describe("updateFileStorage", () => {
     beforeAll(async () => {
       await UpdateFileStorage.createUpdateFilesBucket();
     });
