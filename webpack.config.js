@@ -9,7 +9,7 @@ const isLocal = slsw.lib.webpack.isLocal;
 module.exports = {
   mode: isLocal ? "development" : "production",
   entry: slsw.lib.entries,
-  externals: [nodeExternals({})],
+  externals: [nodeExternals()],
   devtool: "source-map",
   resolve: {
     extensions: [".js", ".json", ".ts"],
