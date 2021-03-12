@@ -8,10 +8,6 @@ custom:
     timeout: 15
   enterprise:
     collectLambdaLogs: false
-  webpack:
-    includeModules:
-      forceExclude:
-        - aws-sdk
   tables:
     prices:
       dev: prices-dev
