@@ -31,11 +31,13 @@ export interface YearModelDatabaseType {
   priceHistory: { [key: string]: number };
 }
 
+export type YearModelsType = Pick<
+  YearModelDatabaseType,
+  "year" | "fuelType" | "currentPrice" | "priceHistory"
+>;
+
 export interface ModelsWithYearModelsType extends ModelDatabaseType {
-  yearModels?: Pick<
-    YearModelDatabaseType,
-    "year" | "fuelType" | "currentPrice" | "priceHistory"
-  >[];
+  yearModels?: YearModelsType[];
 }
 
 export interface BrandsWithModelsType extends BrandDatabaseType {

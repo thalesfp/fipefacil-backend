@@ -1,5 +1,5 @@
 import * as env from "env-var";
-import * as queueManager from "./queueManager";
+import * as QueueManager from "./queueManager";
 import VehicleType from "../types/VehicleType";
 
 const QUEUE_NAME = env.get("BRANDS_QUEUE").required().asString();
@@ -14,5 +14,9 @@ export type BrandQueueMessage = {
 export const sendMessage = async (
   message: BrandQueueMessage,
 ): Promise<void> => {
-  await queueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
+  await QueueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
+};
+
+export const numberOfMessages = async (): Promise<number> => {
+  return QueueManager.queueNumberOfMessages(QUEUE_NAME);
 };

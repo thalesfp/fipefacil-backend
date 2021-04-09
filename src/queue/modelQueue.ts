@@ -17,3 +17,7 @@ export const sendMessage = async (
 ): Promise<void> => {
   await QueueManager.sendMessage(QUEUE_NAME, JSON.stringify(message));
 };
+
+export const numberOfMessages = async (): Promise<number> => {
+  return QueueManager.queueNumberOfMessages(QUEUE_NAME);
+};

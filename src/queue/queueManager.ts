@@ -54,11 +54,19 @@ export const receiveMessage = async (
 
 export const queueNumberOfMessages = async (
   queueUrl: string,
-): Promise<void> => {
+): Promise<number> => {
   const params = {
     QueueUrl: queueUrl,
     AttributeNames: ["ApproximateNumberOfMessages"],
   };
 
-  await sqs.getQueueAttributes(params).promise();
+  const { Attributes: response } = await sqs
+    .getQueueAttributes(params)
+    .promise();
+
+  if (!response) {
+    throw Error("Queue unavailable");
+  }
+
+  return parseInt(response.ApproximateNumberOfMessages);
 };
