@@ -10,7 +10,7 @@
     "test:services": "jest --config test/services/jest.config.json --runInBand --verbose",
     "test": "npm run test:unit && npm run test:integration && npm run test:services",
     "deploy": "./node_modules/.bin/serverless deploy",
-    "deploy:production": "./node_modules/.bin/serverless deploy --stage productio",
+    "deploy:production": "./node_modules/.bin/serverless deploy --stage production",
     "lint": "eslint . --ext .ts",
     "build": "tsc"
   },
